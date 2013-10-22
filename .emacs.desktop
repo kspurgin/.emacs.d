@@ -1,0 +1,29 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Tue Oct 22 09:29:48 2013
+;; Desktop file format version 206
+;; Emacs version 24.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("=" "sub tri" "media resources center eq" "latin am" "mmdd" "BIB" "04" "06" "][" "]" ";" "iii_field" "iii_tag" "005" "while" ")"))
+(setq regexp-search-ring '("^34" "^022" "^=041  0\\\\\\$alat\n=245  1"))
+(setq register-alist '((103 file-query "c:/code/endeca_trunk/args_extract.pl" 118612) (24 "b7326790" "b7398974" "b7354202") (102 file-query "c:/ruby_scripts/HathiTrust/holdings_process.pl" 23195) (106 file-query "c:/ruby_scripts/HathiTrust/holdings_process.pl" 33368) (109 file-query "c:/ruby_scripts/HathiTrust/holdings_process.pl" 33378) (110 file-query "c:/ruby_scripts/HathiTrust/holdings_process.pl" 29990) (115 file-query "c:/ruby_scripts/HathiTrust/holdings_process.pl" 36095) (105 file-query "c:/code/endeca_trunk/args_extract.pl" 65394)))
+(setq file-name-history '("c:/code/endeca_trunk/args_extract.pl" "c:/code/endeca_trunk/get_bib_data.pl" "c:/code/endeca_trunk/regextest.pl" "c:/code/endeca_trunk/get_bib_data.pl" "c:/code/HathiTrust_no_vc/holdings_process.pl" "c:/code/endeca_trunk/bnums_test/bibhash.txt" "c:/code/endeca_trunk/get_bib_data.pl" "c:/code/endeca_trunk/args_extract.pl" "c:/code/testperl/tdata.txt" "c:/code/endeca_trunk/args_extract.pl" "c:/code/testperl/tdata.txt" "c:/code/testperl/test_hash.pl" "c:/ruby_scripts/HathiTrust/DEL_endeca_unc_20131015C.txt" "c:/ruby_scripts/HathiTrust/holdings_bnums.pl" "c:/ruby_scripts/HathiTrust/is_bib_suppressed.pl" "c:/ruby_scripts/HathiTrust/to_check_if_suppressed.txt" "c:/ruby_scripts/HathiTrust/get_pub_dates_for_bnums.pl" "c:/ruby_scripts/Endeca_svn/trunk/args_extract.pl" "c:/ruby_scripts/HathiTrust/ht/stat_nobrt_lmwd" "c:/ruby_scripts/HathiTrust/ht/stat_mvm_nobrt_lmwd.txt" "c:/ruby_scripts/HathiTrust/ht/stat_mvm_brt_lmwd.txt" "c:/ruby_scripts/HathiTrust/ht/stat_mvm_brt_ch.txt" "c:/ruby_scripts/HathiTrust/ht/lmwd_notbrt.txt" "c:/ruby_scripts/HathiTrust/ht/brt_lmwd.txt" "c:/ruby_scripts/HathiTrust/ht/brt_ch.txt" "c:/ruby_scripts/Cataloging_Scripts/tab_delim_field_splitter.rb" "c:/ruby_scripts/HathiTrust/holdings_process.pl" "g:/TechServ/e-resources cataloging/Projects/New Library Website Catalog Aftereffects/URL_updates.txt" "c:/ruby_scripts/HathiTrust/holdings_process.pl" "c:/ruby_scripts/Endeca_svn/trunk/args_extract.pl"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "c:/Users/kspurgin/AppData/Roaming/org/esm.org"
+  "esm.org"
+  'org-mode
+  '(abbrev-mode global-auto-revert-mode)
+  87346
+  '(87346 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-dos) (truncate-lines)))
+

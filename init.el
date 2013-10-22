@@ -15,6 +15,10 @@
 (load custom-file 'noerror)
 (message "define and load my custom file")
 
+; to open files in a running instance of emacs
+; added 20130628
+;(server-start)
+
 ; added 20130326
 ; source: http://marmalade-repo.org/
 ; adds open source Marmalade repository to list of package archives
@@ -47,6 +51,39 @@
  kept-old-versions 2
  version-control t)       ; use versioned backups
 
+;; make emacs automatically notice any changes made to files on disk
+;; especially useful for making reftex notice changes to bibtex files
+;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
+;; Fri May 22 19:32:12 EDT 2009
+(global-auto-revert-mode t)
+
+;;; auto-create non-existing directories to save files
+;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
+;;; Sun Dec 14 00:04:46 EST 2008
+
+(add-hook 'before-save-hook
+          '(lambda ()
+             (or (file-exists-p (file-name-directory buffer-file-name))
+                 (make-directory (file-name-directory buffer-file-name) t))))
+
+;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+;; Desktop saving
+;; load, at startup, the buffers you were editing when you last quit Emacs.
+;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+(desktop-save-mode 1)
+(add-to-list 'desktop-globals-to-save 'file-name-history)
+
+;; ;; Do not save/reopen certain kinds of buffers
+
+(setq desktop-buffers-not-to-save
+     (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb" 
+	        "\\)$"))
+(add-to-list 'desktop-modes-not-to-save 'dired-mode)
+(add-to-list 'desktop-modes-not-to-save 'Info-mode)
+(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; other misc appearance settings
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,6 +110,10 @@
 ;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ;;; MISCELLANEOUS BEHAVIOR SETTINGS
 ;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+;; open drag/dropped files in new buffer
+;; added 20130628, http://www.emacswiki.org/emacs/DragAndDrop
+(define-key global-map [ns-drag-file] 'ns-find-file)
+
 
 ;; do not disable things for me.
 (put 'downcase-region 'disabled nil)
@@ -139,3 +180,126 @@
 
 (global-set-key [M-up] 'move-text-up)
 (global-set-key [M-down] 'move-text-down)
+
+;############################################################################
+;#   Emacs config (Recommended) from Appendix C of "Perl Best Practices"    #
+;#     Copyright (c) O'Reilly & Associates, 2005. All Rights Reserved.      #
+;#  See: http://www.oreilly.com/pub/a/oreilly/ask_tim/2001/codepolicy.html  #
+;############################################################################
+; Added 20130612
+
+;; Use cperl mode instead of the default perl mode
+(defalias 'perl-mode 'cperl-mode)
+ 
+;; turn autoindenting on
+(global-set-key "\r" 'newline-and-indent)
+ 
+;; Use 4 space indents via cperl mode
+(custom-set-variables
+ '(cperl-close-paren-offset -4)
+ '(cperl-continued-statement-offset 4)
+ '(cperl-indent-level 4)
+ '(cperl-indent-parens-as-block t)
+ '(cperl-tab-always-indent t))
+ 
+;; Insert spaces instead of tabs
+(setq-default indent-tabs-mode nil)
+ 
+;; Set line width to 78 columns...
+(setq fill-column 78)
+(setq auto-fill-mode t)
+ 
+;; Use % to match various kinds of brackets...
+;; See: http://www.lifl.fr/~hodique/uploads/Perso/patches.el
+(global-set-key "%" 'match-paren)
+(defun match-paren (arg)
+  "Go to the matching paren if on a paren; otherwise insert %."
+  (interactive "p")
+  (let ((prev-char (char-to-string (preceding-char)))
+        (next-char (char-to-string (following-char))))
+    (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
+          ((string-match "[\]})>]" prev-char) (backward-sexp 1))
+          (t (self-insert-command (or arg 1))))))
+ 
+;; Load an applicationtemplate in a new unattached buffer...
+(defun application-template-pm ()
+  "Inserts the standard Perl application template"  ; For help and info.
+  (interactive "*")                                 ; Make this user accessible.
+  (switch-to-buffer "application-template-pm")
+  (insert-file "~/.code_templates/perl_application.pl"))
+;; Set to a specific key combination...
+(global-set-key "\C-ca" 'application-template-pm)
+ 
+;; Load a module template in a new unattached buffer...
+(defun module-template-pm ()
+  "Inserts the standard Perl module template"       ; For help and info.
+  (interactive "*")                                 ; Make this user accessible.
+  (switch-to-buffer "module-template-pm")
+  (insert-file "~/.code_templates/perl_module.pl"))
+;; Set to a specific key combination...
+(global-set-key "\C-cm" 'module-template-pm)
+ 
+;; Expand the following abbreviations while typing in text files...
+(abbrev-mode 1)
+ 
+(define-abbrev-table 'global-abbrev-table '(
+    ("pdbg"   "use Data::Dumper qw( Dumper );\nwarn Dumper[];"   nil 1)
+    ("phbp"   "#! /usr/bin/perl -w"                              nil 1)
+    ("pbmk"   "use Benchmark qw( cmpthese );\ncmpthese -10, {};" nil 1)
+    ("pusc"   "use Smart::Comments;\n\n### "                     nil 1)
+    ("putm"   "use Test::More 'no_plan';"                        nil 1)
+    ))
+ 
+(add-hook 'text-mode-hook (lambda () (abbrev-mode 1)))
+
+;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+;; delete duplicate/repeated buffer lines 
+;; sort lines before using since lines have to be one after the other
+;; 20091206 01:16 commented out because not working right
+;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  ;; (defun uniquify-buffer-lines ()
+  ;;   (interactive)
+  ;;   (while
+  ;;     (progn
+  ;;      (goto-char (point-min))
+  ;;      (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1$" nil t))
+  ;;     (if (= 0 (length (match-string 1)))
+  ;;         (replace-match "\\2")
+  ;;       (replace-match "\\1\n\\2"))))
+
+  (defun uniquify-all-lines-region (start end)
+    "Find duplicate lines in region START to END keeping first occurrence."
+    (interactive "*r")
+    (save-excursion
+      (let ((end (copy-marker end)))
+        (while
+            (progn
+              (goto-char start)
+              (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
+          (replace-match "\\1\n\\2")))))
+  
+  (defun uniquify-all-lines-buffer ()
+    "Delete duplicate lines in buffer and keep first occurrence."
+    (interactive "*")
+    (uniquify-region-lines (point-min) (point-max)))
+
+  (defun uniquify-region-lines (beg end)
+    "Remove duplicate adjacent lines in region."
+    (interactive "*r")
+    (save-excursion
+      (goto-char beg)
+      (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
+        (replace-match "\\1"))))
+  
+  (defun uniquify-buffer-lines ()
+    "Remove duplicate adjacent lines in the current buffer."
+    (interactive)
+    (uniquify-region-lines (point-min) (point-max)))
+
+;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+;; do an incremental search on a regexp and hide lines that match the regexp.
+;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+(require 'hide-lines)
+(require 'hidesearch)
+;; (global-set-key (kbd "C-c C-s") 'hidesearch)
+;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
