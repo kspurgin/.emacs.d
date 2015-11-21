@@ -12,3 +12,7 @@
 auto-save-list/**
 elpa/**/*-readme.txt
 elpa/**/archive-contents
+=======
+# ELPA readmes
+elpa/*-readme.txt
+
