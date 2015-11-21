@@ -1,18 +1,15 @@
+# Other
+*\#
+*~
+.emacs.deskto*
+auto-save-list/**
+elpa/**/*-readme.txt
+archive-contents
+elpa/*-readme.txt
+
 # Compiled
 *.elc
 
 # Packaging
 .cask
-
-# Other
-\#
-*~
-.emacs.desktop
-.emacs.desktop*
-auto-save-list/**
-elpa/**/*-readme.txt
-elpa/**/archive-contents
-=======
-# ELPA readmes
-elpa/*-readme.txt
 
