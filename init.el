@@ -11,20 +11,6 @@
 (load custom-file 'noerror)
 (message "define and load my custom file")
 
-; to open files in a running instance of emacs
-; added 20130628
-;(server-start)
-
-; added 20130326 - commented out 2015-05-20 because of delays connecting
-; source: http://marmalade-repo.org/
-; adds open source Marmalade repository to list of package archives
-;; (require 'package)
-;; (add-to-list
-;;     'package-archives 
-;;     '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (package-initialize)
-;; (message "added custom package archives")
-
 ;; added 2015-05-20
 ;; source: http://ergoemacs.org/emacs/emacs_package_system.html
 ;; adds MELPA repository to list of package archives
@@ -40,11 +26,6 @@
 ; source: http://batsov.com/articles/2012/02/19/color-theming-in-emacs-reloaded/
 (load-theme 'tango t)
 (message "loaded theme")
-
-; added 20130326
-; make emacs and cygwin play together
-;(load-library "cygwinize")
-;(message "cygwinized")
 
 ; added 20130327
 ; Auto-saved backup files
@@ -298,16 +279,6 @@
 ;; sort lines before using since lines have to be one after the other
 ;; 20091206 01:16 commented out because not working right
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-  ;; (defun uniquify-buffer-lines ()
-  ;;   (interactive)
-  ;;   (while
-  ;;     (progn
-  ;;      (goto-char (point-min))
-  ;;      (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1$" nil t))
-  ;;     (if (= 0 (length (match-string 1)))
-  ;;         (replace-match "\\2")
-  ;;       (replace-match "\\1\n\\2"))))
-
   (defun uniquify-all-lines-region (start end)
     "Find duplicate lines in region START to END keeping first occurrence."
     (interactive "*r")
@@ -380,4 +351,5 @@
    [?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?r ?e ?g ?e ?x ?p return ?^ ?\C-q tab ?\[ ?0 ?- ?9 ?\] ?+ ?\C-q tab ?. ?\C-q tab ?  ?\C-q tab ?G ?r ?o ?u ?p ?: ?  ?. ?  ?. ?. ?. ?. ?. ?\C-b ?\C-b ?\C-b ?\C-b ?\C-b ?\\ ?\( ?\C-e ?\\ ?\) ?\\ ?\( ?. ?* ?\\ ?\) ?E ?x ?p ?a ?n ?d ?e ?d ?: ?  ?f ?a ?l ?s ?e ?  ?E ?n ?t ?r ?i ?e ?s ?: ?  ?\[ ?0 ?- ?9 ?\] ?+ return ?\\ ?1 ?\C-q tab ?\\ ?2 return])
 
 (fset 'marcedit-copy-from-find-cleanup
-   [?\M-< ?\C-  ?\M-> ?\C-a ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-x ?r ?k ?\M-< ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?r ?e ?g ?e ?x ?p return ?  ?* ?\C-q tab ?J ?u ?m ?p ?  ?t ?o ?  ?R ?e ?c ?. ?* ?$ return return])
+   [?\M-< ?\C-  ?\M-> ?\C-a ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-x ?r ?k ?\M-< ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?r ?e ?g ?e ?x ?p return ?  ?* ?\C-q tab ?J ?u ?m ?p ?  ?t ?o ?  ?R ?e ?c ?. ?* ?$ return return]
+)
