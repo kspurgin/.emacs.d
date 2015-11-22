@@ -38,6 +38,7 @@
 ; Make it pretty
 (use-package darktooth-theme
   :ensure t)
+(load-theme 'darktooth t)
 (message "loaded theme")
 
 ; added 20130327
