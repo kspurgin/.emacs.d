@@ -1,20 +1,30 @@
-;; added 2015-04-20
-;; add .emacs.d/lisp and its subdirectories to load-path
-;; from http://emacswiki.org/emacs/LoadPath
-(let ((default-directory "~/.emacs.d/lisp/"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+;; I'll manually tell you what to load
+(package-initialize nil)
+(setq package-enable-at-startup nil)
 
-;; added 2015-05-20
-;; source: http://ergoemacs.org/emacs/emacs_package_system.html
-;; adds MELPA repository to list of package archives
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list
-   'package-archives
-   '("melpa" . "http://melpa.org/packages/")
-   t)
-  (package-initialize))
+;; First I'll set up my package sources
+;; From http://pages.sachachua.com/.emacs.d/Sacha.html
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  (package-refresh-contents))
+(message "Loaded package sources")
+
+;; Load these
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(message "Loaded my personal lisp directory")
+
+;; Set up use-package
+;; From http://pages.sachachua.com/.emacs.d/Sacha.html
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(setq use-package-verbose t)
+(require 'use-package)
+(use-package auto-compile
+  :ensure t
+  :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
+(message "use-package is set up now")
 
 ; added 20130326
 ; source: http://batsov.com/articles/2012/02/19/color-theming-in-emacs-reloaded/
@@ -166,16 +176,21 @@
       '((sequence "TODO(t)" "WAIT(w@/!)" "INPROGRESS(i!)" "|" "DONE(d!)" "CANCELED(c@!)" "DELEGATED(o@!)")))
 
 (custom-set-variables
- ;; only these properties should be inherited
- ;; added 2015-05-28 from http://orgmode.org/manual/Property-syntax.html
- '(org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
- ;; limit what is shown in the agenda
- ;; added 2015-06-29 from http://newartisans.com/2007/08/using-org-mode-as-a-day-planner/
- '(org-deadline-warning-days 0)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cperl-close-paren-offset -4)
+ '(cperl-continued-statement-offset 4)
+ '(cperl-indent-level 4)
+ '(cperl-indent-parens-as-block t)
+ '(cperl-tab-always-indent t)
+ '(custom-safe-themes (quote ("21cf55418efce282348dbe22524768f26393c3164ecba9eb41df9af2b9ee56d4" "f5e56ac232ff858afb08294fc3a519652ce8a165272e3c65165c42d6fe0262a0" default)))
  '(org-agenda-show-all-dates t)
  '(org-agenda-skip-deadline-if-done t)
  '(org-agenda-skip-scheduled-if-done t)
-)
+ '(org-deadline-warning-days 0)
+ '(org-use-property-inheritance (quote ("COLLECTION" "VENDOR"))))
 
 ; never insert blank lines for me
 ; from http://stackoverflow.com/questions/28351465/emacs-orgmode-do-not-insert-line-between-headers
@@ -196,12 +211,7 @@
 (global-set-key "\r" 'newline-and-indent)
  
 ;; Use 4 space indents via cperl mode
-(custom-set-variables
- '(cperl-close-paren-offset -4)
- '(cperl-continued-statement-offset 4)
- '(cperl-indent-level 4)
- '(cperl-indent-parens-as-block t)
- '(cperl-tab-always-indent t))
+
  
 ;; Insert spaces instead of tabs
 (add-hook 'cperl-mode-hook
@@ -347,3 +357,9 @@
 (fset 'marcedit-copy-from-find-cleanup
    [?\M-< ?\C-  ?\M-> ?\C-a ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-x ?r ?k ?\M-< ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?r ?e ?g ?e ?x ?p return ?  ?* ?\C-q tab ?J ?u ?m ?p ?  ?t ?o ?  ?R ?e ?c ?. ?* ?$ return return]
 )
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
