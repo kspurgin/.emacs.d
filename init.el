@@ -12,6 +12,7 @@
 
 ;; Load these
 (add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'load-path "~/.emacs.d/themes")
 (message "Loaded my personal lisp directory")
 
 ;; Set up use-package
