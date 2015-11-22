@@ -12,7 +12,7 @@
 
 ;; Load these
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'load-path "~/.emacs.d/themes")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (message "Loaded my personal lisp directory")
 
 ;; Set up use-package
@@ -36,7 +36,8 @@
 (message "Set contact information")
 
 ; Make it pretty
-(load-theme 'darktooth t)
+(use-package darktooth-theme
+  :ensure t)
 (message "loaded theme")
 
 ; added 20130327
