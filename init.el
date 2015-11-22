@@ -116,6 +116,9 @@
 ;; added 20130628, http://www.emacswiki.org/emacs/DragAndDrop
 (define-key global-map [ns-drag-file] 'ns-find-file)
 
+;; Sentences end with ONE space
+;; from http://pages.sachachua.com/.emacs.d/Sacha.html
+(setq sentence-end-double-space nil)
 
 ;; do not disable things for me.
 (put 'downcase-region 'disabled nil)
