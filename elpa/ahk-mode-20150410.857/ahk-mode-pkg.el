@@ -1,1 +1,0 @@
-(define-package "ahk-mode" "20150410.857" "Major mode for editing AHK (AutoHotkey and AutoHotkey_L)" 'nil :url "https://github.com/ralesi/ahk-mode" :keywords '("ahk" "autohotkey" "hotkey" "keyboard shortcut" "automation"))
