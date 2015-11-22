@@ -160,7 +160,7 @@
 
 ;; human readable file sizes
 ;; from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
-(setq dired-listing-switches "-alh")
+(setq dired-listing-switches "-Alh")
 
 ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ;;; MISCELLANEOUS TOOLS
