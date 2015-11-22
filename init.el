@@ -91,7 +91,10 @@
 (tool-bar-mode 0)
 
 ;; highlight matching parentheses
+(setq blink-matching-paren nil)
 (show-paren-mode t)
+(setq show-paren-delay 0)
+(setq show-paren-style 'expression)
 
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
@@ -134,6 +137,7 @@
 ;; scratch should be in text mode
 ;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
 (setq initial-major-mode 'text-mode)
+
 
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; dired stuff
@@ -190,11 +194,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cperl-close-paren-offset -4)
- '(cperl-continued-statement-offset 4)
- '(cperl-indent-level 4)
- '(cperl-indent-parens-as-block t)
- '(cperl-tab-always-indent t)
+
  '(custom-safe-themes (quote ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" "21cf55418efce282348dbe22524768f26393c3164ecba9eb41df9af2b9ee56d4" "f5e56ac232ff858afb08294fc3a519652ce8a165272e3c65165c42d6fe0262a0" default)))
  '(org-agenda-show-all-dates t)
  '(org-agenda-skip-deadline-if-done t)
@@ -221,12 +221,18 @@
 (global-set-key "\r" 'newline-and-indent)
  
 ;; Use 4 space indents via cperl mode
+ '(cperl-close-paren-offset -4)
 
  
 ;; Insert spaces instead of tabs
 (add-hook 'cperl-mode-hook
           '(lambda ()
-             (setq indent-tabs-mode nil)))
+             (setq indent-tabs-mode nil)
+	     (setq cperl-tab-always-indent t)
+	     (setq cperl-indent-parens-as-block t)
+	     (setq cperl-indent-level 4)
+	     (setq cperl-continued-statement-offset 4)
+	     (setq cperl-close-paren-offset -4)))
  
 ;; Set line width to 78 columns...
 (setq fill-column 78)
