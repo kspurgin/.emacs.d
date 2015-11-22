@@ -62,7 +62,6 @@
 ;;; auto-create non-existing directories to save files
 ;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
 ;;; Sun Dec 14 00:04:46 EST 2008
-
 (add-hook 'before-save-hook
           '(lambda ()
              (or (file-exists-p (file-name-directory buffer-file-name))
@@ -76,7 +75,6 @@
 (add-to-list 'desktop-globals-to-save 'file-name-history)
 
 ;; ;; Do not save/reopen certain kinds of buffers
-
 (setq desktop-buffers-not-to-save
      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
 	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb" 
@@ -89,7 +87,6 @@
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; other misc appearance settings
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 ;; do not show the toolbar (big icons across top)
 (tool-bar-mode 0)
 
@@ -141,7 +138,6 @@
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; dired stuff
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 ;; do not open a bajillion buffers to navigate file system
 (require 'dired-single)
 
@@ -161,6 +157,9 @@
    (my-dired-init)
   ;; it's not loaded yet, so add our bindings to the load-hook
   (add-hook 'dired-load-hook 'my-dired-init))
+
+;; human readable file sizes
+(setq dired-listing-switches "-alh")
 
 ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ;;; MISCELLANEOUS TOOLS
