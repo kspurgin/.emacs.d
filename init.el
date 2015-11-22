@@ -77,7 +77,7 @@
 ;; ;; Do not save/reopen certain kinds of buffers
 (setq desktop-buffers-not-to-save
      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb" 
+	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
 	        "\\)$"))
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
@@ -216,10 +216,10 @@
 
 ;; Use cperl mode instead of the default perl mode
 (defalias 'perl-mode 'cperl-mode)
- 
+
 ;; turn autoindenting on
 (global-set-key "\r" 'newline-and-indent)
-  
+
 ;; Insert spaces instead of tabs
 (add-hook 'cperl-mode-hook
           '(lambda ()
@@ -230,11 +230,11 @@
 	     (setq cperl-continued-statement-offset 4)
 	     (setq cperl-close-paren-offset -4)
 	     (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
- 
+
 ;; Set line width to 78 columns...
 (setq fill-column 78)
 (setq auto-fill-mode t)
- 
+
 ;; Use % to match various kinds of brackets...
 ;; See: http://www.lifl.fr/~hodique/uploads/Perso/patches.el
 (global-set-key "%" 'match-paren)
@@ -246,7 +246,7 @@
     (cond ((string-match "[[{(<]" next-char) (forward-sexp 1))
           ((string-match "[\]})>]" prev-char) (backward-sexp 1))
           (t (self-insert-command (or arg 1))))))
- 
+
 ;; Load an applicationtemplate in a new unattached buffer...
 (defun application-template-pm ()
   "Inserts the standard Perl application template"  ; For help and info.
@@ -255,7 +255,7 @@
   (insert-file "~/.code_templates/perl_application.pl"))
 ;; Set to a specific key combination...
 ;;(global-set-key "\C-ca" 'application-template-pm)
- 
+
 ;; Load a module template in a new unattached buffer...
 (defun module-template-pm ()
   "Inserts the standard Perl module template"       ; For help and info.
@@ -264,10 +264,10 @@
   (insert-file "~/.code_templates/perl_module.pl"))
 ;; Set to a specific key combination...
 (global-set-key "\C-cm" 'module-template-pm)
- 
+
 ;; Expand the following abbreviations while typing in text files...
 (abbrev-mode 1)
- 
+
 (define-abbrev-table 'global-abbrev-table '(
     ("pdbg"   "use Data::Dumper qw( Dumper );\nwarn Dumper[];"   nil 1)
     ("phbp"   "#! /usr/bin/perl -w"                              nil 1)
@@ -275,7 +275,7 @@
     ("pusc"   "use Smart::Comments;\n\n### "                     nil 1)
     ("putm"   "use Test::More 'no_plan';"                        nil 1)
     ))
- 
+
 (add-hook 'text-mode-hook (lambda () (abbrev-mode 1)))
 
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -292,7 +292,7 @@
 (global-set-key "\C-cz" 'show-file-name)
 
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-;; delete duplicate/repeated buffer lines 
+;; delete duplicate/repeated buffer lines
 ;; sort lines before using since lines have to be one after the other
 ;; 20091206 01:16 commented out because not working right
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -306,7 +306,7 @@
               (goto-char start)
               (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
           (replace-match "\\1\n\\2")))))
-  
+
   (defun uniquify-all-lines-buffer ()
     "Delete duplicate lines in buffer and keep first occurrence."
     (interactive "*")
@@ -319,7 +319,7 @@
       (goto-char beg)
       (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
         (replace-match "\\1"))))
-  
+
   (defun uniquify-buffer-lines ()
     "Remove duplicate adjacent lines in the current buffer."
     (interactive)
@@ -370,9 +370,3 @@
 (fset 'marcedit-copy-from-find-cleanup
    [?\M-< ?\C-  ?\M-> ?\C-a ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-f ?\C-x ?r ?k ?\M-< ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?r ?e ?g ?e ?x ?p return ?  ?* ?\C-q tab ?J ?u ?m ?p ?  ?t ?o ?  ?R ?e ?c ?. ?* ?$ return return]
 )
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
