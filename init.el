@@ -5,12 +5,6 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-; added 20130326
-; define and load my custom file
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'noerror)
-(message "define and load my custom file")
-
 ;; added 2015-05-20
 ;; source: http://ergoemacs.org/emacs/emacs_package_system.html
 ;; adds MELPA repository to list of package archives
