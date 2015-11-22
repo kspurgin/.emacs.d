@@ -219,11 +219,7 @@
  
 ;; turn autoindenting on
 (global-set-key "\r" 'newline-and-indent)
- 
-;; Use 4 space indents via cperl mode
- '(cperl-close-paren-offset -4)
-
- 
+  
 ;; Insert spaces instead of tabs
 (add-hook 'cperl-mode-hook
           '(lambda ()
@@ -232,7 +228,8 @@
 	     (setq cperl-indent-parens-as-block t)
 	     (setq cperl-indent-level 4)
 	     (setq cperl-continued-statement-offset 4)
-	     (setq cperl-close-paren-offset -4)))
+	     (setq cperl-close-paren-offset -4)
+	     (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
  
 ;; Set line width to 78 columns...
 (setq fill-column 78)
