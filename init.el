@@ -26,6 +26,13 @@
 (setq load-prefer-newer t)
 (message "use-package is set up now")
 
+;; Who am I? Different contact info per computer...
+(setq user-full-name "Kristina M. Spurgin")
+(cond ((string-equal system-name "spore")
+       (setq user-mail-address "kristina@le-champignon.net"))
+      ((string-equal system-name "AALTS02")
+       (setq user-mail-address "kspurgin@email.unc.edu")))
+
 ; added 20130326
 ; source: http://batsov.com/articles/2012/02/19/color-theming-in-emacs-reloaded/
 (load-theme 'tango t)
