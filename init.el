@@ -32,10 +32,10 @@
        (setq user-mail-address "kristina@le-champignon.net"))
       ((string-equal system-name "AALTS02")
        (setq user-mail-address "kspurgin@email.unc.edu")))
+(message "Set contact information")
 
-; added 20130326
-; source: http://batsov.com/articles/2012/02/19/color-theming-in-emacs-reloaded/
-(load-theme 'tango t)
+; Make it pretty
+(load-theme 'darktooth t)
 (message "loaded theme")
 
 ; added 20130327
@@ -192,7 +192,7 @@
  '(cperl-indent-level 4)
  '(cperl-indent-parens-as-block t)
  '(cperl-tab-always-indent t)
- '(custom-safe-themes (quote ("21cf55418efce282348dbe22524768f26393c3164ecba9eb41df9af2b9ee56d4" "f5e56ac232ff858afb08294fc3a519652ce8a165272e3c65165c42d6fe0262a0" default)))
+ '(custom-safe-themes (quote ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" "21cf55418efce282348dbe22524768f26393c3164ecba9eb41df9af2b9ee56d4" "f5e56ac232ff858afb08294fc3a519652ce8a165272e3c65165c42d6fe0262a0" default)))
  '(org-agenda-show-all-dates t)
  '(org-agenda-skip-deadline-if-done t)
  '(org-agenda-skip-scheduled-if-done t)
