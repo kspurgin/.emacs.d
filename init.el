@@ -33,7 +33,7 @@
        (setq user-mail-address "kristina@le-champignon.net"))
       ((string-equal system-name "AALTS02")
        (setq user-mail-address "kspurgin@email.unc.edu"))
-            ((string-equal system-name "AALTS02.lib.unc.edu")
+      ((string-equal system-name "AALTS02.lib.unc.edu")
        (setq user-mail-address "kspurgin@email.unc.edu")))
 (message "Set contact information")
 
