@@ -27,6 +27,12 @@
 (setq load-prefer-newer t)
 (message "use-package is set up now")
 
+;; stuff for Cygwin
+(cond ((string-equal system-name "AALTS02.lib.unc.edu")
+       (require 'windows-path)
+       (windows-path-activate)
+      ))
+
 ;; Who am I? Different contact info per computer...
 (setq user-full-name "Kristina M. Spurgin")
 (cond ((string-equal system-name "spore")
