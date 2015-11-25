@@ -231,6 +231,10 @@
 ; 2015-11-19
 (setf org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
 
+; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
+; From http://doc.norang.ca/org-mode.html
+
+(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 ;############################################################################
 ;#   Emacs config (Recommended) from Appendix C of "Perl Best Practices"    #
 ;#     Copyright (c) O'Reilly & Associates, 2005. All Rights Reserved.      #
