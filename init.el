@@ -1,3 +1,6 @@
+;; system-name "AALTS02" = Graphical NTEmacs running on Windows work machine
+;; system-name "AALTS02.lib.unc.edu" = Graphical Emacs running under Cygwin
+
 ;; I'll manually tell you what to load
 (package-initialize nil)
 (setq package-enable-at-startup nil)
@@ -30,8 +33,17 @@
 ;; stuff for Cygwin
 (cond ((string-equal system-name "AALTS02.lib.unc.edu")
        (require 'windows-path)
+       (message "windows-path required")
        (windows-path-activate)
-      ))
+       (message "windows-path activated"))
+      ((string-equal system-name "AALTS02")
+       ; You will need to make sure C:/cygwin/bin is in your Windows PATH
+       (require 'cygwin-mount)
+       (message "cygwin-mount required")
+       (cygwin-mount-activate)
+       (message "cygwin-mount activated")
+       (use-package setup-cygwin)
+       (message "setup-cygwin used")))
 
 ;; Who am I? Different contact info per computer...
 (setq user-full-name "Kristina M. Spurgin")
@@ -43,11 +55,13 @@
        (setq user-mail-address "kspurgin@email.unc.edu")))
 (message "Set contact information")
 
-; Make it pretty
-(use-package darktooth-theme
-  :ensure t)
-(load-theme 'darktooth t)
-(message "loaded theme")
+; Make it pretty when using graphical client
+(cond ((display-graphic-p)
+       (use-package darktooth-theme
+	 :ensure t)
+       (load-theme 'darktooth t)
+       (message "loaded theme")
+       ))
 
 ; added 20130327
 ; Auto-saved backup files
