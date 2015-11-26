@@ -1,4 +1,4 @@
-;; system-name "AALTS02" = Graphical NTEmacs running on Windows work machine
+,;; system-name "AALTS02" = Graphical NTEmacs running on Windows work machine
 ;; system-name "AALTS02.lib.unc.edu" = Graphical Emacs running under Cygwin
 
 ;; I'll manually tell you what to load
@@ -62,6 +62,14 @@
        (load-theme 'darktooth t)
        (message "loaded theme")
        ))
+
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;;; tramp
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(cond ((string-equal system-type 'gnu/linux)
+       (setq tramp-default-method "ssh"))
+      ((string-equal system-name 'windows-nt)
+       (setq tramp-default-method "plink")))
 
 ; added 20130327
 ; Auto-saved backup files
@@ -162,6 +170,14 @@
 ;; scratch should be in text mode
 ;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
 (setq initial-major-mode 'text-mode)
+
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;;; tramp
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(cond ((string-equal system-type 'gnu/linux)
+       (setq tramp-default-method "ssh"))
+      ((string-equal system-name 'windows-nt)
+       (setq tramp-default-method "plink")))
 
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; dired stuff
