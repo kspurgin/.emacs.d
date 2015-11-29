@@ -20,6 +20,8 @@
 
 ;; Set up use-package
 ;; From http://pages.sachachua.com/.emacs.d/Sacha.html
+;; use-package documentation at:
+;;  https://github.com/jwiegley/use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (setq use-package-verbose t)
@@ -63,6 +65,11 @@
        (message "loaded theme")
        ))
 
+(use-package move-text
+  :ensure t
+  :config
+   (move-text-default-bindings))
+
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; tramp
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,6 +77,7 @@
        (setq tramp-default-method "ssh"))
       ((string-equal system-name 'windows-nt)
        (setq tramp-default-method "plink")))
+
 
 ; added 20130327
 ; Auto-saved backup files
