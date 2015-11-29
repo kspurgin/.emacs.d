@@ -147,17 +147,8 @@
   :config
    (move-text-default-bindings))
 
-; added 20130327
-; Auto-saved backup files
-; Save in a directory, not all over the place.
-(setq
- backup-by-copying t      ; don't clobber symlinks
- backup-directory-alist
- '(("." . "~/.saves"))    ; don't litter my fs tree
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2
- version-control t)       ; use versioned backups
+;; I don't need backup files. I never have used them, and they just cause clutter
+(setq make-backup-files nil)
 
 ;; make emacs automatically notice any changes made to files on disk
 ;; especially useful for making reftex notice changes to bibtex files
