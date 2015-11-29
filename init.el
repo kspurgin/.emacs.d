@@ -1,4 +1,4 @@
-,;; system-name "AALTS02" = Graphical NTEmacs running on Windows work machine
+;; system-name "AALTS02" = Graphical NTEmacs running on Windows work machine
 ;; system-name "AALTS02.lib.unc.edu" = Graphical Emacs running under Cygwin
 
 ;; I'll manually tell you what to load
