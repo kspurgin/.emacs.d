@@ -76,8 +76,9 @@
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 (desktop-save-mode 1)
 (add-to-list 'desktop-globals-to-save 'file-name-history)
+(setq desktop-restore-frames t) ;;doesn't seem to work, at least on Ubuntu.
 
-;; ;; Do not save/reopen certain kinds of buffers
+;; Do not save/reopen certain kinds of buffers
 (setq desktop-buffers-not-to-save
      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
 	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
