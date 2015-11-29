@@ -301,3 +301,11 @@
 (require 'hidesearch)
 ;; (global-set-key (kbd "C-c C-s") 'hidesearch)
 ;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
+
+;; load esm-macros if I'm at work
+(cond ((string-equal system-name "AALTS02.lib.unc.edu")
+       (load "esm-macros")
+       (message "esm-macros required"))
+      ((string-equal system-name "AALTS02")
+       (load "esm-macros")
+       (message "esm-macros required")))
