@@ -227,18 +227,11 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "INPROGRESS(i!)" "|" "DONE(d!)" "CANCELED(c@!)" "DELEGATED(o@!)")))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
-
- '(custom-safe-themes (quote ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" "21cf55418efce282348dbe22524768f26393c3164ecba9eb41df9af2b9ee56d4" "f5e56ac232ff858afb08294fc3a519652ce8a165272e3c65165c42d6fe0262a0" default)))
- '(org-agenda-show-all-dates t)
- '(org-agenda-skip-deadline-if-done t)
- '(org-agenda-skip-scheduled-if-done t)
- '(org-deadline-warning-days 0)
- '(org-use-property-inheritance (quote ("COLLECTION" "VENDOR"))))
+(setq org-agenda-show-all-dates t)
+(setq org-agenda-skip-deadline-if-done t)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-deadline-warning-days 0)
+(setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
 
 ; never insert blank lines for me
 ; from http://stackoverflow.com/questions/28351465/emacs-orgmode-do-not-insert-line-between-headers
