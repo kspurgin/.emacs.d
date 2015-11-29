@@ -65,45 +65,6 @@
        (message "loaded theme")
        ))
 
-(use-package move-text
-  :ensure t
-  :config
-   (move-text-default-bindings))
-
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;;; tramp
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(cond ((string-equal system-type 'gnu/linux)
-       (setq tramp-default-method "ssh"))
-      ((string-equal system-name 'windows-nt)
-       (setq tramp-default-method "plink")))
-
-
-; added 20130327
-; Auto-saved backup files
-; Save in a directory, not all over the place.
-(setq
- backup-by-copying t      ; don't clobber symlinks
- backup-directory-alist
- '(("." . "~/.saves"))    ; don't litter my fs tree
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2
- version-control t)       ; use versioned backups
-
-;; make emacs automatically notice any changes made to files on disk
-;; especially useful for making reftex notice changes to bibtex files
-;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
-;; Fri May 22 19:32:12 EDT 2009
-(global-auto-revert-mode t)
-
-;;; auto-create non-existing directories to save files
-;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
-;;; Sun Dec 14 00:04:46 EST 2008
-(add-hook 'before-save-hook
-          '(lambda ()
-             (or (file-exists-p (file-name-directory buffer-file-name))
-                 (make-directory (file-name-directory buffer-file-name) t))))
 
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 ;; Desktop saving
@@ -152,7 +113,7 @@
 ;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ;; open drag/dropped files in new buffer
 ;; added 20130628, http://www.emacswiki.org/emacs/DragAndDrop
-(define-key global-map [ns-drag-file] 'ns-find-file)
+;; (define-key global-map [ns-drag-file] 'ns-find-file)
 
 ;; Sentences end with ONE space
 ;; from http://pages.sachachua.com/.emacs.d/Sacha.html
@@ -178,6 +139,38 @@
 ;; scratch should be in text mode
 ;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
 (setq initial-major-mode 'text-mode)
+
+; Move line or region up or down with M-up/down arrow
+(use-package move-text
+  :ensure t
+  :config
+   (move-text-default-bindings))
+
+; added 20130327
+; Auto-saved backup files
+; Save in a directory, not all over the place.
+(setq
+ backup-by-copying t      ; don't clobber symlinks
+ backup-directory-alist
+ '(("." . "~/.saves"))    ; don't litter my fs tree
+ delete-old-versions t
+ kept-new-versions 6
+ kept-old-versions 2
+ version-control t)       ; use versioned backups
+
+;; make emacs automatically notice any changes made to files on disk
+;; especially useful for making reftex notice changes to bibtex files
+;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
+;; Fri May 22 19:32:12 EDT 2009
+(global-auto-revert-mode t)
+
+;;; auto-create non-existing directories to save files
+;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
+;;; Sun Dec 14 00:04:46 EST 2008
+(add-hook 'before-save-hook
+          '(lambda ()
+             (or (file-exists-p (file-name-directory buffer-file-name))
+                 (make-directory (file-name-directory buffer-file-name) t))))
 
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; tramp
