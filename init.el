@@ -111,9 +111,6 @@
 ;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ;;; MISCELLANEOUS BEHAVIOR SETTINGS
 ;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-;; open drag/dropped files in new buffer
-;; added 20130628, http://www.emacswiki.org/emacs/DragAndDrop
-;; (define-key global-map [ns-drag-file] 'ns-find-file)
 
 ;; Sentences end with ONE space
 ;; from http://pages.sachachua.com/.emacs.d/Sacha.html
