@@ -234,6 +234,8 @@
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-deadline-warning-days 0)
 (setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
+(setq org-enforce-todo-dependencies t)
+(setq org-enforce-todo-checkbox-dependencies t)
 
 ; never insert blank lines for me
 ; from http://stackoverflow.com/questions/28351465/emacs-orgmode-do-not-insert-line-between-headers
