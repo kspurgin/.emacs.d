@@ -169,6 +169,11 @@
 ;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
 (setq set-mark-command-repeat-pop t)
 
+;; Make file and buffer name completion case insensitive
+;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
+
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; tramp
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
