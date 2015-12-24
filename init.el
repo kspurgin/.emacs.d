@@ -165,6 +165,10 @@
              (or (file-exists-p (file-name-directory buffer-file-name))
                  (make-directory (file-name-directory buffer-file-name) t))))
 
+;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
+;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
+(setq set-mark-command-repeat-pop t)
+
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; tramp
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
