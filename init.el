@@ -121,6 +121,10 @@
 ;; from http://pages.sachachua.com/.emacs.d/Sacha.html
 (setq sentence-end-double-space nil)
 
+;; Just insert one tab when I hit tab.
+;; From http://www.pement.org/emacs_tabs.htm
+(global-set-key (kbd "TAB") 'self-insert-command)
+
 ;; do not disable things for me.
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
