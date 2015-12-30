@@ -18,6 +18,9 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (message "Loaded my personal lisp directory")
 
+;; Load abbrevs
+(load "my_abbrevs")
+
 ;; Set up use-package
 ;; From http://pages.sachachua.com/.emacs.d/Sacha.html
 ;; use-package documentation at:
@@ -116,6 +119,9 @@
 ;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ;;; MISCELLANEOUS BEHAVIOR SETTINGS
 ;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+; everytime bookmark is changed, automatically save it
+; from http://ergoemacs.org/emacs/bookmark.html
+(setq bookmark-save-flag 1)
 
 ;; Sentences end with ONE space
 ;; from http://pages.sachachua.com/.emacs.d/Sacha.html
