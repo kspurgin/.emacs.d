@@ -35,6 +35,10 @@
 (setq load-prefer-newer t)
 (message "use-package is set up now")
 
+(use-package org
+  :ensure t
+)
+
 (use-package cperl-mode
   :mode "\\.p[lm]\\'"
   :interpreter "perl"
@@ -309,3 +313,19 @@
       ((string-equal system-name "AALTS02")
        (load "esm-macros")
        (message "esm-macros required")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
+ '(pos-tip-background-color "#36473A")
+ '(pos-tip-foreground-color "#FFFFC8"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
