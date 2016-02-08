@@ -57,6 +57,14 @@
        (cygwin-mount-activate)
        (message "cygwin-mount activated")
        (use-package setup-cygwin)
+       (message "setup-cygwin used"))
+      ((string-equal system-name "AALTS60")
+       ; You will need to make sure C:/cygwin/bin is in your Windows PATH
+       (require 'cygwin-mount)
+       (message "cygwin-mount required")
+       (cygwin-mount-activate)
+       (message "cygwin-mount activated")
+       (use-package setup-cygwin)
        (message "setup-cygwin used")))
 
 ;; Who am I? Different contact info per computer...
@@ -65,9 +73,12 @@
        (setq user-mail-address "kristina@le-champignon.net"))
       ((string-equal system-name "AALTS02")
        (setq user-mail-address "kspurgin@email.unc.edu"))
+      ((string-equal system-name "AALTS60")
+       (setq user-mail-address "kspurgin@email.unc.edu"))
       ((string-equal system-name "AALTS02.lib.unc.edu")
        (setq user-mail-address "kspurgin@email.unc.edu")))
 (message "Set contact information")
+
 
 ; Make it pretty when using graphical client
 (cond ((display-graphic-p)
