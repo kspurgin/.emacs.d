@@ -18,8 +18,7 @@
 	     (setq cperl-indent-parens-as-block t)
 	     (setq cperl-indent-level 4)
 	     (setq cperl-continued-statement-offset 4)
-	     (setq cperl-close-paren-offset -4)
-	     (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+	     (setq cperl-close-paren-offset -4)))
 
 ;; Set line width to 78 columns...
 (setq fill-column 78)

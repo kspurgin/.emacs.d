@@ -1,9 +1,16 @@
-;; system-name "AALTS02" = Graphical NTEmacs running on Windows work machine
-;; system-name "AALTS02.lib.unc.edu" = Graphical Emacs running under Cygwin
+;; system-name "AALTS60" = Graphical NTEmacs running on Windows work machine
+;; system-name "AALTS60.lib.unc.edu" = Graphical Emacs running under Cygwin
 
 ;; I'll manually tell you what to load
-(package-initialize nil)
-(setq package-enable-at-startup nil)
+;(package-initialize nil)
+;(setq package-enable-at-startup nil)
+
+;; Load emacs packages and activate them
+;; This must come before configurations of installed packages.
+;; Don't delete this line.
+(package-initialize)
+;; `package-initialize' call is required before any of the below
+;; can happen
 
 ;; First I'll set up my package sources
 ;; From http://pages.sachachua.com/.emacs.d/Sacha.html
@@ -37,7 +44,33 @@
 
 (use-package org
   :ensure t
+  )
+
+(use-package visual-regexp-steroids
+  :ensure t
+  :ensure visual-regexp
+  :bind (("C-c r" . vr/replace)
+	 ("C-c q" . vr/query-replace)
+	 ("C-M-R" . vr/isearch-backward)
+	 ("C-M-S" . vr/isearch-forward))
+  )
+
+(use-package yasnippet
+  :ensure t
+  :config (yas-global-mode 1)
+  )
+
+(use-package auto-org-md
+  :ensure t
 )
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 (use-package cperl-mode
   :mode "\\.p[lm]\\'"
@@ -45,12 +78,12 @@
   :config (load "cperl-setup"))
 
 ;; stuff for Cygwin
-(cond ((string-equal system-name "AALTS02.lib.unc.edu")
+(cond ((string-equal system-name "AALTS60.lib.unc.edu")
        (require 'windows-path)
        (message "windows-path required")
        (windows-path-activate)
        (message "windows-path activated"))
-      ((string-equal system-name "AALTS02")
+      ((string-equal system-name "AALTS60")
        ; You will need to make sure C:/cygwin/bin is in your Windows PATH
        (require 'cygwin-mount)
        (message "cygwin-mount required")
@@ -71,11 +104,11 @@
 (setq user-full-name "Kristina M. Spurgin")
 (cond ((string-equal system-name "spore")
        (setq user-mail-address "kristina@le-champignon.net"))
-      ((string-equal system-name "AALTS02")
+      ((string-equal system-name "AALTS60")
        (setq user-mail-address "kspurgin@email.unc.edu"))
       ((string-equal system-name "AALTS60")
        (setq user-mail-address "kspurgin@email.unc.edu"))
-      ((string-equal system-name "AALTS02.lib.unc.edu")
+      ((string-equal system-name "AALTS60.lib.unc.edu")
        (setq user-mail-address "kspurgin@email.unc.edu")))
 (message "Set contact information")
 
@@ -318,10 +351,10 @@
 ;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
 
 ;; load esm-macros if I'm at work
-(cond ((string-equal system-name "AALTS02.lib.unc.edu")
+(cond ((string-equal system-name "AALTS60.lib.unc.edu")
        (load "esm-macros")
        (message "esm-macros required"))
-      ((string-equal system-name "AALTS02")
+      ((string-equal system-name "AALTS60")
        (load "esm-macros")
        (message "esm-macros required")))
 (custom-set-variables
@@ -329,9 +362,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
  '(custom-safe-themes
    (quote
-    ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
+    ("c1709b576b0bdf885e380f8f787c2063ea3fb55be6c92400d4361014430b4efa" "272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
+ '(package-selected-packages
+   (quote
+    (visual-regexp-steroids yasnippet markdown-mode flymd yaml-mode auto-org-md use-package php-mode org move-text darktooth-theme auto-compile)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8"))
 (custom-set-faces
@@ -339,4 +377,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight bold :height 98 :width normal)))))
