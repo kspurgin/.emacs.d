@@ -175,6 +175,10 @@
 ;; from http://pages.sachachua.com/.emacs.d/Sacha.html
 (setq sentence-end-double-space nil)
 
+;; Just insert one tab when I hit tab.
+;; From http://www.pement.org/emacs_tabs.htm
+(global-set-key (kbd "TAB") 'self-insert-command)
+
 ;; do not disable things for me.
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -218,6 +222,15 @@
           '(lambda ()
              (or (file-exists-p (file-name-directory buffer-file-name))
                  (make-directory (file-name-directory buffer-file-name) t))))
+
+;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
+;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
+(setq set-mark-command-repeat-pop t)
+
+;; Make file and buffer name completion case insensitive
+;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
 
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; tramp
