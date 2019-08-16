@@ -10,8 +10,11 @@
 (cond ((string-equal system-type "darwin")
        ;; Turn off any special OS-related keyboard stuff
 	(set-keyboard-coding-system nil)
-	;; Set Mac keyboard's command key to act as meta (i.e. Alt on windows) key
-	(setq mac-command-modifier 'meta)))
+	;; Set Mac keyboard's left command key to act as meta (i.e. Alt on windows) key
+	(setq mac-command-modifier 'meta)
+	;; right command key still acts as super/command in order to control windows, etc
+	(setq mac-right-command-modifier 'super)
+	))
 
 
 ;; I'll manually tell you what to load
