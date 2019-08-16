@@ -1,20 +1,11 @@
 (define-abbrev-table 'global-abbrev-table '(
 
-;; dirs
-("$dend" "C:/code/endeca_trunk")
-("$dendui" "C:/code/ui_local/endeca-catalog")
-("$derc" "G:\TechServ\ESM\e-resources cataloging")
-("$desm" "G:\TechServ\ESM")
-("$drecs" "G:\TechServ\ESM\e-resources cataloging\E-book record loads")
+("k" "Kristina")
+("s" "Spurgin")
+("l" "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+("le" "kristina.spurgin@lyrasis.org")
+("cs" "CollectionSpace")
 
-;; emacs regex
-;; ("8d" "\\([0-9]+?\\)")
-;; ("8str" "\\([^\"]+?\\)\"")
 
 ))
 
-;; stop asking whether to save newly added abbrev when quitting emacs
-(setq save-abbrevs nil)
-
-;; turn on abbrev mode globally
-(setq-default abbrev-mode t)

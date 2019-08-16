@@ -1,5 +1,18 @@
-;; system-name "AALTS60" = Graphical NTEmacs running on Windows work machine
-;; system-name "AALTS60.lib.unc.edu" = Graphical Emacs running under Cygwin
+;; Who am I? Different contact info per computer...
+(setq user-full-name "Kristina M. Spurgin")
+(cond ((string-equal system-name "spore")
+       (setq user-mail-address "kristina@le-champignon.net"))
+      ((string-equal system-name "Kristina-MBP")
+       (setq user-mail-address "kristina.spurgin@lyrasis.org")))
+(message "Set contact information")
+
+;; Set up Mac keyboard
+(cond ((string-equal system-type "darwin")
+       ;; Turn off any special OS-related keyboard stuff
+	(set-keyboard-coding-system nil)
+	;; Set Mac keyboard's command key to act as meta (i.e. Alt on windows) key
+	(setq mac-command-modifier 'meta)))
+
 
 ;; I'll manually tell you what to load
 ;(package-initialize nil)
@@ -25,8 +38,15 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (message "Loaded my personal lisp directory")
 
-;; Load abbrevs
+;; ABBREVS
+;; stop asking whether to save newly added abbrev when quitting emacs
+(setq save-abbrevs nil)
+
+;; turn on abbrev mode globally
+(setq-default abbrev-mode t)
+
 (load "my_abbrevs")
+
 
 ;; Set up use-package
 ;; From http://pages.sachachua.com/.emacs.d/Sacha.html
@@ -76,42 +96,6 @@
   :mode "\\.p[lm]\\'"
   :interpreter "perl"
   :config (load "cperl-setup"))
-
-;; stuff for Cygwin
-(cond ((string-equal system-name "AALTS60.lib.unc.edu")
-       (require 'windows-path)
-       (message "windows-path required")
-       (windows-path-activate)
-       (message "windows-path activated"))
-      ((string-equal system-name "AALTS60")
-       ; You will need to make sure C:/cygwin/bin is in your Windows PATH
-       (require 'cygwin-mount)
-       (message "cygwin-mount required")
-       (cygwin-mount-activate)
-       (message "cygwin-mount activated")
-       (use-package setup-cygwin)
-       (message "setup-cygwin used"))
-      ((string-equal system-name "AALTS60")
-       ; You will need to make sure C:/cygwin/bin is in your Windows PATH
-       (require 'cygwin-mount)
-       (message "cygwin-mount required")
-       (cygwin-mount-activate)
-       (message "cygwin-mount activated")
-       (use-package setup-cygwin)
-       (message "setup-cygwin used")))
-
-;; Who am I? Different contact info per computer...
-(setq user-full-name "Kristina M. Spurgin")
-(cond ((string-equal system-name "spore")
-       (setq user-mail-address "kristina@le-champignon.net"))
-      ((string-equal system-name "AALTS60")
-       (setq user-mail-address "kspurgin@email.unc.edu"))
-      ((string-equal system-name "AALTS60")
-       (setq user-mail-address "kspurgin@email.unc.edu"))
-      ((string-equal system-name "AALTS60.lib.unc.edu")
-       (setq user-mail-address "kspurgin@email.unc.edu")))
-(message "Set contact information")
-
 
 ; Make it pretty when using graphical client
 (cond ((display-graphic-p)
@@ -237,6 +221,8 @@
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 (cond ((string-equal system-type 'gnu/linux)
        (setq tramp-default-method "ssh"))
+      ((string-equal system-type 'darwin)
+       (setq tramp-default-method "ssh"))
       ((string-equal system-name 'windows-nt)
        (setq tramp-default-method "plink")))
 
@@ -280,15 +266,17 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 ;; added 2015-05-20 from custom.el and http://pages.sachachua.com/.emacs.d/Sacha.html
+(cond ((string-equal system-type 'darwin)
 (setq org-agenda-files
       (delq nil
             (mapcar (lambda (x) (and (file-exists-p x) x))
-                    '("~/org/esm.org"
-		      "~/org/tasks_and_projects.org"))))
-
-; added 20150519 18:04 from http://orgmode.org/manual/Tracking-TODO-state-changes.html
+                    '("~/org/meetings.org"
+		      "~/org/notes.org"))))
+;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "WAIT(w@/!)" "INPROGRESS(i!)" "|" "DONE(d!)" "CANCELED(c@!)" "DELEGATED(o@!)")))
+      '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
+	(sequence "|" "CANCELED(c@)" )))
+))
 
 (setq org-agenda-show-all-dates t)
 (setq org-agenda-skip-deadline-if-done t)
@@ -363,31 +351,24 @@
 ;; (global-set-key (kbd "C-c C-s") 'hidesearch)
 ;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
 
-;; load esm-macros if I'm at work
-(cond ((string-equal system-name "AALTS60.lib.unc.edu")
-       (load "esm-macros")
-       (message "esm-macros required"))
-      ((string-equal system-name "AALTS60")
-       (load "esm-macros")
-       (message "esm-macros required")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
- '(custom-safe-themes
-   (quote
-    ("c1709b576b0bdf885e380f8f787c2063ea3fb55be6c92400d4361014430b4efa" "272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
- '(package-selected-packages
-   (quote
-    (visual-regexp-steroids yasnippet markdown-mode flymd yaml-mode auto-org-md use-package php-mode org move-text darktooth-theme auto-compile)))
- '(pos-tip-background-color "#36473A")
- '(pos-tip-foreground-color "#FFFFC8"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight bold :height 98 :width normal)))))
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(ansi-color-names-vector
+;;    ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
+;;  '(custom-safe-themes
+;;    (quote
+;;     ("c1709b576b0bdf885e380f8f787c2063ea3fb55be6c92400d4361014430b4efa" "272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
+;;  '(package-selected-packages
+;;    (quote
+;;     (visual-regexp-steroids yasnippet markdown-mode flymd yaml-mode auto-org-md use-package php-mode org move-text darktooth-theme auto-compile)))
+;;  '(pos-tip-background-color "#36473A")
+;;  '(pos-tip-foreground-color "#FFFFC8"))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight bold :height 98 :size 13 :width normal)))))
