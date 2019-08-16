@@ -288,6 +288,13 @@
 (setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
 (setq org-enforce-todo-dependencies t)
 (setq org-enforce-todo-checkbox-dependencies t)
+(setq org-startup-indented t)
+(setq org-hide-leading-stars t)
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (visual-line-mode t))
+          t)
 
 ; never insert blank lines for me
 ; from http://stackoverflow.com/questions/28351465/emacs-orgmode-do-not-insert-line-between-headers
