@@ -41,6 +41,12 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (message "Loaded my personal lisp directory")
 
+;; load LaTex stuff if I'm at work
+(cond ((string-equal system-name "Kristina-MBP")
+       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin")
+       ))
+
 ;; ABBREVS
 ;; stop asking whether to save newly added abbrev when quitting emacs
 (setq save-abbrevs nil)
@@ -291,9 +297,10 @@
 (setq org-deadline-warning-days 0)
 (setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
 (setq org-enforce-todo-dependencies t)
-(setq org-enforce-todo-checkbox-dependencies t)
-(setq org-startup-indented t)
-(setq org-hide-leading-stars t)
+	(setq org-enforce-todo-checkbox-dependencies t)
+	(setq org-log-into-drawer t)
+	(setq org-startup-indented nil)
+	(setq org-hide-leading-stars nil)
 
 (add-hook 'org-mode-hook
           (lambda ()
