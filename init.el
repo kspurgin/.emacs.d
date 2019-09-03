@@ -299,6 +299,7 @@
 (setq org-enforce-todo-dependencies t)
 	(setq org-enforce-todo-checkbox-dependencies t)
 	(setq org-log-into-drawer t)
+	(setq org-clock-idle-time 5)
 	(setq org-startup-indented nil)
 	(setq org-hide-leading-stars nil)
 
@@ -306,6 +307,8 @@
           (lambda ()
             (visual-line-mode t))
           t)
+
+(setq org-duration-format 'h:mm)
 
 ; never insert blank lines for me
 ; from http://stackoverflow.com/questions/28351465/emacs-orgmode-do-not-insert-line-between-headers
@@ -400,7 +403,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/org/projects.org" "~/org/meetings.org" "~/org/notes.org"))))
+    ("~/org/projects.org" "~/org/meetings.org" "~/org/notes.org")))
+ '(package-selected-packages
+   (quote
+    (php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
