@@ -1,70 +1,26 @@
-;; Who am I? Different contact info per computer...
+(defun personal-laptop ()
+  (equal (system-name) "spore"))
+(defun work-laptop ()
+  (equal (system-name) "Kristina-MBP"))
+
 (setq user-full-name "Kristina M. Spurgin")
-(cond ((string-equal system-name "spore")
-       (setq user-mail-address "kristina@le-champignon.net"))
-      ((string-equal system-name "Kristina-MBP")
-       (setq user-mail-address "kristina.spurgin@lyrasis.org")))
-(message "Set contact information")
+(when (personal-laptop)
+  (setq user-mail-address "kristina@le-champignon.net")
+  (message "You are on your personal laptop.")
+)
+(when (work-laptop)
+  (setq user-mail-address "kristina.spurgin@lyrasis.org")
+    (message "You are on your work laptop.")
+)
 
-;; Set up Mac keyboard
-(cond ((string-equal system-type "darwin")
-       ;; Turn off any special OS-related keyboard stuff
-	(set-keyboard-coding-system nil)
-	;; Set Mac keyboard's left command key to act as meta (i.e. Alt on windows) key
-	(setq mac-command-modifier 'meta)
-	;; right command key still acts as super/command in order to control windows, etc
-	(setq mac-right-command-modifier 'super)
-	))
+(when (work-laptop)
+  (set-keyboard-coding-system nil)
+  (setq mac-command-modifier 'meta)
+  (setq mac-right-command-modifier 'super)
+)
 
-
-;; I'll manually tell you what to load
-;(package-initialize nil)
-;(setq package-enable-at-startup nil)
-
-;; Load emacs packages and activate them
-;; This must come before configurations of installed packages.
-;; Don't delete this line.
 (package-initialize)
-;; `package-initialize' call is required before any of the below
-;; can happen
 
-;; First I'll set up my package sources
-;; From http://pages.sachachua.com/.emacs.d/Sacha.html
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-  (package-refresh-contents))
-(message "Loaded package sources")
-
-;; Load these
-(add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(message "Loaded my personal lisp directory")
-
-;; load LaTex stuff if I'm at work
-(cond ((string-equal system-name "Kristina-MBP")
-       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin")
-       ))
-
-;; ABBREVS
-;; stop asking whether to save newly added abbrev when quitting emacs
-(setq save-abbrevs nil)
-
-;; turn on abbrev mode globally
-(setq-default abbrev-mode t)
-
-(load "my_abbrevs")
-
-;; load work-related macros if I'm at work
-(cond ((string-equal system-name "Kristina-MBP")
-       (load "LYRASIS_macros")
-       (message "work-related macros loaded")))
-
-;; Set up use-package
-;; From http://pages.sachachua.com/.emacs.d/Sacha.html
-;; use-package documentation at:
-;;  https://github.com/jwiegley/use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (setq use-package-verbose t)
@@ -75,18 +31,46 @@
 (setq load-prefer-newer t)
 (message "use-package is set up now")
 
-(use-package org
-  :ensure t
-  )
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents))
+(unless (assoc-default "org" package-archives)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+  (package-refresh-contents))
+(message "Loaded package sources")
 
-(use-package visual-regexp-steroids
-  :ensure t
-  :ensure visual-regexp
-  :bind (("C-c r" . vr/replace)
-	 ("C-c q" . vr/query-replace)
-	 ("C-M-R" . vr/isearch-backward)
-	 ("C-M-S" . vr/isearch-forward))
-  )
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
+(when (work-laptop)
+       (load "LYRASIS_macros")
+       (message "work-related macros loaded"))
+
+(cond ((display-graphic-p)
+       (use-package darktooth-theme
+	 :ensure t)
+       (load-theme 'darktooth t)
+       (message "loaded theme")
+       ))
+
+(desktop-save-mode 1)
+(add-to-list 'desktop-globals-to-save 'file-name-history)
+(setq desktop-restore-frames t) ;;doesn't seem to work, at least on Ubuntu.
+(setq desktop-buffers-not-to-save
+     (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+	        "\\)$"))
+(add-to-list 'desktop-modes-not-to-save 'dired-mode)
+(add-to-list 'desktop-modes-not-to-save 'Info-mode)
+(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+
+(setq ring-bell-function 'ignore)
+
+(use-package cperl-mode
+  :mode "\\.p[lm]\\'"
+  :interpreter "perl"
+  :config (load "cperl-setup"))
 
 (use-package enh-ruby-mode
   :ensure t
@@ -96,58 +80,6 @@
   (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
   )
 
-(use-package yasnippet
-  :ensure t
-  :config (yas-global-mode 1)
-  )
-
-;; (use-package hideshow
-;;   :ensure t
-;;   :no-require t
-;;   :hook (nxml-mode . hs-minor-mode)
-;;   :init (add-to-list 'hs-special-modes-alist
-;;              '(nxml-mode
-;;                "<!--\\|<[^/>]*[^/]>"
-;;                "-->\\|</[^/>]*[^/]>"
-
-;;                "<!--"
-;;                sgml-skip-tag-forward
-;;                nil))
-;;   :bind (:map nxml-mode-map
-;; 	      ("C-c h" . hs-toggle-hiding)
-;; 	      )
-;;   )
-
-(use-package auto-org-md
-  :ensure t
-)
-
-(use-package adoc-mode
-  :ensure t
-  :mode (("\\.adoc\\'" . adoc-mode))
-  )
-
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
-
-(use-package cperl-mode
-  :mode "\\.p[lm]\\'"
-  :interpreter "perl"
-  :config (load "cperl-setup"))
-
-(use-package yaml-mode
-  :ensure t
-  :mode (("\\.yml\\'" . yaml-mode)
-	 ("\\.yaml\\'" . yaml-mode))
-  )
-
-;; The following enables folding of XML
-;; From: https://emacs.stackexchange.com/questions/2884/the-old-how-to-fold-xml-question
 (require 'hideshow)
 (require 'sgml-mode)
 (require 'nxml-mode)
@@ -162,32 +94,75 @@
 (add-hook 'nxml-mode-hook 'hs-minor-mode)
 (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
 
+(use-package yaml-mode
+  :ensure t
+  :mode (("\\.yml\\'" . yaml-mode)
+	 ("\\.yaml\\'" . yaml-mode))
+  )
 
-; Make it pretty when using graphical client
-(cond ((display-graphic-p)
-       (use-package darktooth-theme
-	 :ensure t)
-       (load-theme 'darktooth t)
-       (message "loaded theme")
-       ))
+(use-package org
+  :ensure t
+  )
 
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-;; Desktop saving
-;; load, at startup, the buffers you were editing when you last quit Emacs.
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-(desktop-save-mode 1)
-(add-to-list 'desktop-globals-to-save 'file-name-history)
-(setq desktop-restore-frames t) ;;doesn't seem to work, at least on Ubuntu.
+(use-package ivy
+  :ensure t
+  :diminish ivy-mode
+  :config
+  (ivy-mode t)
+  (setq ivy-initial-inputs-alist nil)
+)
 
-;; Do not save/reopen certain kinds of buffers
-(setq desktop-buffers-not-to-save
-     (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-	        "\\)$"))
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+(use-package counsel
+    :ensure t
+    :bind (("M-x" . counsel-M-x))
+)
+
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)))
+
+(use-package projectile
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1)
+  (setq projectile-completion-system 'ivy))
+
+(use-package visual-regexp-steroids
+  :ensure t
+  :ensure visual-regexp
+  :bind (("C-c r" . vr/replace)
+	 ("C-c q" . vr/query-replace)
+	 ("C-M-R" . vr/isearch-backward)
+	 ("C-M-S" . vr/isearch-forward))
+  )
+
+(use-package yasnippet
+  :ensure t
+  :config (yas-global-mode 1)
+  )
+
+(use-package adoc-mode
+  :ensure t
+  :mode (("\\.adoc\\'" . adoc-mode))
+  )
+
+(when (work-laptop)
+       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package auto-org-md
+  :ensure t
+)
 
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; other misc appearance settings
