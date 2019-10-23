@@ -88,14 +88,44 @@
 	 ("C-M-S" . vr/isearch-forward))
   )
 
+(use-package enh-ruby-mode
+  :ensure t
+  :mode "\\.rb\\'"
+  :interpreter "ruby"
+  :custom-face
+  (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
+  )
+
 (use-package yasnippet
   :ensure t
   :config (yas-global-mode 1)
   )
 
+;; (use-package hideshow
+;;   :ensure t
+;;   :no-require t
+;;   :hook (nxml-mode . hs-minor-mode)
+;;   :init (add-to-list 'hs-special-modes-alist
+;;              '(nxml-mode
+;;                "<!--\\|<[^/>]*[^/]>"
+;;                "-->\\|</[^/>]*[^/]>"
+
+;;                "<!--"
+;;                sgml-skip-tag-forward
+;;                nil))
+;;   :bind (:map nxml-mode-map
+;; 	      ("C-c h" . hs-toggle-hiding)
+;; 	      )
+;;   )
+
 (use-package auto-org-md
   :ensure t
 )
+
+(use-package adoc-mode
+  :ensure t
+  :mode (("\\.adoc\\'" . adoc-mode))
+  )
 
 (use-package markdown-mode
   :ensure t
@@ -109,6 +139,29 @@
   :mode "\\.p[lm]\\'"
   :interpreter "perl"
   :config (load "cperl-setup"))
+
+(use-package yaml-mode
+  :ensure t
+  :mode (("\\.yml\\'" . yaml-mode)
+	 ("\\.yaml\\'" . yaml-mode))
+  )
+
+;; The following enables folding of XML
+;; From: https://emacs.stackexchange.com/questions/2884/the-old-how-to-fold-xml-question
+(require 'hideshow)
+(require 'sgml-mode)
+(require 'nxml-mode)
+(add-to-list 'hs-special-modes-alist
+             '(nxml-mode
+               "<!--\\|<[^/>]*[^/]>"
+               "-->\\|</[^/>]*[^/]>"
+
+               "<!--"
+               sgml-skip-tag-forward
+               nil))
+(add-hook 'nxml-mode-hook 'hs-minor-mode)
+(define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
+
 
 ; Make it pretty when using graphical client
 (cond ((display-graphic-p)
@@ -232,6 +285,7 @@
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;;; tramp
 ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(require 'tramp)
 (cond ((string-equal system-type 'gnu/linux)
        (setq tramp-default-method "ssh"))
       ((string-equal system-type 'darwin)
@@ -297,23 +351,43 @@
 (setq org-deadline-warning-days 0)
 (setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
 (setq org-enforce-todo-dependencies t)
-	(setq org-enforce-todo-checkbox-dependencies t)
-	(setq org-log-into-drawer t)
-	(setq org-clock-idle-time 5)
-	(setq org-startup-indented nil)
-	(setq org-hide-leading-stars nil)
+(setq org-enforce-todo-checkbox-dependencies t)
+
+(setq org-log-into-drawer t)
+;; Save clock data and state changes and notes in the LOGBOOK drawer
+(setq org-clock-into-drawer t)
+;; Change tasks to INPROGRESS when clocking in
+(setq org-clock-in-switch-to-state "INPROGRESS")
+;; Clock out when moving task to a done state
+(setq org-clock-out-when-done t)
+
+(setq org-clock-idle-time 5)
+;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+(setq org-clock-out-remove-zero-time-clocks t)
+(setq org-log-note-clock-out nil)
+(setq org-duration-format 'h:mm)
+
+(setq org-startup-indented nil)
+(setq org-hide-leading-stars nil)
+
+(setq org-refile-targets (quote (("cspace.org" :maxlevel . 3)
+                                 ("migrations.org" :level . 3)
+                                 ("projects.org" :level . 3))))
+(setq org-refile-use-outline-path 'file)
+(setq org-outline-path-complete-in-steps t)
 
 (add-hook 'org-mode-hook
           (lambda ()
             (visual-line-mode t))
           t)
 
-(setq org-duration-format 'h:mm)
+;; prevents accidentally editing hidden text when the point is inside a folded region
+(setq org-catch-invisible-edits 'error)
 
-; never insert blank lines for me
-; from http://stackoverflow.com/questions/28351465/emacs-orgmode-do-not-insert-line-between-headers
-; 2015-11-19
-(setf org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
+(setq org-cycle-include-plain-lists t)
+
+; insert blank lines before headings but not new list items
+(setf org-blank-before-new-entry '((heading . nil) (plain-list-item . auto)))
 
 ; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
 ; From http://doc.norang.ca/org-mode.html
@@ -403,13 +477,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/org/projects.org" "~/org/meetings.org" "~/org/notes.org")))
+    ("~/org/work.org" "~/org/cspace.org" "~/org/migrations.org" "~/org/meetings.org")))
  '(package-selected-packages
    (quote
-    (php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))

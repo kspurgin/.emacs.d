@@ -3,9 +3,9 @@
 *~
 .emacs.deskto*
 auto-save-list/**
-elpa/**/*-readme.txt
 archive-contents
-elpa/*-readme.txt
+elpa/*
+tramp
 
 # Compiled
 *.elc
