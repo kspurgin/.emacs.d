@@ -67,6 +67,71 @@
 
 (setq ring-bell-function 'ignore)
 
+(setq backup-by-copying t
+      create-lockfiles nil
+      backup-directory-alist '((".*" . "~/.saves"))
+      ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)
+
+;; Just insert one tab when I hit tab.
+;; From http://www.pement.org/emacs_tabs.htm
+(global-set-key (kbd "TAB") 'self-insert-command)
+
+;; do not disable things for me.
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+;; will allow you to type just "y" instead of "yes" when you exit.
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
+(setq next-line-add-newlines nil)
+
+;; scratch should be in text mode
+;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
+(setq initial-major-mode 'text-mode)
+
+; Move line or region up or down with M-up/down arrow
+(use-package move-text
+  :ensure t
+  :config
+   (move-text-default-bindings))
+
+;; make emacs automatically notice any changes made to files on disk
+;; especially useful for making reftex notice changes to bibtex files
+;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
+;; Fri May 22 19:32:12 EDT 2009
+(global-auto-revert-mode t)
+
+;;; auto-create non-existing directories to save files
+;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
+;;; Sun Dec 14 00:04:46 EST 2008
+(add-hook 'before-save-hook
+          '(lambda ()
+             (or (file-exists-p (file-name-directory buffer-file-name))
+                 (make-directory (file-name-directory buffer-file-name) t))))
+
+;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
+;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
+(setq set-mark-command-repeat-pop t)
+
+;; Make file and buffer name completion case insensitive
+;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
+
+(setq blink-matching-paren nil)
+(show-paren-mode t)
+(setq show-paren-delay 0)
+(setq show-paren-style 'expression)
+
+;; automatically turn on sytax highlighting
+(global-font-lock-mode 1)
+
 (use-package cperl-mode
   :mode "\\.p[lm]\\'"
   :interpreter "perl"
@@ -104,201 +169,6 @@
   :ensure t
   )
 
-(use-package ivy
-  :ensure t
-  :diminish ivy-mode
-  :config
-  (ivy-mode t)
-  (setq ivy-initial-inputs-alist nil)
-)
-
-(use-package counsel
-    :ensure t
-    :bind (("M-x" . counsel-M-x))
-)
-
-(use-package swiper
-  :ensure t
-  :bind (("C-s" . swiper)))
-
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1)
-  (setq projectile-completion-system 'ivy))
-
-(use-package visual-regexp-steroids
-  :ensure t
-  :ensure visual-regexp
-  :bind (("C-c r" . vr/replace)
-	 ("C-c q" . vr/query-replace)
-	 ("C-M-R" . vr/isearch-backward)
-	 ("C-M-S" . vr/isearch-forward))
-  )
-
-(use-package yasnippet
-  :ensure t
-  :config (yas-global-mode 1)
-  )
-
-(use-package adoc-mode
-  :ensure t
-  :mode (("\\.adoc\\'" . adoc-mode))
-  )
-
-(when (work-laptop)
-       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
-
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
-
-(use-package auto-org-md
-  :ensure t
-)
-
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;;; other misc appearance settings
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;; do not show the toolbar (big icons across top)
-(tool-bar-mode 0)
-
-;; highlight matching parentheses
-(setq blink-matching-paren nil)
-(show-paren-mode t)
-(setq show-paren-delay 0)
-(setq show-paren-style 'expression)
-
-;; automatically turn on sytax highlighting
-(global-font-lock-mode 1)
-
-;; show column numbers 20100625 12:20
-(column-number-mode)
-
-;; do not blink the cursor
-(blink-cursor-mode 0)
-
-;; stretch the cursor to show the size of the character under cursor
-;; useful for seeing tabs and other weird whitespace
-(setq x-stretch-cursor t)
-
-;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-;;; MISCELLANEOUS BEHAVIOR SETTINGS
-;;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-; everytime bookmark is changed, automatically save it
-; from http://ergoemacs.org/emacs/bookmark.html
-(setq bookmark-save-flag 1)
-
-;; Sentences end with ONE space
-;; from http://pages.sachachua.com/.emacs.d/Sacha.html
-(setq sentence-end-double-space nil)
-
-;; Just insert one tab when I hit tab.
-;; From http://www.pement.org/emacs_tabs.htm
-(global-set-key (kbd "TAB") 'self-insert-command)
-
-;; do not disable things for me.
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
-;; will allow you to type just "y" instead of "yes" when you exit.
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
-(setq next-line-add-newlines nil)
-
-;; will make the display of date and time persistent.
-(setq display-time-day-and-date t) (display-time)
-
-;; don't show that stupid message on the scratch file
-(setq initial-scratch-message nil)
-
-;; scratch should be in text mode
-;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
-(setq initial-major-mode 'text-mode)
-
-; Move line or region up or down with M-up/down arrow
-(use-package move-text
-  :ensure t
-  :config
-   (move-text-default-bindings))
-
-;; I don't need backup files. I never have used them, and they just cause clutter
-(setq make-backup-files nil)
-
-;; make emacs automatically notice any changes made to files on disk
-;; especially useful for making reftex notice changes to bibtex files
-;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
-;; Fri May 22 19:32:12 EDT 2009
-(global-auto-revert-mode t)
-
-;;; auto-create non-existing directories to save files
-;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
-;;; Sun Dec 14 00:04:46 EST 2008
-(add-hook 'before-save-hook
-          '(lambda ()
-             (or (file-exists-p (file-name-directory buffer-file-name))
-                 (make-directory (file-name-directory buffer-file-name) t))))
-
-;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
-;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
-(setq set-mark-command-repeat-pop t)
-
-;; Make file and buffer name completion case insensitive
-;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
-(setq read-file-name-completion-ignore-case t)
-(setq read-buffer-completion-ignore-case t)
-
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;;; tramp
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(require 'tramp)
-(cond ((string-equal system-type 'gnu/linux)
-       (setq tramp-default-method "ssh"))
-      ((string-equal system-type 'darwin)
-       (setq tramp-default-method "ssh"))
-      ((string-equal system-name 'windows-nt)
-       (setq tramp-default-method "plink")))
-
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;;; dired stuff
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;; do not open a bajillion buffers to navigate file system
-(require 'dired-single)
-
-(defun my-dired-init ()
-  "Bunch of stuff to run for dired, either immediately or when it's
-   loaded."
-  ;; <add other stuff here>
-  (define-key dired-mode-map [return] 'joc-dired-single-buffer)
-  (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
-  (define-key dired-mode-map "^"
-   (function
-    (lambda nil (interactive) (joc-dired-single-buffer "..")))))
-
-;; if dired's already loaded, then the keymap will be bound
-(if (boundp 'dired-mode-map)
-   ;; we're good to go; just add our bindings
-   (my-dired-init)
-  ;; it's not loaded yet, so add our bindings to the load-hook
-  (add-hook 'dired-load-hook 'my-dired-init))
-
-;; human readable file sizes
-;; from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
-(setq dired-listing-switches "-Alh")
-
-;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-;;; MISCELLANEOUS TOOLS
-;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 ;;############################################################################
 ;; org-mode
 ;;############################################################################
@@ -308,7 +178,7 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 ;; added 2015-05-20 from custom.el and http://pages.sachachua.com/.emacs.d/Sacha.html
-(cond ((string-equal system-type 'darwin)
+(cond ((string-equal system-type 'darwin)))
 (setq org-agenda-files
       (delq nil
             (mapcar (lambda (x) (and (file-exists-p x) x))
@@ -317,8 +187,8 @@
 ;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
 (setq org-todo-keywords
       '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
-	(sequence "|" "CANCELED(c@)" )))
-))
+	(sequence "|" "CANCELED(c@)" )
+        (sequence "ASK(s!)" "|" "DONE(d!)" )))
 
 (setq org-agenda-show-all-dates t)
 (setq org-agenda-skip-deadline-if-done t)
@@ -368,6 +238,149 @@
 ; From http://doc.norang.ca/org-mode.html
 
 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+
+(use-package ibuffer
+:bind ("C-x C-b" . ibuffer)
+)
+
+(setq ibuffer-saved-filter-groups
+    '(("filters"
+      (".emacs.d" (filename . ".emacs.d"))
+
+      ("meta" (or
+                (basename . "diary.org")
+                (basename . "meetings.org")
+                (basename . "time.org")
+                (basename . "work.org")))
+      ("migration: UNO" (filename . "opt/migrations/uno"))
+      ("migration: VCU" (filename . "opt/migrations/vcu"))
+      ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
+      ("migration-misc" (filename . "code/mm/"))
+      ("tracking work" (mode . org-mode))
+      ("magit" (name . "\*magit"))
+)))
+
+(add-hook 'ibuffer-mode-hook
+	  '(lambda ()
+	     (ibuffer-switch-to-saved-filter-groups "filters")))
+
+(add-hook 'ibuffer-mode-hook
+	  '(lambda ()
+	     (ibuffer-auto-mode 1)
+	     (ibuffer-switch-to-saved-filter-groups "filters")))
+
+(setq ibuffer-expert t)
+
+(setq ibuffer-show-empty-filter-groups nil)
+
+(use-package counsel
+    :ensure t
+    :bind (("M-x" . counsel-M-x))
+)
+
+(use-package ivy
+  :ensure t
+  :diminish ivy-mode
+  :config
+  (ivy-mode t)
+  (setq ivy-initial-inputs-alist nil)
+)
+
+(use-package visual-regexp-steroids
+  :ensure t
+  :ensure visual-regexp
+  :bind (("C-c r" . vr/replace)
+	 ("C-c q" . vr/query-replace)
+	 ("C-M-R" . vr/isearch-backward)
+	 ("C-M-S" . vr/isearch-forward))
+  )
+
+(use-package yasnippet
+  :ensure t
+  :config (yas-global-mode 1)
+  )
+
+(use-package projectile
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1)
+  (setq projectile-completion-system 'ivy))
+
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)))
+
+(use-package adoc-mode
+  :ensure t
+  :mode (("\\.adoc\\'" . adoc-mode))
+  )
+
+(when (work-laptop)
+       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package auto-org-md
+  :ensure t
+)
+
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status)))
+
+(setq sentence-end-double-space nil)
+
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;;; tramp
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(require 'tramp)
+(cond ((string-equal system-type 'gnu/linux)
+       (setq tramp-default-method "ssh"))
+      ((string-equal system-type 'darwin)
+       (setq tramp-default-method "ssh"))
+      ((string-equal system-name 'windows-nt)
+       (setq tramp-default-method "plink")))
+
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;;; dired stuff
+;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;; do not open a bajillion buffers to navigate file system
+(require 'dired-single)
+
+(defun my-dired-init ()
+  "Bunch of stuff to run for dired, either immediately or when it's
+   loaded."
+  ;; <add other stuff here>
+  (define-key dired-mode-map [return] 'joc-dired-single-buffer)
+  (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
+  (define-key dired-mode-map "^"
+   (function
+    (lambda nil (interactive) (joc-dired-single-buffer "..")))))
+
+;; if dired's already loaded, then the keymap will be bound
+(if (boundp 'dired-mode-map)
+   ;; we're good to go; just add our bindings
+   (my-dired-init)
+  ;; it's not loaded yet, so add our bindings to the load-hook
+  (add-hook 'dired-load-hook 'my-dired-init))
+
+;; human readable file sizes
+;; from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
+(setq dired-listing-switches "-Alh")
+
+;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+;;; MISCELLANEOUS TOOLS
+;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
 
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 ;; copy full path of buffer
@@ -456,3 +469,7 @@
  '(package-selected-packages
    (quote
     (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
+
+; everytime bookmark is changed, automatically save it
+; from http://ergoemacs.org/emacs/bookmark.html
+(setq bookmark-save-flag 1)
