@@ -463,6 +463,7 @@ I set up my default filter groups:
 #+BEGIN_SRC emacs-lisp
 (setq ibuffer-saved-filter-groups
     '(("filters"
+      ("magit" (name . "\*magit"))
       (".emacs.d" (filename . ".emacs.d"))
 
       ("meta" (or
@@ -475,7 +476,6 @@ I set up my default filter groups:
       ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
       ("migration-misc" (filename . "code/mm/"))
       ("tracking work" (mode . org-mode))
-      ("magit" (name . "\*magit"))
 )))
 #+END_SRC
 
