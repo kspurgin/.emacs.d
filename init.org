@@ -1,8 +1,7 @@
 #+Title: My Emacs configuration
 #+OPTIONS: toc:4 h:4 
-#+STARTUP: showeverything
-#+PROPERTY: header-args:emacs-lisp   :tangle "~/.emacs.d/init_gen.el"
-
+#+STARTUP: overview
+#+PROPERTY: header-args:emacs-lisp   :tangle "~/.emacs.d/init.el"
 
 * Configuration
 ** About this file
@@ -131,19 +130,33 @@ Load appropriate macros, depending on device.
 #+END_SRC
 ** Appearance/UI
 
-Make the graphical client dark and pretty.
+Make the graphical client dark and pretty. 
 
 #+BEGIN_SRC emacs-lisp
 (cond ((display-graphic-p)
        (use-package darktooth-theme
-	 :ensure t)
-       (load-theme 'darktooth t)
+	 :ensure t
+         :config
+           (load-theme 'darktooth t)
+           (darktooth-modeline)
+)
        (message "loaded theme")
        ))
 #+END_SRC
+
+Before turning on =darktooth-modeline= I wanted the mode line of active buffer window to be red. This is suppressed now:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(set-face-attribute  'mode-line
+                 nil 
+                 :foreground "gray90"
+                 :background "dark red" 
+                 :box '(:line-width 1 :style released-button))
+#+END_SRC
+
 *** TODO Random stuff to document/organize
 
- #+BEGIN_SRC 
+ #+BEGIN_SRC emacs-lisp
  ;; do not show the toolbar (big icons across top)
  (tool-bar-mode 0)
 
@@ -163,7 +176,6 @@ Make the graphical client dark and pretty.
  ;; don't show that stupid message on the scratch file
  (setq initial-scratch-message nil)
  #+END_SRC
-
 ** General behavior
 
 Save the desktop automatically. When you start up again, load the (local) buffers you had open when you closed Emacs. (It won't keep Tramp buffers open, unfortunately.
@@ -345,8 +357,105 @@ Everything would be worse than it is if there were no =org-mode=. Use it, USE IT
 #+BEGIN_SRC emacs-lisp
 (use-package org
   :ensure t
-  )
+  :custom-face
+  (org-headline-done ((t (:foreground "gray50"))))
+)
 #+END_SRC
+
+*** Agenda
+ Setup agenda files and refile targets.
+
+ #+BEGIN_SRC emacs-lisp
+ (when (work-laptop)
+ (setq org-agenda-files
+       (delq nil
+             (mapcar (lambda (x) (and (file-exists-p x) x))
+                     '(
+                       "~/org/diary.org"
+                       "~/org/islandora.org"
+                       "~/org/meetings.org"
+                       "~/org/migrations.org"
+		       "~/org/notes.org"
+                       "~/org/work.org"
+ )))))
+ #+END_SRC
+*** Clocking time
+#+BEGIN_SRC emacs-lisp
+(setq org-clock-into-drawer t)
+;; Change tasks to INPROGRESS when clocking in
+(setq org-clock-in-switch-to-state "INPROGRESS")
+;; Clock out when moving task to a done state
+(setq org-clock-out-when-done t)
+
+(setq org-clock-idle-time 5)
+;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+(setq org-clock-out-remove-zero-time-clocks t)
+(setq org-log-note-clock-out nil)
+(setq org-duration-format 'h:mm)
+#+END_SRC
+*** Filing/refiling
+Use all of my agenda files as refile targets: 
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+#+END_SRC
+
+ From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
+
+ #+BEGIN_QUOTE
+ We configure org-refile-use-outline-path to tell Org to include the destination file as an element in the path to a heading, and to use the full paths as completion targets rather than just the heading text itself.
+
+ What this results in is a targets listing containing forward-slash-delimited filenames and headings, as though they were paths on disk. Because the filename also appears by itself, you can select that to refile to the top level of the file.
+ #+END_QUOTE
+
+ #+BEGIN_SRC emacs-lisp
+ (setq org-refile-use-outline-path 'file)
+ #+END_SRC
+
+ From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
+
+ #+BEGIN_QUOTE
+ ...The default behavior for Refile is to allow you to do a step-by-step completion of this path, but if you’re using Helm, Helm is overriding the completing read to make it into a narrowing list (that we have all come to love).
+
+ So what you need to do is tell Org that you don’t want to complete in steps; you want Org to generate all of the possible completions and present them at once. Helm then lets you narrow to the one you want.
+ #+END_QUOTE
+
+ #+BEGIN_SRC emacs-lisp
+ (setq org-outline-path-complete-in-steps nil)
+ #+END_SRC
+
+ From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
+
+ #+BEGIN_QUOTE
+ Occasionally you may want to refile something into another file or heading and place it beneath a new parent that you create on-the-fly. If you do not set up this configuration, you will not be able to create new parents during refile, so I recommend setting it up.
+ #+END_QUOTE
+
+ #+BEGIN_SRC emacs-lisp
+ (setq org-refile-allow-creating-parent-nodes 'confirm)
+ #+END_SRC
+*** Todos
+
+The codes after the state keywords are documented [[https://orgmode.org/manual/Tracking-TODO-state-changes.html#Tracking-TODO-state-changes][here]].
+
+ - ! = timestamp
+ - @ = record note
+
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
+	(sequence "|" "CANCELED(c@)" )
+        (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
+        (sequence "MTG(m)" "|" )))
+#+END_SRC
+*** Visuals
+
+This ensures the whole headline is styled according to =org-headline-done=.
+
+#+BEGIN_SRC 
+(setq org-fontify-done-headline t)
+#+END_SRC
+
+
 *** TODO A bunch of random =org-mode= settings to organize and document at some point
     :LOGBOOK:
     - State "TODO"       from              [2019-10-29 Tue 22:57]
@@ -361,18 +470,8 @@ Everything would be worse than it is if there were no =org-mode=. Use it, USE IT
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-;; added 2015-05-20 from custom.el and http://pages.sachachua.com/.emacs.d/Sacha.html
-(cond ((string-equal system-type 'darwin)))
-(setq org-agenda-files
-      (delq nil
-            (mapcar (lambda (x) (and (file-exists-p x) x))
-                    '("~/org/meetings.org"
-		      "~/org/notes.org"))))
+
 ;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
-(setq org-todo-keywords
-      '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
-	(sequence "|" "CANCELED(c@)" )
-        (sequence "ASK(s!)" "|" "DONE(d!)" )))
 
 (setq org-agenda-show-all-dates t)
 (setq org-agenda-skip-deadline-if-done t)
@@ -384,26 +483,10 @@ Everything would be worse than it is if there were no =org-mode=. Use it, USE IT
 
 (setq org-log-into-drawer t)
 ;; Save clock data and state changes and notes in the LOGBOOK drawer
-(setq org-clock-into-drawer t)
-;; Change tasks to INPROGRESS when clocking in
-(setq org-clock-in-switch-to-state "INPROGRESS")
-;; Clock out when moving task to a done state
-(setq org-clock-out-when-done t)
-
-(setq org-clock-idle-time 5)
-;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-(setq org-clock-out-remove-zero-time-clocks t)
-(setq org-log-note-clock-out nil)
-(setq org-duration-format 'h:mm)
 
 (setq org-startup-indented nil)
 (setq org-hide-leading-stars nil)
 
-(setq org-refile-targets (quote (("cspace.org" :maxlevel . 3)
-                                 ("migrations.org" :level . 3)
-                                 ("projects.org" :level . 3))))
-(setq org-refile-use-outline-path 'file)
-(setq org-outline-path-complete-in-steps t)
 
 (add-hook 'org-mode-hook
           (lambda ()
@@ -423,11 +506,6 @@ Everything would be worse than it is if there were no =org-mode=. Use it, USE IT
 
 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 #+END_SRC
-
-*** TODO comment/organize this better
-    :LOGBOOK:
-    - State "TODO"       from              [2019-10-22 Tue 22:49]
-    :END:
 
 ** Productivity
 *** Abbrevs
@@ -463,16 +541,20 @@ I set up my default filter groups:
 #+BEGIN_SRC emacs-lisp
 (setq ibuffer-saved-filter-groups
     '(("filters"
-      ("magit" (name . "\*magit"))
+      ("magit" (or
+                 (mode . magit-process)
+                 (mode . magit)))
       (".emacs.d" (filename . ".emacs.d"))
-
+      ("converter" (filename . "code/cspace-converter"))
       ("meta" (or
                 (basename . "diary.org")
                 (basename . "meetings.org")
                 (basename . "time.org")
                 (basename . "work.org")))
       ("migration: UNO" (filename . "opt/migrations/uno"))
-      ("migration: VCU" (filename . "opt/migrations/vcu"))
+      ("migration: VCU" (or
+                (filename . "opt/migrations/vcu")
+                (filename . "data/vcu")))
       ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
       ("migration-misc" (filename . "code/mm/"))
       ("tracking work" (mode . org-mode))
@@ -791,9 +873,6 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   (quote
-    ("~/org/work.org" "~/org/cspace.org" "~/org/migrations.org" "~/org/meetings.org")))
  '(package-selected-packages
    (quote
     (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
@@ -815,3 +894,12 @@ I don't remember what these things are or what they do...
 ; from http://ergoemacs.org/emacs/bookmark.html
 (setq bookmark-save-flag 1)
 #+END_SRC
+* Improvements
+** TODO don't change todo state when clocking into =MTG=
+   :LOGBOOK:
+   - State "TODO"       from              [2019-10-31 Thu 13:09]
+   :END:
+
+I also like the idea of clocking out when setting mark to =WAITING=
+
+See: https://sachachua.com/blog/2007/12/clocking-time-with-emacs-org/

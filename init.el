@@ -53,6 +53,25 @@
        (message "loaded theme")
        ))
 
+;; do not show the toolbar (big icons across top)
+(tool-bar-mode 0)
+
+;; show column numbers 20100625 12:20
+(column-number-mode)
+
+;; do not blink the cursor
+(blink-cursor-mode 0)
+
+;; stretch the cursor to show the size of the character under cursor
+;; useful for seeing tabs and other weird whitespace
+(setq x-stretch-cursor t)
+
+;; will make the display of date and time persistent.
+(setq display-time-day-and-date t) (display-time)
+
+;; don't show that stupid message on the scratch file
+(setq initial-scratch-message nil)
+
 (desktop-save-mode 1)
 (add-to-list 'desktop-globals-to-save 'file-name-history)
 (setq desktop-restore-frames t) ;;doesn't seem to work, at least on Ubuntu.
@@ -169,6 +188,27 @@
   :ensure t
   )
 
+(when (work-laptop)
+(setq org-agenda-files
+      (delq nil
+            (mapcar (lambda (x) (and (file-exists-p x) x))
+                    '(
+                      "~/org/diary.org"
+                      "~/org/islandora.org"
+                      "~/org/meetings.org"
+                      "~/org/migrations.org"
+		      "~/org/notes.org"
+                      "~/org/work.org"
+)))))
+
+(setq org-refile-targets '((org-agenda-files :maxlevel . 4)))
+
+(setq org-refile-use-outline-path 'file)
+
+(setq org-outline-path-complete-in-steps nil)
+
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+
 ;;############################################################################
 ;; org-mode
 ;;############################################################################
@@ -177,18 +217,13 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-;; added 2015-05-20 from custom.el and http://pages.sachachua.com/.emacs.d/Sacha.html
-(cond ((string-equal system-type 'darwin)))
-(setq org-agenda-files
-      (delq nil
-            (mapcar (lambda (x) (and (file-exists-p x) x))
-                    '("~/org/meetings.org"
-		      "~/org/notes.org"))))
+
 ;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
 (setq org-todo-keywords
       '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
 	(sequence "|" "CANCELED(c@)" )
-        (sequence "ASK(s!)" "|" "DONE(d!)" )))
+        (sequence "ASK(s!)" "|" "DONE(d@/!)" )
+        (sequence "MTG(m)" "|" )))
 
 (setq org-agenda-show-all-dates t)
 (setq org-agenda-skip-deadline-if-done t)
@@ -215,11 +250,6 @@
 (setq org-startup-indented nil)
 (setq org-hide-leading-stars nil)
 
-(setq org-refile-targets (quote (("cspace.org" :maxlevel . 3)
-                                 ("migrations.org" :level . 3)
-                                 ("projects.org" :level . 3))))
-(setq org-refile-use-outline-path 'file)
-(setq org-outline-path-complete-in-steps t)
 
 (add-hook 'org-mode-hook
           (lambda ()
@@ -245,8 +275,11 @@
 
 (setq ibuffer-saved-filter-groups
     '(("filters"
+      ("magit" (or
+                 (mode . magit-process)
+                 (mode . magit))
       (".emacs.d" (filename . ".emacs.d"))
-
+      ("converter" (filename . "code/cspace-converter"))
       ("meta" (or
                 (basename . "diary.org")
                 (basename . "meetings.org")
@@ -257,8 +290,7 @@
       ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
       ("migration-misc" (filename . "code/mm/"))
       ("tracking work" (mode . org-mode))
-      ("magit" (name . "\*magit"))
-)))
+))))
 
 (add-hook 'ibuffer-mode-hook
 	  '(lambda ()
@@ -468,8 +500,15 @@
     ("~/org/work.org" "~/org/cspace.org" "~/org/migrations.org" "~/org/meetings.org")))
  '(package-selected-packages
    (quote
-    (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
+    (zenburn-theme dracula-theme yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
 
 ; everytime bookmark is changed, automatically save it
 ; from http://ergoemacs.org/emacs/bookmark.html
 (setq bookmark-save-flag 1)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
+ '(org-headline-done ((t (:foreground "gray50")))))
