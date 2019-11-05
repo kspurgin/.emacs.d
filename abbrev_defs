@@ -59,8 +59,6 @@
   '(
     ("as\\" "ArchivesSpace" nil 2)
     ("cs" "CollectionSpace" nil 3)
-    ("k" "Kristina" nil 0)
-    ("l" "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-" nil 0)
     ("le" "kristina.spurgin@lyrasis.org" nil 0)
     ("lyr" "LYRASIS" nil 4)
     ("pbmk" "use Benchmark qw( cmpthese );
@@ -72,7 +70,6 @@ warn Dumper[];" nil 1)
 
 ### " nil 1)
     ("putm" "use Test::More 'no_plan';" nil 1)
-    ("s" "Spurgin" nil 0)
    ))
 
 (define-abbrev-table 'gnus-group-mode-abbrev-table '())
