@@ -48,8 +48,11 @@
 
 (cond ((display-graphic-p)
        (use-package darktooth-theme
-	 :ensure t)
-       (load-theme 'darktooth t)
+	 :ensure t
+         :config
+           (load-theme 'darktooth t)
+           (darktooth-modeline)
+)
        (message "loaded theme")
        ))
 
@@ -186,7 +189,9 @@
 
 (use-package org
   :ensure t
-  )
+  :custom-face
+  (org-headline-done ((t (:foreground "gray50"))))
+)
 
 (when (work-laptop)
 (setq org-agenda-files
@@ -201,40 +206,6 @@
                       "~/org/work.org"
 )))))
 
-(setq org-refile-targets '((org-agenda-files :maxlevel . 4)))
-
-(setq org-refile-use-outline-path 'file)
-
-(setq org-outline-path-complete-in-steps nil)
-
-(setq org-refile-allow-creating-parent-nodes 'confirm)
-
-;;############################################################################
-;; org-mode
-;;############################################################################
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
-
-;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
-(setq org-todo-keywords
-      '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
-	(sequence "|" "CANCELED(c@)" )
-        (sequence "ASK(s!)" "|" "DONE(d@/!)" )
-        (sequence "MTG(m)" "|" )))
-
-(setq org-agenda-show-all-dates t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-deadline-warning-days 0)
-(setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
-(setq org-enforce-todo-dependencies t)
-(setq org-enforce-todo-checkbox-dependencies t)
-
-(setq org-log-into-drawer t)
-;; Save clock data and state changes and notes in the LOGBOOK drawer
 (setq org-clock-into-drawer t)
 ;; Change tasks to INPROGRESS when clocking in
 (setq org-clock-in-switch-to-state "INPROGRESS")
@@ -246,6 +217,42 @@
 (setq org-clock-out-remove-zero-time-clocks t)
 (setq org-log-note-clock-out nil)
 (setq org-duration-format 'h:mm)
+
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+
+(setq org-refile-use-outline-path 'file)
+
+(setq org-outline-path-complete-in-steps nil)
+
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+
+(setq org-todo-keywords
+      '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
+	(sequence "|" "CANCELED(c@)" )
+        (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
+        (sequence "MTG(m)" "|" )))
+
+;;############################################################################
+;; org-mode
+;;############################################################################
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+
+;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
+
+(setq org-agenda-show-all-dates t)
+(setq org-agenda-skip-deadline-if-done t)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-deadline-warning-days 0)
+(setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
+(setq org-enforce-todo-dependencies t)
+(setq org-enforce-todo-checkbox-dependencies t)
+
+(setq org-log-into-drawer t)
+;; Save clock data and state changes and notes in the LOGBOOK drawer
 
 (setq org-startup-indented nil)
 (setq org-hide-leading-stars nil)
@@ -277,7 +284,7 @@
     '(("filters"
       ("magit" (or
                  (mode . magit-process)
-                 (mode . magit))
+                 (mode . magit)))
       (".emacs.d" (filename . ".emacs.d"))
       ("converter" (filename . "code/cspace-converter"))
       ("meta" (or
@@ -286,11 +293,14 @@
                 (basename . "time.org")
                 (basename . "work.org")))
       ("migration: UNO" (filename . "opt/migrations/uno"))
-      ("migration: VCU" (filename . "opt/migrations/vcu"))
+      ("migration: VCU" (or
+                (filename . "opt/migrations/vcu")
+                (filename . "data/vcu")))
       ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
+      ("cdmtools" (filename . "code/mm/cdmtools"))
       ("migration-misc" (filename . "code/mm/"))
       ("tracking work" (mode . org-mode))
-))))
+)))
 
 (add-hook 'ibuffer-mode-hook
 	  '(lambda ()
@@ -348,6 +358,10 @@
   :ensure t
   :mode (("\\.adoc\\'" . adoc-mode))
   )
+
+(use-package htmlize
+  :ensure t
+)
 
 (when (work-laptop)
        (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
@@ -495,20 +509,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   (quote
-    ("~/org/work.org" "~/org/cspace.org" "~/org/migrations.org" "~/org/meetings.org")))
  '(package-selected-packages
    (quote
-    (zenburn-theme dracula-theme yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
+    (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
 
 ; everytime bookmark is changed, automatically save it
 ; from http://ergoemacs.org/emacs/bookmark.html
 (setq bookmark-save-flag 1)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
- '(org-headline-done ((t (:foreground "gray50")))))
