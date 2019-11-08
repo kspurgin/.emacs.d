@@ -193,6 +193,8 @@
   (org-headline-done ((t (:foreground "gray50"))))
 )
 
+(setq org-special-ctrl-a/e t)
+
 (when (work-laptop)
 (setq org-agenda-files
       (delq nil
@@ -297,7 +299,7 @@
                 (filename . "opt/migrations/vcu")
                 (filename . "data/vcu")))
       ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
-      ("cdmtools" (filename . "code/mm/cdmtools"))
+      ("cdmtools" (filename . "code/cdmtools"))
       ("migration-misc" (filename . "code/mm/"))
       ("tracking work" (mode . org-mode))
 )))
