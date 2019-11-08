@@ -362,6 +362,12 @@ Everything would be worse than it is if there were no =org-mode=. Use it, USE IT
 )
 #+END_SRC
 
+C-a moves to beginning of heading (after asterisks and todo states, etc). C-e moves to end of heading (before tags). ([[https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-heading-smartly-in-org-mode][src]])
+
+#+BEGIN_SRC emacs-lisp
+(setq org-special-ctrl-a/e t)
+#+END_SRC
+
 *** Agenda
  Setup agenda files and refile targets.
 
@@ -556,7 +562,7 @@ I set up my default filter groups:
                 (filename . "opt/migrations/vcu")
                 (filename . "data/vcu")))
       ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
-      ("cdmtools" (filename . "code/mm/cdmtools"))
+      ("cdmtools" (filename . "code/cdmtools"))
       ("migration-misc" (filename . "code/mm/"))
       ("tracking work" (mode . org-mode))
 )))
