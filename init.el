@@ -284,24 +284,23 @@
 
 (setq ibuffer-saved-filter-groups
     '(("filters"
-      ("magit" (or
-                 (mode . magit-process)
-                 (mode . magit)))
+      ("magit" (name ."\*magit"))
       (".emacs.d" (filename . ".emacs.d"))
-      ("converter" (filename . "code/cspace-converter"))
+      ("cs-converter" (filename . "code/cspace-converter"))
+      ("migration: UNO" (filename . "opt/migrations/uno"))
+      ("migration: VCU" (or
+                (filename . "opt/migrations/vcu")
+                (filename . "data/vcu")))
+      ("cdmtools" (filename . "code/cdmtools"))
+      ("islandora-data-tools" (filename . "code/islandora-data-tools"))
+      ("migration-misc" (filename . "code/mm/"))
+      ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
+      ("tracking work" (mode . org-mode))
       ("meta" (or
                 (basename . "diary.org")
                 (basename . "meetings.org")
                 (basename . "time.org")
                 (basename . "work.org")))
-      ("migration: UNO" (filename . "opt/migrations/uno"))
-      ("migration: VCU" (or
-                (filename . "opt/migrations/vcu")
-                (filename . "data/vcu")))
-      ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
-      ("cdmtools" (filename . "code/cdmtools"))
-      ("migration-misc" (filename . "code/mm/"))
-      ("tracking work" (mode . org-mode))
 )))
 
 (add-hook 'ibuffer-mode-hook
