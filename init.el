@@ -200,6 +200,7 @@
       (delq nil
             (mapcar (lambda (x) (and (file-exists-p x) x))
                     '(
+                      "~/org/cspace.org"
                       "~/org/diary.org"
                       "~/org/islandora.org"
                       "~/org/meetings.org"
@@ -232,7 +233,8 @@
       '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
 	(sequence "|" "CANCELED(c@)" )
         (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
-        (sequence "MTG(m)" "|" )))
+        (sequence "MTG(m)" "|" )
+        (sequence "ONGOING(o)" "|" )))
 
 ;;############################################################################
 ;; org-mode
