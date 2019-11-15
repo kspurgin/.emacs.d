@@ -377,6 +377,7 @@ C-a moves to beginning of heading (after asterisks and todo states, etc). C-e mo
        (delq nil
              (mapcar (lambda (x) (and (file-exists-p x) x))
                      '(
+                       "~/org/cspace.org"
                        "~/org/diary.org"
                        "~/org/islandora.org"
                        "~/org/meetings.org"
@@ -446,12 +447,19 @@ The codes after the state keywords are documented [[https://orgmode.org/manual/T
  - ! = timestamp
  - @ = record note
 
+The sequences representing action items are the ones starting with TODO and ASK. These are separate because they feel different to me and I want to require having to record a note when an ASK becomes ANSWERED.
+
+MTG is so I can clock time in meetings. 
+
+ONGOING is so I can clock time in non-meeting activities that aren't tasks or projects, like email/communication and meta-work.
+
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
 	(sequence "|" "CANCELED(c@)" )
         (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
-        (sequence "MTG(m)" "|" )))
+        (sequence "MTG(m)" "|" )
+        (sequence "ONGOING(o)" "|" )))
 #+END_SRC
 *** Visuals
 
