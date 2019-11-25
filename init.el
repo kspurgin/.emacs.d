@@ -286,7 +286,7 @@
 
 (setq ibuffer-saved-filter-groups
     '(("filters"
-      ("magit" (name ."\*magit"))
+      ("magit" (name .".*magit"))
       (".emacs.d" (filename . ".emacs.d"))
       ("cs-converter" (filename . "code/cspace-converter"))
       ("migration: UNO" (filename . "opt/migrations/uno"))
@@ -294,10 +294,12 @@
                 (filename . "opt/migrations/vcu")
                 (filename . "data/vcu")))
       ("cdmtools" (filename . "code/cdmtools"))
-      ("islandora-data-tools" (filename . "code/islandora-data-tools"))
+      ("islandora-data-tools" (or
+                (filename . "code/islandora-data-tools")
+                (filename . "code/idtu")))
+      ("omeka-data-tools" (filename . "code/omeka-data-tools"))
       ("migration-misc" (filename . "code/mm/"))
-      ("omeka-profiler" (filename . "code/mm/omeka_oai_profiler"))
-      ("tracking work" (mode . org-mode))
+       ("tracking work" (mode . org-mode))
       ("meta" (or
                 (basename . "diary.org")
                 (basename . "meetings.org")
