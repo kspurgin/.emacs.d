@@ -211,9 +211,9 @@
 
 (setq org-clock-into-drawer t)
 ;; Change tasks to INPROGRESS when clocking in
-(setq org-clock-in-switch-to-state "INPROGRESS")
+;; (setq org-clock-in-switch-to-state "INPROGRESS")
 ;; Clock out when moving task to a done state
-(setq org-clock-out-when-done t)
+;; (setq org-clock-out-when-done t)
 
 (setq org-clock-idle-time 5)
 ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration

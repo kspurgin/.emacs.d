@@ -390,9 +390,9 @@ C-a moves to beginning of heading (after asterisks and todo states, etc). C-e mo
 #+BEGIN_SRC emacs-lisp
 (setq org-clock-into-drawer t)
 ;; Change tasks to INPROGRESS when clocking in
-(setq org-clock-in-switch-to-state "INPROGRESS")
+;; (setq org-clock-in-switch-to-state "INPROGRESS")
 ;; Clock out when moving task to a done state
-(setq org-clock-out-when-done t)
+;; (setq org-clock-out-when-done t)
 
 (setq org-clock-idle-time 5)
 ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
@@ -909,6 +909,11 @@ Ivy, Swiper, Counsel, Projectile, Org
 NyanCat buffer progress
 
 Magit and other git stuff
+** https://github.com/mwfogleman/.emacs.d/blob/master/michael.org
+** https://writequit.org/org/
+#+BEGIN_QUOTE
+This file takes a page out of the book of Hardcore Freestyle Emacs, in which a single org-file can be tangled to create all the necessary dotfiles required for my everyday computer usage. 
+#+END_QUOTE
 * Things to look up
 I don't remember what these things are or what they do... 
 
