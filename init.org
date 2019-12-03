@@ -635,6 +635,12 @@ Setting =ivy-intial-inputs-alist= to nil turns off the default behavior of start
 )
 #+END_SRC
 
+The following allows you to select entered text with C-p/C-n:
+
+#+BEGIN_SRC emacs-lisp
+(setq ivy-use-selectable-prompt t)
+#+END_SRC
+
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
 *** Other
 #+BEGIN_SRC emacs-lisp
