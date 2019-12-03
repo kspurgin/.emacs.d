@@ -333,6 +333,8 @@
   (setq ivy-initial-inputs-alist nil)
 )
 
+(setq ivy-use-selectable-prompt t)
+
 (use-package visual-regexp-steroids
   :ensure t
   :ensure visual-regexp
