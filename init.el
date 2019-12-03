@@ -297,6 +297,7 @@
       ("islandora-data-tools" (or
                 (filename . "code/islandora-data-tools")
                 (filename . "code/idtu")))
+      ("mmdm" (filename . "code/mmdm/"))
       ("omeka-data-tools" (filename . "code/omeka-data-tools"))
       ("migration-misc" (filename . "code/mm/"))
        ("tracking work" (mode . org-mode))
