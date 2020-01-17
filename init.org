@@ -557,7 +557,7 @@ I set up my default filter groups:
     '(("filters"
       ("magit" (name .".*magit"))
       (".emacs.d" (filename . ".emacs.d"))
-      ("cs-converter" (filename . "code/cspace-converter"))
+      ("cs-converter" (filename . "code/converter_tool"))
       ("migration: UNO" (filename . "opt/migrations/uno"))
       ("migration: VCU" (or
                 (filename . "opt/migrations/vcu")
