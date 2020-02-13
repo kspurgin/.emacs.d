@@ -291,6 +291,9 @@ Don't ring the error bell at me!
 
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
+
+;; never put tabs in my code
+(setq-default indent-tabs-mode nil)
 #+END_SRC
 **** TODO Better comment/document
 *** Perl
@@ -317,6 +320,12 @@ I've customized the color of the double/single quote string delimiters because t
   :custom-face
   (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
   )
+#+END_SRC
+*** PHP
+
+[[https://www.drupal.org/docs/develop/standards/coding-standards][Drupal coding standards]] prefer a 2-space indent.
+#+BEGIN_SRC emacs-lisp
+(setq c-basic-offset 2)
 #+END_SRC
 ** Data
 *** XML
@@ -558,6 +567,7 @@ I set up my default filter groups:
       ("magit" (name .".*magit"))
       (".emacs.d" (filename . ".emacs.d"))
       ("cs-converter" (filename . "code/converter_tool"))
+      ("cs-data-config" (filename . "code/cspace_data_config"))
       ("migration: UNO" (filename . "opt/migrations/uno"))
       ("migration: VCU" (or
                 (filename . "opt/migrations/vcu")
