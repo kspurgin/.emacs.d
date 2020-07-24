@@ -154,6 +154,9 @@
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
 
+;; never put tabs in my code
+(setq-default indent-tabs-mode nil)
+
 (use-package cperl-mode
   :mode "\\.p[lm]\\'"
   :interpreter "perl"
@@ -166,6 +169,20 @@
   :custom-face
   (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
   )
+
+(use-package php-mode
+  :ensure t
+  :mode "\\.php\\'"
+  )
+
+(use-package drupal-mode
+  :ensure t
+  :mode "\\.php\\'"
+  )
+
+(setq php-project-coding-style "drupal")
+
+(setq php-style-delete-trailing-whitespace t)
 
 (require 'hideshow)
 (require 'sgml-mode)
@@ -288,19 +305,25 @@
     '(("filters"
       ("magit" (name .".*magit"))
       (".emacs.d" (filename . ".emacs.d"))
-      ("cs-converter" (filename . "code/cspace-converter"))
-      ("migration: UNO" (filename . "opt/migrations/uno"))
-      ("migration: VCU" (or
-                (filename . "opt/migrations/vcu")
-                (filename . "data/vcu")))
+      ("cspace-converter" (filename . "code/cspace-converter"))
+      ("cspace-config-untangler" (filename . "code/cspace-config-untangler"))
+      ("collectionspace-mapper" (filename . "code/collectionspace-mapper"))
+      ("collectionspace-client" (filename . "code/collectionspace-client"))
+      ("collectionspace-refcache" (filename . "code/collectionspace-refcache"))
+      ("migration: Breman" (filename . "data/Breman"))
+      ("migration: CSWS" (filename . "data/CSWS"))
       ("cdmtools" (filename . "code/cdmtools"))
+      ("mimsy-to-cspace" (filename . "code/mimsy-to-cspace"))
+      ("kiba-extend" (filename . "code/kiba-extend"))
+      ("islandora8" (filename . "migrate_7x_claw"))
+      ("access-tools" (filename . "code/ms-access-migration-tools"))
       ("islandora-data-tools" (or
                 (filename . "code/islandora-data-tools")
                 (filename . "code/idtu")))
       ("mdmm" (filename . "code/mdmm/"))
       ("omeka-data-tools" (filename . "code/omeka-data-tools"))
       ("migration-misc" (filename . "code/mm/"))
-       ("tracking work" (mode . org-mode))
+      ("tracking work" (mode . org-mode))
       ("meta" (or
                 (basename . "diary.org")
                 (basename . "meetings.org")
@@ -364,7 +387,8 @@
 
 (use-package adoc-mode
   :ensure t
-  :mode (("\\.adoc\\'" . adoc-mode))
+  :mode (("\\.adoc\\'" . adoc-mode)
+         ("\\.asciidoc\\'" . adoc-mode))
   )
 
 (use-package htmlize
