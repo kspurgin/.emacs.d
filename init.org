@@ -323,9 +323,31 @@ I've customized the color of the double/single quote string delimiters because t
 #+END_SRC
 *** PHP
 
-[[https://www.drupal.org/docs/develop/standards/coding-standards][Drupal coding standards]] prefer a 2-space indent.
+Use [[https://www.drupal.org/docs/develop/standards/coding-standards][Drupal coding standards]] 
+"Drupal mode is an advanced minor mode for developing in Drupal.
+
+Drupal mode is based on top of PHP mode and defines among other
+things indentation etc. to match Drupal Coding Standards."
+
 #+BEGIN_SRC emacs-lisp
-(setq c-basic-offset 2)
+(use-package php-mode
+  :ensure t
+  :mode "\\.php\\'"
+  )
+
+(use-package drupal-mode
+  :ensure t
+  :mode "\\.php\\'"
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(setq php-project-coding-style "drupal")
+#+END_SRC
+
+Get rid of trailing whitespace
+#+BEGIN_SRC emacs-lisp
+(setq php-style-delete-trailing-whitespace t)
 #+END_SRC
 ** Data
 *** XML
@@ -566,20 +588,25 @@ I set up my default filter groups:
     '(("filters"
       ("magit" (name .".*magit"))
       (".emacs.d" (filename . ".emacs.d"))
-      ("cs-converter" (filename . "code/converter_tool"))
-      ("cs-data-config" (filename . "code/cspace_data_config"))
-      ("migration: UNO" (filename . "opt/migrations/uno"))
-      ("migration: VCU" (or
-                (filename . "opt/migrations/vcu")
-                (filename . "data/vcu")))
+      ("cspace-converter" (filename . "code/cspace-converter"))
+      ("cspace-config-untangler" (filename . "code/cspace-config-untangler"))
+      ("collectionspace-mapper" (filename . "code/collectionspace-mapper"))
+      ("collectionspace-client" (filename . "code/collectionspace-client"))
+      ("collectionspace-refcache" (filename . "code/collectionspace-refcache"))
+      ("migration: Breman" (filename . "data/Breman"))
+      ("migration: CSWS" (filename . "data/CSWS"))
       ("cdmtools" (filename . "code/cdmtools"))
+      ("mimsy-to-cspace" (filename . "code/mimsy-to-cspace"))
+      ("kiba-extend" (filename . "code/kiba-extend"))
+      ("islandora8" (filename . "migrate_7x_claw"))
+      ("access-tools" (filename . "code/ms-access-migration-tools"))
       ("islandora-data-tools" (or
                 (filename . "code/islandora-data-tools")
                 (filename . "code/idtu")))
       ("mdmm" (filename . "code/mdmm/"))
       ("omeka-data-tools" (filename . "code/omeka-data-tools"))
       ("migration-misc" (filename . "code/mm/"))
-       ("tracking work" (mode . org-mode))
+      ("tracking work" (mode . org-mode))
       ("meta" (or
                 (basename . "diary.org")
                 (basename . "meetings.org")
@@ -717,7 +744,8 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
 #+BEGIN_SRC emacs-lisp
 (use-package adoc-mode
   :ensure t
-  :mode (("\\.adoc\\'" . adoc-mode))
+  :mode (("\\.adoc\\'" . adoc-mode)
+         ("\\.asciidoc\\'" . adoc-mode))
   )
 #+END_SRC
 *** HTML

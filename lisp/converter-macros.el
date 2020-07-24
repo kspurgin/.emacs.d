@@ -1,0 +1,31 @@
+
+(fset 'converter-header
+      ; insert frozen string literal and require relative default
+   [?# ?  ?f ?r ?o ?z ?e ?n ?_ ?s ?t ?r ?i ?n ?g ?_ ?l ?i ?e backspace ?t ?e ?r ?a ?l ?: ?  ?t ?r ?u ?e return return ?r ?e ?q ?u ?i ?r ?e ?_ ?r ?e ?l ?a ?t ?i ?v ?e ?  ?\' ?. ?. ?/ ?d ?e ?f ?a ?u ?l ?t ?/ ?r ?e ?c ?o ?r ?d ?\' return return])
+
+(fset 'transforms-authority-fix
+                                        ;changes:
+                                        ;   'contentperson' => {'authority' => ['personauthorities', 'person']},
+                                        ; to: 
+                                        ;   'contentperson' => { 'authority' => %w[personauthorities person] },
+   [?\C-s ?= ?> ?  ?\{ ?\' ?a ?u ?t ?h ?o ?r ?i ?t ?y return ?\C-b ?\M-b ?\C-b ?  ?\C-s ?= ?> ?  ?\\ ?\[ return ?\C-b ?% ?w ?\C-  ?\C-e ?\M-% ?\' return return ?! ?\C-r ?, ?  return kp-delete ?\C-s ?\\ ?\] ?\} return ?\C-b ?  ?\C-n ?\C-a])
+
+(fset 'transforms-other-fix
+                                        ; changes:
+                                        ;             'fieldcollectionmethod' => {'vocab' => 'collectionmethod'},
+                                        ; to:
+                                        ;             'fieldcollectionmethod' => { 'vocab' => 'collectionmethod' },
+   [?\C-s ?= ?> ?  ?\{ ?\'  return ?\C-b ?  ?\C-s ?\' ?\} return ?\C-b ?  ?\C-n ?\C-a])
+
+
+
+(fset 'repeats-array-fix
+                                        ; changes:
+                                        ;               'briefdescription' => ['briefDescriptions', 'briefDescription'],
+                                        ; to:
+                                        ;               'briefdescription' => %w[briefDescriptions briefDescription],
+   [?\C-s ?= ?> ?  ?\\ ?\[ return ?\C-b ?% ?w ?\C-  ?\C-e ?\M-% ?\' return return ?! ?\M-b ?\C-b ?= backspace backspace ?\C-n ?\C-a])
+
+(fset 'class-init
+      ; insert def initialize under child converter classes
+   [?d ?e ?f ?  ?i ?n ?i ?t ?i ?a ?l ?i ?z ?e ?\( ?a ?t ?t ?r ?i ?b ?u ?t ?e ?s ?, ?  ?c ?o ?n ?f ?i ?g ?  ?= ?  ?\{ ?\} ?\) return ?s ?u ?p ?e ?r ?\( ?a ?t ?t ?r ?i ?t backspace ?b ?u ?t ?e ?s ?, ?  ?c ?o ?n ?f ?i ?g ?\) return ?@ ?r ?e ?d ?e ?f ?i ?n ?e ?d ?  ?= ?  ?\[ return ?\] return ?e ?n ?d return])
