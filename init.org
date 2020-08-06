@@ -381,6 +381,7 @@ From: https://emacs.stackexchange.com/questions/2884/the-old-how-to-fold-xml-que
 	 ("\\.yaml\\'" . yaml-mode))
   )
 #+END_SRC
+
 ** Org-mode
 
 Everything would be worse than it is if there were no =org-mode=. Use it, USE IT, *USE IT*.
@@ -593,10 +594,17 @@ I set up my default filter groups:
       ("collectionspace-mapper" (filename . "code/collectionspace-mapper"))
       ("collectionspace-client" (filename . "code/collectionspace-client"))
       ("collectionspace-refcache" (filename . "code/collectionspace-refcache"))
-      ("migration: Breman" (filename . "data/Breman"))
-      ("migration: CSWS" (filename . "data/CSWS"))
+      ("migration: Boston Athenaeum" (or
+                (filename . "code/migrations-private/boston_athenaeum")
+                (filename . "data/BostonAthenaeum")))
+      ("migration: Breman" (or
+                 (filename . "data/Breman")
+                 (filename . "code/mimsy-to-cspace")
+                 (filename . "code/migrations-private/breman")))
+      ("migration: CSWS" (or
+                 (filename . "data/CSWS")
+                 (filename . "code/migrations-private/csws")))
       ("cdmtools" (filename . "code/cdmtools"))
-      ("mimsy-to-cspace" (filename . "code/mimsy-to-cspace"))
       ("kiba-extend" (filename . "code/kiba-extend"))
       ("islandora8" (filename . "migrate_7x_claw"))
       ("access-tools" (filename . "code/ms-access-migration-tools"))

@@ -310,10 +310,17 @@
       ("collectionspace-mapper" (filename . "code/collectionspace-mapper"))
       ("collectionspace-client" (filename . "code/collectionspace-client"))
       ("collectionspace-refcache" (filename . "code/collectionspace-refcache"))
-      ("migration: Breman" (filename . "data/Breman"))
-      ("migration: CSWS" (filename . "data/CSWS"))
+      ("migration: Boston Athenaeum" (or
+                (filename . "code/migrations-private/boston_athenaeum")
+                (filename . "data/BostonAthenaeum")))
+      ("migration: Breman" (or
+                 (filename . "data/Breman")
+                 (filename . "code/mimsy-to-cspace")
+                 (filename . "code/migrations-private/breman")))
+      ("migration: CSWS" (or
+                 (filename . "data/CSWS")
+                 (filename . "code/migrations-private/csws")))
       ("cdmtools" (filename . "code/cdmtools"))
-      ("mimsy-to-cspace" (filename . "code/mimsy-to-cspace"))
       ("kiba-extend" (filename . "code/kiba-extend"))
       ("islandora8" (filename . "migrate_7x_claw"))
       ("access-tools" (filename . "code/ms-access-migration-tools"))
