@@ -113,6 +113,11 @@ These are the external repos from which =use-package= gets packages.
   (package-refresh-contents))
 (message "Loaded package sources")
 #+END_SRC
+
+Prevents "Failed to download 'gnu' archive" error
+#+BEGIN_SRC emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
 **** Personal code sources
 Stuff from outside the package system. Add locations to =load-path= so Emacs can find them.
 
