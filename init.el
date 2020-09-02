@@ -39,6 +39,8 @@
   (package-refresh-contents))
 (message "Loaded package sources")
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
@@ -55,6 +57,16 @@
 )
        (message "loaded theme")
        ))
+
+(set-face-attribute  'markup-meta-face
+                 nil 
+                 :foreground "pink1"
+                 :height 100)
+
+(set-face-attribute  'markup-meta-hide-face
+                 nil 
+                 :foreground "gray40"
+                 :height 100)
 
 ;; do not show the toolbar (big icons across top)
 (tool-bar-mode 0)
