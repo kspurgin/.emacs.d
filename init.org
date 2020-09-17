@@ -772,7 +772,19 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
   :ensure t
   :mode (("\\.adoc\\'" . adoc-mode)
          ("\\.asciidoc\\'" . adoc-mode))
+  :init
+  (progn
+     (set-face-attribute  'markup-meta-face
+                      nil 
+                      :foreground "pink1"
+                      :height 100)
+     
+     (set-face-attribute  'markup-meta-hide-face
+                      nil 
+                      :foreground "gray40"
+                      :height 100)
   )
+)
 #+END_SRC
 *** HTML
 Required for =org-mode= HTML export:
@@ -1002,3 +1014,6 @@ I don't remember what these things are or what they do...
 I also like the idea of clocking out when setting mark to =WAITING=
 
 See: https://sachachua.com/blog/2007/12/clocking-time-with-emacs-org/
+
+docker-compose exec drupal bash
+composer require migrate_plus 3.x
