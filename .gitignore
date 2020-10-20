@@ -7,6 +7,10 @@ auto-save-list/**
 archive-contents
 elpa/*
 tramp
+bookmarks
+projectile-bookmarks.eld
+projectile.cache
+transient
 
 # Compiled
 *.elc
