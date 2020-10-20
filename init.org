@@ -158,19 +158,6 @@ Before turning on =darktooth-modeline= I wanted the mode line of active buffer w
                  :background "dark red" 
                  :box '(:line-width 1 :style released-button))
 #+END_SRC
-*** Faces
-
-#+BEGIN_SRC emacs-lisp
-(set-face-attribute  'markup-meta-face
-                 nil 
-                 :foreground "pink1"
-                 :height 100)
-
-(set-face-attribute  'markup-meta-hide-face
-                 nil 
-                 :foreground "gray40"
-                 :height 100)
-#+END_SRC
 
 *** TODO Random stuff to document/organize
 
@@ -772,7 +759,7 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
   :ensure t
   :mode (("\\.adoc\\'" . adoc-mode)
          ("\\.asciidoc\\'" . adoc-mode))
-  :init
+  :config
   (progn
      (set-face-attribute  'markup-meta-face
                       nil 

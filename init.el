@@ -58,16 +58,6 @@
        (message "loaded theme")
        ))
 
-(set-face-attribute  'markup-meta-face
-                 nil 
-                 :foreground "pink1"
-                 :height 100)
-
-(set-face-attribute  'markup-meta-hide-face
-                 nil 
-                 :foreground "gray40"
-                 :height 100)
-
 ;; do not show the toolbar (big icons across top)
 (tool-bar-mode 0)
 
@@ -408,7 +398,19 @@
   :ensure t
   :mode (("\\.adoc\\'" . adoc-mode)
          ("\\.asciidoc\\'" . adoc-mode))
+  :config
+  (progn
+     (set-face-attribute  'markup-meta-face
+                      nil 
+                      :foreground "pink1"
+                      :height 100)
+     
+     (set-face-attribute  'markup-meta-hide-face
+                      nil 
+                      :foreground "gray40"
+                      :height 100)
   )
+)
 
 (use-package htmlize
   :ensure t
