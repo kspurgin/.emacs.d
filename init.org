@@ -206,6 +206,13 @@ Don't ring the error bell at me!
 #+BEGIN_SRC emacs-lisp
 (setq ring-bell-function 'ignore)
 #+END_SRC
+
+Standard indent is 2 spaces
+
+#+BEGIN_SRC emacs-lisp
+(setq standard-indent 2)
+#+END_SRC
+
 *** Backups
 
     This section is stolen wholesale from [[https://github.com/bnbeckwith/bnb-emacs/tree/6072f959b7015baa2b21854017b655890392dee6][here]].
@@ -296,11 +303,12 @@ Don't ring the error bell at me!
 
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
-
-;; never put tabs in my code
-(setq-default indent-tabs-mode nil)
 #+END_SRC
 **** TODO Better comment/document
+*** Javascript
+#+BEGIN_SRC emacs-lisp
+(add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
+#+END_SRC
 *** Perl
 
 =cperl-mode= is an enhanced Perl mode.
@@ -325,6 +333,8 @@ I've customized the color of the double/single quote string delimiters because t
   :custom-face
   (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
   )
+  :config
+  (setq indent-tabs-mode nil)
 #+END_SRC
 *** PHP
 
@@ -338,22 +348,21 @@ things indentation etc. to match Drupal Coding Standards."
 (use-package php-mode
   :ensure t
   :mode "\\.php\\'"
+  :init
+  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
+  :config
+  (setq php-project-coding-style "drupal")
+  (setq php-style-delete-trailing-whitespace t)
   )
 
 (use-package drupal-mode
   :ensure t
   :mode "\\.php\\'"
+  :init
+  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
   )
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-(setq php-project-coding-style "drupal")
-#+END_SRC
-
-Get rid of trailing whitespace
-#+BEGIN_SRC emacs-lisp
-(setq php-style-delete-trailing-whitespace t)
-#+END_SRC
 ** Data
 *** XML
 

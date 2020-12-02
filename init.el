@@ -91,6 +91,8 @@
 
 (setq ring-bell-function 'ignore)
 
+(setq standard-indent 2)
+
 (setq backup-by-copying t
       create-lockfiles nil
       backup-directory-alist '((".*" . "~/.saves"))
@@ -156,8 +158,7 @@
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
 
-;; never put tabs in my code
-(setq-default indent-tabs-mode nil)
+(add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
 
 (use-package cperl-mode
   :mode "\\.p[lm]\\'"
@@ -171,20 +172,25 @@
   :custom-face
   (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
   )
+  :config
+  (setq indent-tabs-mode nil)
 
 (use-package php-mode
   :ensure t
   :mode "\\.php\\'"
+  :init
+  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
+  :config
+  (setq php-project-coding-style "drupal")
+  (setq php-style-delete-trailing-whitespace t)
   )
 
 (use-package drupal-mode
   :ensure t
   :mode "\\.php\\'"
+  :init
+  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
   )
-
-(setq php-project-coding-style "drupal")
-
-(setq php-style-delete-trailing-whitespace t)
 
 (require 'hideshow)
 (require 'sgml-mode)
