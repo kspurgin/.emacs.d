@@ -314,6 +314,7 @@
       ("magit" (name .".*magit"))
       (".emacs.d" (filename . ".emacs.d"))
       ("cspace-converter" (filename . "code/cspace-converter"))
+      ("cspace-batch-import" (filename . "code/cspace-batch-import"))
       ("cspace-config-untangler" (filename . "code/cspace-config-untangler"))
       ("collectionspace-mapper" (filename . "code/collectionspace-mapper"))
       ("collectionspace-client" (filename . "code/collectionspace-client"))
