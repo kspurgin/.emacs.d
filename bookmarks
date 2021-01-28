@@ -2,9 +2,134 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-refile-last-stored"
+(("islandora-tunnels"
  (filename . "~/org/islandora.org")
- (front-context-string . "** other stupid ")
- (rear-context-string . "everaged at all\n")
- (position . 24281))
+ (front-context-string . "  - [ ] ssh -L 9")
+ (rear-context-string . "WS INSTANCES\n\n  ")
+ (position . 44443))
+("suny-brockport-islandora-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . "ESS Data review\n")
+ (position . 24654))
+("fabric-workshop-cs-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . "ESS Data review\n")
+ (position . 24359))
+("cspace-dev-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "ce dev meetings\n")
+ (position . 11268))
+("carnegie"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . "2020-07-30 Thu>\n")
+ (position . 31546))
+("migration-status-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "\n   CLOCK: [2021")
+ (rear-context-string . "ngs\n   :LOGBOOK:")
+ (position . 7736))
+("cspace-dts-status-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "status meetings\n")
+ (position . 4015))
+("mods-profiling"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "ling\n   :LOGBOOK")
+ (rear-context-string . "lient MODS profi")
+ (position . 41491))
+("all-staff-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . " Staff meetings\n")
+ (position . 1722))
+("suny-brockport"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "    :Islandora:\n")
+ (position . 24332))
+("dates-processing"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "ates processing\n")
+ (position . 61422))
+("Islandora-MIG-co-convener-work"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "work\n   :LOGBOOK")
+ (rear-context-string . "\n** Co-convener ")
+ (position . 110789))
+("islandora-tech-call"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "  :LOGBOOK:\n  CL")
+ (rear-context-string . "ndora Tech Call\n")
+ (position . 25336))
+("csws-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "     :LOGBOOK:\n ")
+ (rear-context-string . "ation phase 1/2\n")
+ (position . 31541))
+("islandora-mig-co-conveners-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "nveners Meeting\n")
+ (position . 25490))
+("islandora-mig-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "t Group meeting\n")
+ (position . 25759))
+("i8-planning-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "andora 8 plannin")
+ (rear-context-string . ":END:\n** MTG Isl")
+ (position . 15338))
+("breman"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . "gration phase 3\n")
+ (position . 31533))
+("ucb-cspace"
+ (filename . "~/org/cspace.org")
+ (front-context-string . ":LOGBOOK:\n  CLOC")
+ (rear-context-string . "CB / Berkeley\n  ")
+ (position . 66848))
+("i8"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "Islandora 8\n  :L")
+ (rear-context-string . "t>\n #+END_SRC\n* ")
+ (position . 96080))
+("i7support"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "** INPROGRESS su")
+ (rear-context-string . "os/2570565392\n\n\n")
+ (position . 35519))
+("athenaeum"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "OGBOOK:\n    CLOC")
+ (rear-context-string . "Phase 1/2\n    :L")
+ (position . 67238))
+("metawork"
+ (filename . "~/org/work.org")
+ (front-context-string . "Meta-work\n   :LO")
+ (rear-context-string . "END:\n** ONGOING ")
+ (position . 26060))
+("communication"
+ (filename . "~/org/work.org")
+ (front-context-string . ":\n   CLOCK: [202")
+ (rear-context-string . "tion\n   :LOGBOOK")
+ (position . 4049))
+("convertertool"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "  :LOGBOOK:\n  CL")
+ (rear-context-string . " CONVERTER TOOL\n")
+ (position . 41141))
+("org-refile-last-stored"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "** MTG <2019-10-")
+ (rear-context-string . " 1:00\n    :END:\n")
+ (position . 17971))
 )
