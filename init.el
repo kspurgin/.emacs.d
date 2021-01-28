@@ -322,14 +322,11 @@
       ("migration: Boston Athenaeum" (or
                 (filename . "code/migrations-private/boston_athenaeum")
                 (filename . "data/BostonAthenaeum")))
-      ("migration: Breman" (or
-                 (filename . "data/Breman")
-                 (filename . "code/mimsy-to-cspace")
-                 (filename . "code/migrations-private/breman")))
       ("migration: CSWS" (or
                  (filename . "data/CSWS")
                  (filename . "code/migrations-private/csws")))
       ("cdmtools" (filename . "code/cdmtools"))
+      ("emendate" (filename . "code/emendate"))
       ("kiba-extend" (filename . "code/kiba-extend"))
       ("islandora8" (filename . "migrate_7x_claw"))
       ("access-tools" (filename . "code/ms-access-migration-tools"))
@@ -441,7 +438,9 @@
 
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind (("C-x g" . magit-status))
+  :config
+  (setq git-commit-style-convention-checks nil))
 
 (setq sentence-end-double-space nil)
 

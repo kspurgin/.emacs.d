@@ -612,14 +612,11 @@ I set up my default filter groups:
       ("migration: Boston Athenaeum" (or
                 (filename . "code/migrations-private/boston_athenaeum")
                 (filename . "data/BostonAthenaeum")))
-      ("migration: Breman" (or
-                 (filename . "data/Breman")
-                 (filename . "code/mimsy-to-cspace")
-                 (filename . "code/migrations-private/breman")))
       ("migration: CSWS" (or
                  (filename . "data/CSWS")
                  (filename . "code/migrations-private/csws")))
       ("cdmtools" (filename . "code/cdmtools"))
+      ("emendate" (filename . "code/emendate"))
       ("kiba-extend" (filename . "code/kiba-extend"))
       ("islandora8" (filename . "migrate_7x_claw"))
       ("access-tools" (filename . "code/ms-access-migration-tools"))
@@ -829,7 +826,9 @@ Try =magit= again. Manual is [[https://magit.vc/manual/magit/index.html#Top][her
 #+BEGIN_SRC emacs-lisp
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind (("C-x g" . magit-status))
+  :config
+  (setq git-commit-style-convention-checks nil))
 #+END_SRC
 
 This is supposed to be neat: it will let you step back in time through your changes. But I don't want to mess with it until I'm used to =magit=.
