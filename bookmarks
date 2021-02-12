@@ -2,7 +2,42 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("islandora-tunnels"
+(("aip-image-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "    :Islandora:\n")
+ (position . 59803))
+("i8-date-metadata-edtf"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "\n*** UPEI Resear")
+ (rear-context-string . "]\n*** EDTF Dates")
+ (position . 106754))
+("islandora7-date-metadata"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "\n   CLOCK: [2021")
+ (rear-context-string . "ata\n   :LOGBOOK:")
+ (position . 43740))
+("uncsa-i7-support"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . "* ONGOING uncsa\n")
+ (position . 37867))
+("meeting-one-on-one-raili"
+ (filename . "~/org/meetings.org")
+ (front-context-string . " :LOGBOOK:\n   CL")
+ (rear-context-string . "\n** MTG Raili\n  ")
+ (position . 83))
+("cspace-support-ohc"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "  :LOGBOOK:\n  CL")
+ (rear-context-string . " Support\n** OHC\n")
+ (position . 4417))
+("cspace-batch-import-tool"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "  :LOGBOOK:\n  CL")
+ (rear-context-string . " CONVERTER TOOL\n")
+ (position . 41304))
+("islandora-tunnels"
  (filename . "~/org/islandora.org")
  (front-context-string . "  - [ ] ssh -L 9")
  (rear-context-string . "WS INSTANCES\n\n  ")
@@ -59,9 +94,9 @@
  (position . 61422))
 ("Islandora-MIG-co-convener-work"
  (filename . "~/org/islandora.org")
- (front-context-string . "work\n   :LOGBOOK")
- (rear-context-string . "\n** Co-convener ")
- (position . 110789))
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "RTIES:\n   :END:\n")
+ (position . 112551))
 ("islandora-tech-call"
  (filename . "~/org/meetings.org")
  (front-context-string . "  :LOGBOOK:\n  CL")

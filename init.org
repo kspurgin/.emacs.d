@@ -716,6 +716,23 @@ The following allows you to select entered text with C-p/C-n:
   :config (yas-global-mode 1)
   )
 #+END_SRC
+
+Control which directories are excluded by grep: 
+
+#+BEGIN_SRC emacs-lisp
+(eval-after-load 'grep
+  '(progn
+     (add-to-list 'grep-find-ignored-directories "tmp")
+     (add-to-list 'grep-find-ignored-directories "bundle")
+     (add-to-list 'grep-find-ignored-directories "spring")
+     (add-to-list 'grep-find-ignored-directories "storage")
+     (add-to-list 'grep-find-ignored-directories "packs")
+     (add-to-list 'grep-find-ignored-directories "node_modules")
+     (add-to-list 'grep-find-ignored-directories ".bundle")
+     (add-to-list 'grep-find-ignored-directories "auto")
+     (add-to-list 'grep-find-ignored-directories "elpa")))
+(add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
+#+END_SRC
 **** TODO comment/organize this better
 *** Projectile
 #+BEGIN_QUOTE
@@ -830,6 +847,8 @@ Try =magit= again. Manual is [[https://magit.vc/manual/magit/index.html#Top][her
   :config
   (setq git-commit-style-convention-checks nil))
 #+END_SRC
+
+~git-commit-style-convention-checks~ doesn't nag you about super short commit messages.
 
 This is supposed to be neat: it will let you step back in time through your changes. But I don't want to mess with it until I'm used to =magit=.
 
