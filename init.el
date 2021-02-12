@@ -386,6 +386,19 @@
   :config (yas-global-mode 1)
   )
 
+(eval-after-load 'grep
+  '(progn
+     (add-to-list 'grep-find-ignored-directories "tmp")
+     (add-to-list 'grep-find-ignored-directories "bundle")
+     (add-to-list 'grep-find-ignored-directories "spring")
+     (add-to-list 'grep-find-ignored-directories "storage")
+     (add-to-list 'grep-find-ignored-directories "packs")
+     (add-to-list 'grep-find-ignored-directories "node_modules")
+     (add-to-list 'grep-find-ignored-directories ".bundle")
+     (add-to-list 'grep-find-ignored-directories "auto")
+     (add-to-list 'grep-find-ignored-directories "elpa")))
+(add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
+
 (use-package projectile
   :ensure t
   :config
