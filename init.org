@@ -336,6 +336,18 @@ I've customized the color of the double/single quote string delimiters because t
   :config
   (setq indent-tabs-mode nil)
 #+END_SRC
+
+Use rubocopfmt
+https://github.com/jimeh/rubocopfmt.el
+I got errors when I tried to enable this on 2021-03-05
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package rubocopfmt
+  :ensure t
+  :hook
+  (ruby-mode . rubocopfmt-mode))
+#+END_SRC
+
 *** PHP
 
 Use [[https://www.drupal.org/docs/develop/standards/coding-standards][Drupal coding standards]] 
