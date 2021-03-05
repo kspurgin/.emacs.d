@@ -2,11 +2,21 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("aip-image-migration"
+(("cspace-bugs"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "OOK:\n  CLOCK: [2")
+ (rear-context-string . "problems\n  :LOGB")
+ (position . 11012))
+("cspace-figuring-out-stuff"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "* ONGOING Genera")
+ (rear-context-string . "  0:19\n  :END:\n\n")
+ (position . 14974))
+("aip-image-migration"
  (filename . "~/org/migrations.org")
- (front-context-string . "   :LOGBOOK:\n   ")
- (rear-context-string . "    :Islandora:\n")
- (position . 59803))
+ (front-context-string . "\n\n* Completed mi")
+ (rear-context-string . "16:24]\n    :END:")
+ (position . 63009))
 ("i8-date-metadata-edtf"
  (filename . "~/org/islandora.org")
  (front-context-string . "\n*** UPEI Resear")
@@ -34,9 +44,9 @@
  (position . 4417))
 ("cspace-batch-import-tool"
  (filename . "~/org/cspace.org")
- (front-context-string . "  :LOGBOOK:\n  CL")
- (rear-context-string . " CONVERTER TOOL\n")
- (position . 41304))
+ (front-context-string . "* CONVERTER TOOL")
+ (rear-context-string . "gain? \n   :END:\n")
+ (position . 22906))
 ("islandora-tunnels"
  (filename . "~/org/islandora.org")
  (front-context-string . "  - [ ] ssh -L 9")
@@ -119,9 +129,9 @@
  (position . 25759))
 ("i8-planning-meeting"
  (filename . "~/org/meetings.org")
- (front-context-string . "andora 8 plannin")
- (rear-context-string . ":END:\n** MTG Isl")
- (position . 15338))
+ (front-context-string . "** MTG Islandora")
+ (rear-context-string . "andora meetings\n")
+ (position . 16068))
 ("breman"
  (filename . "~/org/migrations.org")
  (front-context-string . "    :LOGBOOK:\n  ")
@@ -163,8 +173,8 @@
  (rear-context-string . " CONVERTER TOOL\n")
  (position . 41141))
 ("org-refile-last-stored"
- (filename . "~/org/meetings.org")
- (front-context-string . "** MTG <2019-10-")
- (rear-context-string . " 1:00\n    :END:\n")
- (position . 17971))
+ (filename . "~/org/cspace.org")
+ (front-context-string . "** Configure cli")
+ (rear-context-string . "\n}\n#+END_SRC\n\n\n\n")
+ (position . 5157))
 )
