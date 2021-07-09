@@ -2,7 +2,37 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("cspace-bugs"
+(("osl-i7-support"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . "*** ONGOING osl\n")
+ (position . 37892))
+("cspace-support-breman"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "Breman\n*** DONE ")
+ (rear-context-string . "0:05\n  :END:\n** ")
+ (position . 10064))
+("n-mich-u-islandora-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "S Northern Michi")
+ (rear-context-string . "ews\n** INPROGRES")
+ (position . 24266))
+("i8-lyr-specific"
+ (filename . "~/org/islandora.org")
+ (front-context-string . " :LOGBOOK:\n   CL")
+ (rear-context-string . "ASIS-specific\n  ")
+ (position . 117654))
+("vcu-i7-support"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "*** ONGOING vcu\n")
+ (rear-context-string . " 1:26\n    :END:\n")
+ (position . 39517))
+("jts-i7-support"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "*** ONGOING jts\n")
+ (rear-context-string . "0:06]\n    :END:\n")
+ (position . 37234))
+("cspace-bugs"
  (filename . "~/org/cspace.org")
  (front-context-string . "OOK:\n  CLOCK: [2")
  (rear-context-string . "problems\n  :LOGB")
@@ -14,9 +44,9 @@
  (position . 14974))
 ("aip-image-migration"
  (filename . "~/org/migrations.org")
- (front-context-string . "\n\n* Completed mi")
- (rear-context-string . "16:24]\n    :END:")
- (position . 63009))
+ (front-context-string . "*** INPROGRESS A")
+ (rear-context-string . "ated. However, \n")
+ (position . 71254))
 ("i8-date-metadata-edtf"
  (filename . "~/org/islandora.org")
  (front-context-string . "\n*** UPEI Resear")
@@ -59,9 +89,9 @@
  (position . 24654))
 ("fabric-workshop-cs-migration"
  (filename . "~/org/migrations.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . "ESS Data review\n")
- (position . 24359))
+ (front-context-string . "*** INPROGRESS D")
+ (rear-context-string . "ollectionSpace:\n")
+ (position . 24815))
 ("cspace-dev-meeting"
  (filename . "~/org/meetings.org")
  (front-context-string . "   :LOGBOOK:\n   ")
@@ -91,7 +121,7 @@
  (filename . "~/org/meetings.org")
  (front-context-string . "   :LOGBOOK:\n   ")
  (rear-context-string . " Staff meetings\n")
- (position . 1722))
+ (position . 1986))
 ("suny-brockport"
  (filename . "~/org/migrations.org")
  (front-context-string . "   :LOGBOOK:\n   ")
@@ -104,9 +134,9 @@
  (position . 61422))
 ("Islandora-MIG-co-convener-work"
  (filename . "~/org/islandora.org")
- (front-context-string . "   :LOGBOOK:\n   ")
- (rear-context-string . "RTIES:\n   :END:\n")
- (position . 112551))
+ (front-context-string . "]--[2021-04-29 T")
+ (rear-context-string . "-04-29 Thu 16:06")
+ (position . 126835))
 ("islandora-tech-call"
  (filename . "~/org/meetings.org")
  (front-context-string . "  :LOGBOOK:\n  CL")

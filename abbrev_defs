@@ -9,9 +9,7 @@
 
 (define-abbrev-table 'apropos-mode-abbrev-table '())
 
-(define-abbrev-table 'awk-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'awk-mode-abbrev-table '())
 
 (define-abbrev-table 'bibtex-mode-abbrev-table '())
 
@@ -19,13 +17,9 @@
 
 (define-abbrev-table 'bookmark-edit-annotation-mode-abbrev-table '())
 
-(define-abbrev-table 'c++-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c++-mode-abbrev-table '())
 
-(define-abbrev-table 'c-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'c-mode-abbrev-table '())
 
 (define-abbrev-table 'calendar-mode-abbrev-table '())
 
@@ -53,29 +47,7 @@
 
 (define-abbrev-table 'conf-xdefaults-mode-abbrev-table '())
 
-(define-abbrev-table 'cperl-mode-abbrev-table
-  '(
-    ("=head1" "=head1" cperl-electric-pod 0)
-    ("=head2" "=head2" cperl-electric-pod 0)
-    ("=over" "=over" cperl-electric-pod 0)
-    ("=pod" "=pod" cperl-electric-pod 0)
-    ("continue" "continue" cperl-electric-else 0)
-    ("do" "do" cperl-electric-keyword 0)
-    ("else" "else" cperl-electric-else 0)
-    ("elsif" "elsif" cperl-electric-keyword 0)
-    ("for" "for" cperl-electric-keyword 0)
-    ("foreach" "foreach" cperl-electric-keyword 0)
-    ("foreachmy" "foreachmy" cperl-electric-keyword 0)
-    ("formy" "formy" cperl-electric-keyword 0)
-    ("head1" "head1" cperl-electric-pod 0)
-    ("head2" "head2" cperl-electric-pod 0)
-    ("if" "if" cperl-electric-keyword 0)
-    ("over" "over" cperl-electric-pod 0)
-    ("pod" "pod" cperl-electric-pod 0)
-    ("unless" "unless" cperl-electric-keyword 0)
-    ("until" "until" cperl-electric-keyword 0)
-    ("while" "while" cperl-electric-keyword 0)
-   ))
+(define-abbrev-table 'cperl-mode-abbrev-table '())
 
 (define-abbrev-table 'css-mode-abbrev-table '())
 
@@ -95,10 +67,7 @@
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '())
 
-(define-abbrev-table 'enh-ruby-mode-abbrev-table
-  '(
-    ("#freeze" "# frozen_string_literal: true" nil 0)
-   ))
+(define-abbrev-table 'enh-ruby-mode-abbrev-table '())
 
 (define-abbrev-table 'epa-info-mode-abbrev-table '())
 
@@ -116,22 +85,7 @@
 
 (define-abbrev-table 'git-commit-elisp-text-mode-abbrev-table '())
 
-(define-abbrev-table 'global-abbrev-table
-  '(
-    ("as\\" "ArchivesSpace" nil 2)
-    ("cs" "CollectionSpace" nil 6)
-    ("le" "kristina.spurgin@lyrasis.org" nil 0)
-    ("lyr" "LYRASIS" nil 4)
-    ("pbmk" "use Benchmark qw( cmpthese );
-cmpthese -10, {};" nil 1)
-    ("pdbg" "use Data::Dumper qw( Dumper );
-warn Dumper[];" nil 1)
-    ("phbp" "#! /usr/bin/perl -w" nil 1)
-    ("pusc" "use Smart::Comments;
-
-### " nil 1)
-    ("putm" "use Test::More 'no_plan';" nil 1)
-   ))
+(define-abbrev-table 'global-abbrev-table '())
 
 (define-abbrev-table 'gnus-group-mode-abbrev-table '())
 
@@ -151,9 +105,7 @@ warn Dumper[];" nil 1)
 
 (define-abbrev-table 'ivy-occur-mode-abbrev-table '())
 
-(define-abbrev-table 'java-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'java-mode-abbrev-table '())
 
 (define-abbrev-table 'js-jsx-mode-abbrev-table '())
 
@@ -185,6 +137,8 @@ warn Dumper[];" nil 1)
 
 (define-abbrev-table 'magit-revision-mode-abbrev-table '())
 
+(define-abbrev-table 'magit-section-mode-abbrev-table '())
+
 (define-abbrev-table 'magit-stash-mode-abbrev-table '())
 
 (define-abbrev-table 'magit-stashes-mode-abbrev-table '())
@@ -205,9 +159,7 @@ warn Dumper[];" nil 1)
 
 (define-abbrev-table 'nxml-mode-abbrev-table '())
 
-(define-abbrev-table 'objc-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'objc-mode-abbrev-table '())
 
 (define-abbrev-table 'occur-edit-mode-abbrev-table '())
 
@@ -223,9 +175,7 @@ warn Dumper[];" nil 1)
 
 (define-abbrev-table 'php-mode-abbrev-table '())
 
-(define-abbrev-table 'pike-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'pike-mode-abbrev-table '())
 
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 
@@ -249,9 +199,7 @@ warn Dumper[];" nil 1)
 
 (define-abbrev-table 'speedbar-mode-abbrev-table '())
 
-(define-abbrev-table 'sql-mode-abbrev-table
-  '(
-   ))
+(define-abbrev-table 'sql-mode-abbrev-table '())
 
 (define-abbrev-table 'tabulated-list-mode-abbrev-table '())
 
