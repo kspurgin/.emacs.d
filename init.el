@@ -307,6 +307,19 @@
 
 (use-package ibuffer
 :bind ("C-x C-b" . ibuffer)
+:config
+  (setq ibuffer-formats
+      '((mark modified read-only locked " "
+	      (name 20 20 :left :elide)
+	      " "
+	      (size-h 11 -1 :right)
+	      " "
+	      (mode 16 16 :left :elide)
+	      " "
+	      filename-and-process)
+	(mark " "
+	      (name 16 -1)
+	      " " filename)))
 )
 
 (use-package ibuffer-vc
@@ -321,7 +334,7 @@
          '((mark modified read-only vc-status-mini " "
                  (name 18 18 :left :elide)
                  " "
-                 (size 9 -1 :right)
+                 (size-h 9 -1 :right)
                  " "
                  (mode 16 16 :left :elide)
                  " "
@@ -333,30 +346,12 @@
 (setq ibuffer-saved-filter-groups
     '(("filters"
       ("magit" (name .".*magit"))
-      (".emacs.d" (filename . ".emacs.d"))
-      ("cspace-converter" (filename . "code/cspace-converter"))
-      ("cspace-batch-import" (filename . "code/cspace-batch-import"))
-      ("cspace-config-untangler" (filename . "code/cspace-config-untangler"))
-      ("collectionspace-mapper" (filename . "code/collectionspace-mapper"))
-      ("collectionspace-client" (filename . "code/collectionspace-client"))
-      ("collectionspace-refcache" (filename . "code/collectionspace-refcache"))
       ("migration: Boston Athenaeum" (or
                 (filename . "code/migrations-private/boston_athenaeum")
                 (filename . "data/BostonAthenaeum")))
       ("migration: CSWS" (or
                  (filename . "data/CSWS")
                  (filename . "code/migrations-private/csws")))
-      ("cdmtools" (filename . "code/cdmtools"))
-      ("emendate" (filename . "code/emendate"))
-      ("kiba-extend" (filename . "code/kiba-extend"))
-      ("islandora8" (filename . "migrate_7x_claw"))
-      ("access-tools" (filename . "code/ms-access-migration-tools"))
-      ("islandora-data-tools" (or
-                (filename . "code/islandora-data-tools")
-                (filename . "code/idtu")))
-      ("mdmm" (filename . "code/mdmm/"))
-      ("omeka-data-tools" (filename . "code/omeka-data-tools"))
-      ("migration-misc" (filename . "code/mm/"))
       ("tracking work" (mode . org-mode))
       ("meta" (or
                 (basename . "diary.org")
