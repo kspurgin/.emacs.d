@@ -41,7 +41,7 @@ I set this up first, because:
 (defun personal-laptop ()
   (equal (system-name) "spore"))
 (defun work-laptop ()
-  (equal (system-name) "Kristina-MBP"))
+  (equal (system-name) "Kristina-Macbook-Pro.local"))
 #+END_SRC
 
 **** Define contact info
@@ -102,6 +102,11 @@ The init settings are largely taken from [[http://pages.sachachua.com/.emacs.d/S
 #+END_SRC
 **** Set up package sources
 
+Prevents "Failed to download 'gnu' archive" error
+#+BEGIN_SRC emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+#+END_SRC
+
 These are the external repos from which =use-package= gets packages. 
 
 #+BEGIN_SRC emacs-lisp 
@@ -114,10 +119,6 @@ These are the external repos from which =use-package= gets packages.
 (message "Loaded package sources")
 #+END_SRC
 
-Prevents "Failed to download 'gnu' archive" error
-#+BEGIN_SRC emacs-lisp
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-#+END_SRC
 **** Personal code sources
 Stuff from outside the package system. Add locations to =load-path= so Emacs can find them.
 
@@ -598,7 +599,13 @@ I always have waaaay too many things open. Ibuffer helps me navigate between the
 
 I got my start configuring =ibuffer= with [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][this blog post]].
 
-=ibuffer= is so useful that there's no need for the old static buffer list. 
+=ibuffer= is so useful that there's no need for the old static buffer list.
+
+Set up to use ibuffer.
+
+#+BEGIN_SRC emacs-lisp
+(use-package ibuffer)
+#+END_SRC
 
 Functions to define human-readable size column for ibuffer. This is required by the ibuffer and ibuffer-vc setup below. From [[https://www.emacswiki.org/emacs/IbufferMode#h5o-11][here]].
 
@@ -667,6 +674,7 @@ Set up to use ibuffer.
 	      " " filename)))
 )
 #+END_SRC
+
 
 Set up to use ibuffer-vc.
 
