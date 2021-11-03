@@ -1,7 +1,7 @@
 (defun personal-laptop ()
   (equal (system-name) "spore"))
 (defun work-laptop ()
-  (equal (system-name) "Kristina-MBP"))
+  (equal (system-name) "Kristina-Macbook-Pro.local"))
 
 (setq user-full-name "Kristina M. Spurgin")
 (when (personal-laptop)
@@ -31,6 +31,8 @@
 (setq load-prefer-newer t)
 (message "use-package is set up now")
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (package-refresh-contents))
@@ -38,8 +40,6 @@
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
   (package-refresh-contents))
 (message "Loaded package sources")
-
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -304,6 +304,8 @@
 ; From http://doc.norang.ca/org-mode.html
 
 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+
+(use-package ibuffer)
 
 (defun ajv/human-readable-file-sizes-to-bytes (string)
   "Convert a human-readable file size into bytes."
