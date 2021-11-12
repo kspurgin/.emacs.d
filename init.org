@@ -41,6 +41,8 @@ I set this up first, because:
 (defun personal-laptop ()
   (equal (system-name) "spore"))
 (defun work-laptop ()
+  (equal (system-name) "Kristina-MBP"))
+(defun work-laptop-alt ()
   (equal (system-name) "Kristina-Macbook-Pro.local"))
 #+END_SRC
 
@@ -70,6 +72,11 @@ The right command key still acts as super/command in order to control windows, e
 
 #+BEGIN_SRC emacs-lisp
 (when (work-laptop)
+  (set-keyboard-coding-system nil)
+  (setq mac-command-modifier 'meta)
+  (setq mac-right-command-modifier 'super)
+)
+(when (work-laptop-alt)
   (set-keyboard-coding-system nil)
   (setq mac-command-modifier 'meta)
   (setq mac-right-command-modifier 'super)
