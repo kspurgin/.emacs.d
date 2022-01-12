@@ -2,7 +2,7 @@
   (equal (system-name) "spore"))
 (defun work-laptop ()
   (equal (system-name) "Kristina-MBP"))
-(defun work-laptop-alt ()
+(defun work-laptop ()
   (equal (system-name) "Kristina-Macbook-Pro.local"))
 
 (setq user-full-name "Kristina M. Spurgin")
@@ -16,11 +16,6 @@
 )
 
 (when (work-laptop)
-  (set-keyboard-coding-system nil)
-  (setq mac-command-modifier 'meta)
-  (setq mac-right-command-modifier 'super)
-)
-(when (work-laptop-alt)
   (set-keyboard-coding-system nil)
   (setq mac-command-modifier 'meta)
   (setq mac-right-command-modifier 'super)
