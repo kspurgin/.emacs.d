@@ -160,6 +160,11 @@
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 (add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
 
 (use-package cperl-mode
