@@ -1,5 +1,5 @@
 #+Title: My Emacs configuration
-#+OPTIONS: toc:4 h:4 
+#+OPTIONS: toc:4 h:4
 #+STARTUP: overview
 #+PROPERTY: header-args:emacs-lisp   :tangle "~/.emacs.d/init.el"
 
@@ -8,7 +8,7 @@
 
 My personal Emacs config, taking a single file literate approach, inspired by [[https://raw.githubusercontent.com/sachac/.emacs.d/gh-pages/Sacha.org][Sacha Chua]].
 
-The following are directly from her config, to remind me how to work with this until I get used to it: 
+The following are directly from her config, to remind me how to work with this until I get used to it:
 
 #+BEGIN_QUOTE
 If you're viewing the Org file, you can open source code blocks (those
@@ -24,12 +24,12 @@ My =~/.emacs.d/init.el= is now a symlink to =Sacha.el=, which is what
 config can load =Sacha.el= without loading Org first.
 #+END_QUOTE
 
-My approach is going to be to put my whole current init file in one big code block, and then chip away at documenting it better. 
+My approach is going to be to put my whole current init file in one big code block, and then chip away at documenting it better.
 
 ** Starting up
 *** System & personal info
 
-I set this up first, because: 
+I set this up first, because:
 
  - I use Emacs on multiple devices with different operating systems
  - I want different contact info set on work vs. personal machines
@@ -41,9 +41,9 @@ I set this up first, because:
 (defun personal-laptop ()
   (equal (system-name) "spore"))
 (defun work-laptop ()
-  (equal (system-name) "Kristina-MBP"))
-(defun work-laptop ()
   (equal (system-name) "Kristina-Macbook-Pro.local"))
+(defun work-laptop ()
+  (equal (system-name) "Kristina-MBP"))
 #+END_SRC
 
 **** Define contact info
@@ -62,7 +62,7 @@ Name remains the same. Email changes from personal to work!
 )
 #+END_SRC
 
-**** Fix the Mac keyboard 
+**** Fix the Mac keyboard
 
 First, turn off any special OS-related keyboard stuff.
 
@@ -77,9 +77,9 @@ The right command key still acts as super/command in order to control windows, e
   (setq mac-right-command-modifier 'super)
 )
 #+END_SRC
-*** Where are all the things? 
+*** Where are all the things?
 **** Basics
- First, set up the load path, so it can be overridden. 
+ First, set up the load path, so it can be overridden.
 
  The =package-initialize= call is required before anything below can happen!
 
@@ -87,7 +87,7 @@ The right command key still acts as super/command in order to control windows, e
  (package-initialize)
  #+END_SRC
 
-Use =use-package= to install and configure packages! Here we set up use-package for later use. 
+Use =use-package= to install and configure packages! Here we set up use-package for later use.
 
 The init settings are largely taken from [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua]]. The =use-package= documentation is [[https://github.com/jwiegley/use-package][here]].
 
@@ -109,9 +109,9 @@ Prevents "Failed to download 'gnu' archive" error
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+END_SRC
 
-These are the external repos from which =use-package= gets packages. 
+These are the external repos from which =use-package= gets packages.
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (package-refresh-contents))
@@ -138,7 +138,7 @@ Load appropriate macros, depending on device.
 #+END_SRC
 ** Appearance/UI
 
-Make the graphical client dark and pretty. 
+Make the graphical client dark and pretty.
 
 #+BEGIN_SRC emacs-lisp
 (cond ((display-graphic-p)
@@ -156,9 +156,9 @@ Before turning on =darktooth-modeline= I wanted the mode line of active buffer w
 
 #+BEGIN_SRC emacs-lisp :tangle no
 (set-face-attribute  'mode-line
-                 nil 
+                 nil
                  :foreground "gray90"
-                 :background "dark red" 
+                 :background "dark red"
                  :box '(:line-width 1 :style released-button))
 #+END_SRC
 
@@ -216,6 +216,23 @@ Standard indent is 2 spaces
 (setq standard-indent 2)
 #+END_SRC
 
+Kill trailing whitespace on save (added 2022-09-23)
+
+#+begin_src emacs-lisp
+(add-hook 'before-save-hook
+          'delete-trailing-whitespace)
+#+end_src
+
+[[https://github.com/jordonbiondo/column-enforce-mode][Highlight text that extends beyond a certain column:]] (added 2022-09-23)
+
+whitespace-mode does this as well, but makes things too visually noisy.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package column-enforce-mode
+    :ensure t
+  )
+#+END_SRC
+
 *** Backups
 
     This section is stolen wholesale from [[https://github.com/bnbeckwith/bnb-emacs/tree/6072f959b7015baa2b21854017b655890392dee6][here]].
@@ -246,53 +263,55 @@ Standard indent is 2 spaces
 *** TODO More to document/comment
 
 #+BEGIN_SRC emacs-lisp
-;; Just insert one tab when I hit tab.
-;; From http://www.pement.org/emacs_tabs.htm
-(global-set-key (kbd "TAB") 'self-insert-command)
+  ;; Just insert one tab when I hit tab.
+  ;; From http://www.pement.org/emacs_tabs.htm
+  (global-set-key (kbd "TAB") 'self-insert-command)
 
-;; do not disable things for me.
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
+  (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;; will allow you to type just "y" instead of "yes" when you exit.
-(fset 'yes-or-no-p 'y-or-n-p)
+  ;; do not disable things for me.
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
 
-;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
-(setq next-line-add-newlines nil)
+  ;; will allow you to type just "y" instead of "yes" when you exit.
+  (fset 'yes-or-no-p 'y-or-n-p)
 
-;; scratch should be in text mode
-;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
-(setq initial-major-mode 'text-mode)
+  ;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
+  (setq next-line-add-newlines nil)
 
-; Move line or region up or down with M-up/down arrow
-(use-package move-text
-  :ensure t
-  :config
-   (move-text-default-bindings))
+  ;; scratch should be in text mode
+  ;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
+  (setq initial-major-mode 'text-mode)
 
-;; make emacs automatically notice any changes made to files on disk
-;; especially useful for making reftex notice changes to bibtex files
-;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
-;; Fri May 22 19:32:12 EDT 2009
-(global-auto-revert-mode t)
+					  ; Move line or region up or down with M-up/down arrow
+  (use-package move-text
+    :ensure t
+    :config
+    (move-text-default-bindings))
 
-;;; auto-create non-existing directories to save files
-;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
-;;; Sun Dec 14 00:04:46 EST 2008
-(add-hook 'before-save-hook
-          '(lambda ()
-             (or (file-exists-p (file-name-directory buffer-file-name))
-                 (make-directory (file-name-directory buffer-file-name) t))))
+  ;; make emacs automatically notice any changes made to files on disk
+  ;; especially useful for making reftex notice changes to bibtex files
+  ;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
+  ;; Fri May 22 19:32:12 EDT 2009
+  (global-auto-revert-mode t)
 
-;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
-;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
-(setq set-mark-command-repeat-pop t)
+    ;;; auto-create non-existing directories to save files
+    ;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
+    ;;; Sun Dec 14 00:04:46 EST 2008
+  (add-hook 'before-save-hook
+	    '(lambda ()
+	       (or (file-exists-p (file-name-directory buffer-file-name))
+		   (make-directory (file-name-directory buffer-file-name) t))))
 
-;; Make file and buffer name completion case insensitive
-;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
-(setq read-file-name-completion-ignore-case t)
-(setq read-buffer-completion-ignore-case t)
+  ;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
+  ;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
+  (setq set-mark-command-repeat-pop t)
+
+  ;; Make file and buffer name completion case insensitive
+  ;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
+  (setq read-file-name-completion-ignore-case t)
+  (setq read-buffer-completion-ignore-case t)
 #+END_SRC
 
 ** Coding
@@ -333,7 +352,7 @@ https://github.com/editorconfig/editorconfig-emacs#readme
 #+END_SRC
 *** Ruby
 
-Use enhanced ruby mode. 
+Use enhanced ruby mode.
 
 I've customized the color of the double/single quote string delimiters because the default was hard to see on a dark background.
 
@@ -344,10 +363,26 @@ I've customized the color of the double/single quote string delimiters because t
   :interpreter "ruby"
   :custom-face
   (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
+  (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
+  (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
   )
   :config
   (setq indent-tabs-mode nil)
 #+END_SRC
+
+Added 2022-09-23:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ruby-refactor
+    :ensure t
+  )
+    :config
+    (add-hook 'enh-ruby-mode-hook 'ruby-refactor-mode-launch)
+#+END_SRC
+
+#+begin_src emacs-lisp
+  (add-hook 'enh-ruby-mode-hook 'column-enforce-mode)
+#+end_src
 
 Use rubocopfmt
 https://github.com/jimeh/rubocopfmt.el
@@ -362,12 +397,6 @@ I got errors when I tried to enable this on 2021-03-05
 
 *** PHP
 
-Use [[https://www.drupal.org/docs/develop/standards/coding-standards][Drupal coding standards]] 
-"Drupal mode is an advanced minor mode for developing in Drupal.
-
-Drupal mode is based on top of PHP mode and defines among other
-things indentation etc. to match Drupal Coding Standards."
-
 #+BEGIN_SRC emacs-lisp
 (use-package php-mode
   :ensure t
@@ -375,15 +404,7 @@ things indentation etc. to match Drupal Coding Standards."
   :init
   (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
   :config
-  (setq php-project-coding-style "drupal")
   (setq php-style-delete-trailing-whitespace t)
-  )
-
-(use-package drupal-mode
-  :ensure t
-  :mode "\\.php\\'"
-  :init
-  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
   )
 #+END_SRC
 
@@ -471,7 +492,7 @@ C-a moves to beginning of heading (after asterisks and todo states, etc). C-e mo
 (setq org-duration-format 'h:mm)
 #+END_SRC
 *** Filing/refiling
-Use all of my agenda files as refile targets: 
+Use all of my agenda files as refile targets:
 
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
@@ -519,7 +540,7 @@ The codes after the state keywords are documented [[https://orgmode.org/manual/T
 
 The sequences representing action items are the ones starting with TODO and ASK. These are separate because they feel different to me and I want to require having to record a note when an ASK becomes ANSWERED.
 
-MTG is so I can clock time in meetings. 
+MTG is so I can clock time in meetings.
 
 ONGOING is so I can clock time in non-meeting activities that aren't tasks or projects, like email/communication and meta-work.
 
@@ -535,7 +556,7 @@ ONGOING is so I can clock time in non-meeting activities that aren't tasks or pr
 
 This ensures the whole headline is styled according to =org-headline-done=.
 
-#+BEGIN_SRC 
+#+BEGIN_SRC
 (setq org-fontify-done-headline t)
 #+END_SRC
 
@@ -733,7 +754,7 @@ I set up my default filter groups below. These are for groups that are not handl
 )))
 #+END_SRC
 
-Then load the filter groups automagically with a hook. 
+Then load the filter groups automagically with a hook.
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'ibuffer-mode-hook
@@ -741,7 +762,7 @@ Then load the filter groups automagically with a hook.
 	     (ibuffer-switch-to-saved-filter-groups "filters")))
 #+END_SRC
 
-Keep =ibuffer= updated automagically, with filter groups applied. 
+Keep =ibuffer= updated automagically, with filter groups applied.
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'ibuffer-mode-hook
@@ -756,7 +777,7 @@ Killing unmodified buffers is not a thing we need to be prompted about. You will
 (setq ibuffer-expert t)
 #+END_SRC
 
-Nor do we want to see empty filter groups. No visual clutter! 
+Nor do we want to see empty filter groups. No visual clutter!
 
 #+BEGIN_SRC emacs-lisp
 (setq ibuffer-show-empty-filter-groups nil)
@@ -815,7 +836,7 @@ The following allows you to select entered text with C-p/C-n:
   )
 #+END_SRC
 
-Control which directories are excluded by grep: 
+Control which directories are excluded by grep:
 
 #+BEGIN_SRC emacs-lisp
 (eval-after-load 'grep
@@ -838,13 +859,14 @@ Projectile is a project interaction library for Emacs. Its goal is to provide a 
 #+END_QUOTE
 
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1)
-  (setq projectile-completion-system 'ivy))
+  (use-package projectile
+    :ensure t
+    :config
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (projectile-mode +1)
+    (setq projectile-completion-system 'ivy)
+    (setq projectile-create-missing-test-files "t"))
 #+END_SRC
 **** TODO Read up on Projectile and configure
      :LOGBOOK:
@@ -883,13 +905,13 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
          ("\\.asciidoc\\'" . adoc-mode))
   :config
   (progn
-     (set-face-attribute  'markup-meta-face
-                      nil 
+     (set-face-attribute  'adoc-meta-face
+                      nil
                       :foreground "pink1"
                       :height 100)
-     
-     (set-face-attribute  'markup-meta-hide-face
-                      nil 
+
+     (set-face-attribute  adoc-meta-hide-face
+                      nil
                       :foreground "gray40"
                       :height 100)
   )
@@ -914,7 +936,7 @@ Currently I only am using this at work.
 #+END_SRC
 *** Markdown
 
-For editing Markdown text. 
+For editing Markdown text.
 
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
@@ -1108,10 +1130,10 @@ Magit and other git stuff
 ** https://github.com/mwfogleman/.emacs.d/blob/master/michael.org
 ** https://writequit.org/org/
 #+BEGIN_QUOTE
-This file takes a page out of the book of Hardcore Freestyle Emacs, in which a single org-file can be tangled to create all the necessary dotfiles required for my everyday computer usage. 
+This file takes a page out of the book of Hardcore Freestyle Emacs, in which a single org-file can be tangled to create all the necessary dotfiles required for my everyday computer usage.
 #+END_QUOTE
 * Things to look up
-I don't remember what these things are or what they do... 
+I don't remember what these things are or what they do...
 
 #+BEGIN_SRC emacs-lisp
 ; everytime bookmark is changed, automatically save it
@@ -1127,6 +1149,3 @@ I don't remember what these things are or what they do...
 I also like the idea of clocking out when setting mark to =WAITING=
 
 See: https://sachachua.com/blog/2007/12/clocking-time-with-emacs-org/
-
-docker-compose exec drupal bash
-composer require migrate_plus 3.x

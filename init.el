@@ -1,9 +1,9 @@
 (defun personal-laptop ()
   (equal (system-name) "spore"))
 (defun work-laptop ()
-  (equal (system-name) "Kristina-MBP"))
-(defun work-laptop ()
   (equal (system-name) "Kristina-Macbook-Pro.local"))
+(defun work-laptop ()
+  (equal (system-name) "Kristina-MBP"))
 
 (setq user-full-name "Kristina M. Spurgin")
 (when (personal-laptop)
@@ -95,6 +95,13 @@
 
 (setq standard-indent 2)
 
+(add-hook 'before-save-hook
+          'delete-trailing-whitespace)
+
+(use-package column-enforce-mode
+  :ensure t
+)
+
 (setq backup-by-copying t
       create-lockfiles nil
       backup-directory-alist '((".*" . "~/.saves"))
@@ -107,6 +114,8 @@
 ;; Just insert one tab when I hit tab.
 ;; From http://www.pement.org/emacs_tabs.htm
 (global-set-key (kbd "TAB") 'self-insert-command)
+
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
 ;; do not disable things for me.
 (put 'downcase-region 'disabled nil)
@@ -123,11 +132,11 @@
 ;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
 (setq initial-major-mode 'text-mode)
 
-; Move line or region up or down with M-up/down arrow
+					; Move line or region up or down with M-up/down arrow
 (use-package move-text
   :ensure t
   :config
-   (move-text-default-bindings))
+  (move-text-default-bindings))
 
 ;; make emacs automatically notice any changes made to files on disk
 ;; especially useful for making reftex notice changes to bibtex files
@@ -135,13 +144,13 @@
 ;; Fri May 22 19:32:12 EDT 2009
 (global-auto-revert-mode t)
 
-;;; auto-create non-existing directories to save files
-;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
-;;; Sun Dec 14 00:04:46 EST 2008
+  ;;; auto-create non-existing directories to save files
+  ;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
+  ;;; Sun Dec 14 00:04:46 EST 2008
 (add-hook 'before-save-hook
-          '(lambda ()
-             (or (file-exists-p (file-name-directory buffer-file-name))
-                 (make-directory (file-name-directory buffer-file-name) t))))
+	  '(lambda ()
+	     (or (file-exists-p (file-name-directory buffer-file-name))
+		 (make-directory (file-name-directory buffer-file-name) t))))
 
 ;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
 ;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
@@ -178,9 +187,19 @@
   :interpreter "ruby"
   :custom-face
   (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
+  (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
+  (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
   )
   :config
   (setq indent-tabs-mode nil)
+
+(use-package ruby-refactor
+  :ensure t
+)
+  :config
+  (add-hook 'enh-ruby-mode-hook 'ruby-refactor-mode-launch)
+
+(add-hook 'enh-ruby-mode-hook 'column-enforce-mode)
 
 (use-package php-mode
   :ensure t
@@ -188,15 +207,7 @@
   :init
   (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
   :config
-  (setq php-project-coding-style "drupal")
   (setq php-style-delete-trailing-whitespace t)
-  )
-
-(use-package drupal-mode
-  :ensure t
-  :mode "\\.php\\'"
-  :init
-  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
   )
 
 (require 'hideshow)
@@ -473,7 +484,8 @@
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1)
-  (setq projectile-completion-system 'ivy))
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-create-missing-test-files "t"))
 
 (use-package swiper
   :ensure t
@@ -485,13 +497,13 @@
          ("\\.asciidoc\\'" . adoc-mode))
   :config
   (progn
-     (set-face-attribute  'markup-meta-face
-                      nil 
+     (set-face-attribute  'adoc-meta-face
+                      nil
                       :foreground "pink1"
                       :height 100)
-     
-     (set-face-attribute  'markup-meta-hide-face
-                      nil 
+
+     (set-face-attribute  adoc-meta-hide-face
+                      nil
                       :foreground "gray40"
                       :height 100)
   )
