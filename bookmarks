@@ -1,52 +1,187 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("islandora-monthly-team-meeting"
+(("jessi-migration-advice"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "*** Migration ad")
+ (rear-context-string . "s\n** Consulting\n")
+ (position . 77113))
+("dev-work-general-meta"
+ (filename . "~/org/work.org")
+ (front-context-string . "\n:LOGBOOK:\nCLOCK")
+ (rear-context-string . "rk, general/meta")
+ (position . 84097))
+("uva-collectionspace-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "*** INPROGRESS D")
+ (rear-context-string . "ollectionSpace:\n")
+ (position . 25392))
+("cspace-support-momi"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "\n   :LOGBOOK:\n  ")
+ (rear-context-string . "the Moving Image")
+ (position . 47675))
+("ccp"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "**** INPROGRESS ")
+ (rear-context-string . "2:11]\n    :END:\n")
+ (position . 39042))
+("islandora-out"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "\n  :LOGBOOK:\n  C")
+ (rear-context-string . "Out of Islandora")
+ (position . 157876))
+("crates-boxes-cs"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "\n    :LOGBOOK:\n ")
+ (rear-context-string . "rates/Boxes spec")
+ (position . 8330))
+("cspace-support-leightel"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "** Leightel\n   :")
+ (rear-context-string . "  2:33\n   :END:\n")
+ (position . 16982))
+("chronology-authority"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "\n    :LOGBOOK:\n ")
+ (rear-context-string . "y authority spec")
+ (position . 8272))
+("ksu-cspace-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "saw Phase 1/2\n  ")
+ (rear-context-string . ":END:\n**** Kenne")
+ (position . 58632))
+("mentoring"
+ (filename . "~/org/work.org")
+ (front-context-string . "Mentoring\n   :LO")
+ (rear-context-string . "ta) projects\n** ")
+ (position . 93943))
+("cspace-dev-work"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "** General dev s")
+ (rear-context-string . "on list\n\n* Dev\n\n")
+ (position . 6220))
+("uminn-arboretum-cspace-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "\n** Fabric Works")
+ (rear-context-string . "dscape Arboretum")
+ (position . 19667))
+("cspace-qa"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "QA\n   :LOGBOOK:\n")
+ (rear-context-string . ":48\n   :END:\n** ")
+ (position . 7255))
+("tms-migration-dev"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "*** TMS migratio")
+ (rear-context-string . " Active\n** Mine\n")
+ (position . 26794))
+("mark-one-on-one"
  (filename . "~/org/meetings.org")
- (front-context-string . "\n   CLOCK: [2021")
+ (front-context-string . "MTG Mark\n   :LOG")
+ (rear-context-string . ":40\n   :END:\n** ")
+ (position . 2232))
+("cspace-support-hku"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "sity (HKU)\n   :L")
+ (rear-context-string . "Hong Kong Univer")
+ (position . 10590))
+("dspace-general-learning"
+ (filename . "~/org/dspace.org")
+ (front-context-string . "\n  :LOGBOOK:\n  C")
+ (rear-context-string . "General/learning")
+ (position . 19))
+("kennesaw-state"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "esaw Phase 1/2\n ")
+ (rear-context-string . "  :END:\n*** Kenn")
+ (position . 117852))
+("cspace-support-westaf"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "** WESTAF\n   :LO")
+ (rear-context-string . "  0:17\n   :END:\n")
+ (position . 25995))
+("cspace-support-omca"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "** OMCA\n   :LOGB")
+ (rear-context-string . " NAGPRA project\n")
+ (position . 29470))
+("systematize-migration-work"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "   :LOGBOOK:\n   ")
+ (rear-context-string . "atize for reuse\n")
+ (position . 4469))
+("bpl-cspace-migration-boston-public-library"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "\n    :LOGBOOK:\n ")
+ (rear-context-string . "SS BPL Migration")
+ (position . 32858))
+("mcgill-cspace-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "\n   :LOGBOOK:\n  ")
+ (rear-context-string . ":END:\n\n** McGill")
+ (position . 8532))
+("ba-athenaeum-cspace-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "** Boston Athena")
+ (rear-context-string . "ONGOING Support\n")
+ (position . 8348))
+("cspace-documentation"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "* ONGOING Docume")
+ (rear-context-string . "t = option list\n")
+ (position . 6732))
+("cspace-support-fwm-fabric-workshop"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "\n   CLOCK: [2022")
+ (rear-context-string . "hop\n   :LOGBOOK:")
+ (position . 11870))
+("durham-i7-support"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . " ONGOING durham\n")
+ (position . 37671))
+("usopc-data-review-service"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "** USOPC - Olymp")
+ (rear-context-string . "11-01\n    :END:\n")
+ (position . 59569))
+("cspace-monthly-team-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "ce Monthly Statu")
+ (rear-context-string . "END:\n** MTG Cspa")
+ (position . 20872))
+("unmc-i7-support"
+ (filename . "~/org/islandora.org")
+ (front-context-string . "    :LOGBOOK:\n  ")
+ (rear-context-string . "** ONGOING unmc\n")
+ (position . 44123))
+("islandora-monthly-team-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "\n   CLOCK: [2022")
  (rear-context-string . "ing\n   :LOGBOOK:")
- (position . 22417))
+ (position . 23936))
 ("wpl-westerville"
  (filename . "~/org/migrations.org")
- (front-context-string . "\n* ONGOING In qu")
- (rear-context-string . "10:00]\n    :END:")
- (position . 28461))
+ (front-context-string . " WPL Migration d")
+ (rear-context-string . "\n**** INPROGRESS")
+ (position . 61521))
 ("mmm-museum-of-making-music"
  (filename . "~/org/migrations.org")
- (front-context-string . "** Museum of Mak")
- (rear-context-string . "ns/data reviews\n")
- (position . 24254))
+ (front-context-string . "\n    :LOGBOOK:\n ")
+ (rear-context-string . "Migration - Prod")
+ (position . 89218))
 ("az-photo"
  (filename . "~/org/migrations.org")
- (front-context-string . "\n    CLOCK: [202")
- (rear-context-string . "ew\n    :LOGBOOK:")
- (position . 25016))
-("met"
- (filename . "~/org/work.org")
- (front-context-string . ":\n   CLOCK: [202")
- (rear-context-string . "work\n   :LOGBOOK")
- (position . 40918))
-("boston-public-library-cs-migration"
- (filename . "~/org/migrations.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . "2021-09-13 Mon>\n")
- (position . 26436))
-("national-cowboy-museum"
- (filename . "~/org/migrations.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . "2021-11-01 Mon>\n")
- (position . 33831))
+ (front-context-string . "**** INPROGRESS ")
+ (rear-context-string . "2:11]\n    :END:\n")
+ (position . 39042))
 ("dts-migration-ops"
  (filename . "~/org/meetings.org")
  (front-context-string . "\n** MTG DDD meet")
  (rear-context-string . "TS Migration Ops")
  (position . 1947))
-("i8-metadata-profiling-xml"
- (filename . "~/org/islandora.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . " wrangling, etc\n")
- (position . 135930))
 ("csv-importer-cspace"
  (filename . "~/org/cspace.org")
  (front-context-string . "  :LOGBOOK:\n  CL")
@@ -59,34 +194,19 @@
  (position . 62066))
 ("cspace-etl"
  (filename . "~/org/cspace.org")
- (front-context-string . "  :LOGBOOK:\n  CL")
- (rear-context-string . " end\nend\n\n* ETL\n")
- (position . 72728))
-("mark-chalmers"
- (filename . "~/org/work.org")
- (front-context-string . "* data integrati")
- (rear-context-string . "ve in her yard.\n")
- (position . 61495))
+ (front-context-string . "\n  :LOGBOOK:\n  C")
+ (rear-context-string . "d\n    end\n\n* ETL")
+ (position . 93264))
 ("osl-i7-support"
  (filename . "~/org/islandora.org")
  (front-context-string . "    :LOGBOOK:\n  ")
  (rear-context-string . "*** ONGOING osl\n")
- (position . 37892))
+ (position . 38735))
 ("cspace-support-breman"
  (filename . "~/org/cspace.org")
  (front-context-string . "Breman\n*** DONE ")
  (rear-context-string . "0:05\n  :END:\n** ")
  (position . 10064))
-("n-mich-u-islandora-migration"
- (filename . "~/org/migrations.org")
- (front-context-string . "S Northern Michi")
- (rear-context-string . "ews\n** INPROGRES")
- (position . 24266))
-("i8-lyr-specific"
- (filename . "~/org/islandora.org")
- (front-context-string . " :LOGBOOK:\n   CL")
- (rear-context-string . "ASIS-specific\n  ")
- (position . 117654))
 ("vcu-i7-support"
  (filename . "~/org/islandora.org")
  (front-context-string . "*** ONGOING vcu\n")
@@ -95,8 +215,8 @@
 ("jts-i7-support"
  (filename . "~/org/islandora.org")
  (front-context-string . "*** ONGOING jts\n")
- (rear-context-string . "0:06]\n    :END:\n")
- (position . 37234))
+ (rear-context-string . " 0:22\n    :END:\n")
+ (position . 38549))
 ("cspace-bugs"
  (filename . "~/org/cspace.org")
  (front-context-string . "OOK:\n  CLOCK: [2")
@@ -112,16 +232,6 @@
  (front-context-string . "*** INPROGRESS A")
  (rear-context-string . "ated. However, \n")
  (position . 71254))
-("i8-date-metadata-edtf"
- (filename . "~/org/islandora.org")
- (front-context-string . "\n*** UPEI Resear")
- (rear-context-string . "]\n*** EDTF Dates")
- (position . 106754))
-("islandora7-date-metadata"
- (filename . "~/org/islandora.org")
- (front-context-string . "\n   CLOCK: [2021")
- (rear-context-string . "ata\n   :LOGBOOK:")
- (position . 43740))
 ("uncsa-i7-support"
  (filename . "~/org/islandora.org")
  (front-context-string . "    :LOGBOOK:\n  ")
@@ -134,29 +244,19 @@
  (position . 83))
 ("cspace-support-ohc"
  (filename . "~/org/cspace.org")
- (front-context-string . "  :LOGBOOK:\n  CL")
- (rear-context-string . " Support\n** OHC\n")
- (position . 4417))
+ (front-context-string . "** OHC\n   :LOGBO")
+ (rear-context-string . "  0:36\n   :END:\n")
+ (position . 17082))
 ("islandora-tunnels"
  (filename . "~/org/islandora.org")
  (front-context-string . "  - [ ] ssh -L 9")
  (rear-context-string . "WS INSTANCES\n\n  ")
  (position . 44443))
-("suny-brockport-islandora-migration"
- (filename . "~/org/migrations.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . "ESS Data review\n")
- (position . 24654))
-("fabric-workshop-cs-migration"
- (filename . "~/org/migrations.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . "gration Phase 3\n")
- (position . 70441))
 ("cspace-dev-meeting"
  (filename . "~/org/meetings.org")
- (front-context-string . "   CLOCK: [2021-")
- (rear-context-string . "gs\n   :LOGBOOK:\n")
- (position . 16203))
+ (front-context-string . "** MTG Cspace de")
+ (rear-context-string . " 1:02\n   :END:\n\n")
+ (position . 15687))
 ("carnegie"
  (filename . "~/org/migrations.org")
  (front-context-string . "    :LOGBOOK:\n  ")
@@ -166,12 +266,12 @@
  (filename . "~/org/meetings.org")
  (front-context-string . "\n   CLOCK: [2021")
  (rear-context-string . "ngs\n   :LOGBOOK:")
- (position . 7736))
+ (position . 12072))
 ("cspace-dts-status-meeting"
  (filename . "~/org/meetings.org")
- (front-context-string . "   :LOGBOOK:\n   ")
- (rear-context-string . "status meetings\n")
- (position . 4015))
+ (front-context-string . "** MTG Cspace/DT")
+ (rear-context-string . "8-16 Fri 12:37]\n")
+ (position . 8380))
 ("mods-profiling"
  (filename . "~/org/islandora.org")
  (front-context-string . "ling\n   :LOGBOOK")
@@ -179,14 +279,9 @@
  (position . 41491))
 ("all-staff-meeting"
  (filename . "~/org/meetings.org")
- (front-context-string . "   CLOCK: [2021-")
- (rear-context-string . "gs\n   :LOGBOOK:\n")
- (position . 2310))
-("suny-brockport"
- (filename . "~/org/migrations.org")
- (front-context-string . "   :LOGBOOK:\n   ")
- (rear-context-string . "    :Islandora:\n")
- (position . 24332))
+ (front-context-string . "** MTG Staff mee")
+ (rear-context-string . "  0:16\n   :END:\n")
+ (position . 3766))
 ("dates-processing"
  (filename . "~/org/cspace.org")
  (front-context-string . "   :LOGBOOK:\n   ")
@@ -194,14 +289,9 @@
  (position . 61422))
 ("Islandora-MIG-co-convener-work"
  (filename . "~/org/islandora.org")
- (front-context-string . "vener work\n   :P")
- (rear-context-string . " :END:\n** Co-con")
- (position . 136791))
-("islandora-tech-call"
- (filename . "~/org/meetings.org")
- (front-context-string . "  :LOGBOOK:\n  CL")
- (rear-context-string . "ndora Tech Call\n")
- (position . 25336))
+ (front-context-string . "onvener work\n   ")
+ (rear-context-string . "\n  :END:\n** Co-c")
+ (position . 152555))
 ("csws-migration"
  (filename . "~/org/migrations.org")
  (front-context-string . "     :LOGBOOK:\n ")
@@ -214,19 +304,14 @@
  (position . 26970))
 ("islandora-mig-meeting"
  (filename . "~/org/meetings.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . "t Group meeting\n")
- (position . 27324))
+ (front-context-string . "*** MTG Islandor")
+ (rear-context-string . " 1:02\n    :END:\n")
+ (position . 33600))
 ("i8-planning-meeting"
  (filename . "~/org/meetings.org")
  (front-context-string . "   :LOGBOOK:\n   ")
  (rear-context-string . "osting planning\n")
- (position . 22001))
-("breman"
- (filename . "~/org/migrations.org")
- (front-context-string . "    :LOGBOOK:\n  ")
- (rear-context-string . "gration phase 3\n")
- (position . 31533))
+ (position . 22925))
 ("ucb-cspace"
  (filename . "~/org/cspace.org")
  (front-context-string . ":LOGBOOK:\n  CLOC")
@@ -242,11 +327,6 @@
  (front-context-string . "** INPROGRESS su")
  (rear-context-string . "os/2570565392\n\n\n")
  (position . 35519))
-("athenaeum"
- (filename . "~/org/migrations.org")
- (front-context-string . "*** INPROGRESS B")
- (rear-context-string . "ntract\n   :END:\n")
- (position . 51349))
 ("metawork"
  (filename . "~/org/work.org")
  (front-context-string . ":\n   CLOCK: [202")
@@ -264,7 +344,7 @@
  (position . 41141))
 ("org-refile-last-stored"
  (filename . "~/org/migrations.org")
- (front-context-string . "** National Cowb")
- (rear-context-string . ".pdf`; sleep 1\n\n")
- (position . 33797))
+ (front-context-string . "** CANCELED Carn")
+ (rear-context-string . "odos/4196704068\n")
+ (position . 506267))
 )
