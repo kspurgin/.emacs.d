@@ -21,3 +21,6 @@ transient
 # temporary/reference
 sc.org
 init_gen.el
+.DS_Store
+network-security.data
+url/cookies
