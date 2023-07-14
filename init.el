@@ -115,15 +115,13 @@
   :ensure t
 )
 
-;; Just insert one tab when I hit tab.
-;; From http://www.pement.org/emacs_tabs.htm
 (global-set-key (kbd "TAB") 'self-insert-command)
-
-(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
 (global-unset-key (kbd "C-z"))
 
 (global-unset-key (kbd "C-x C-z"))
+
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
 (setq backup-by-copying t
       create-lockfiles nil
