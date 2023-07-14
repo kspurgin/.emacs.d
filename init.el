@@ -2,24 +2,33 @@
   (equal (system-name) "spore"))
 (defun work-laptop ()
   (equal (system-name) "Kristina-Macbook-Pro.local"))
-(defun work-laptop ()
+(defun work-laptop-b ()
   (equal (system-name) "Kristina-MBP"))
 
 (setq user-full-name "Kristina M. Spurgin")
 (when (personal-laptop)
   (setq user-mail-address "kristina@le-champignon.net")
   (message "You are on your personal laptop.")
-)
+  )
 (when (work-laptop)
   (setq user-mail-address "kristina.spurgin@lyrasis.org")
-    (message "You are on your work laptop.")
-)
+  (message "You are on your work laptop.")
+  )
+(when (work-laptop-b)
+  (setq user-mail-address "kristina.spurgin@lyrasis.org")
+  (message "You are on your work laptop.")
+  )
 
 (when (work-laptop)
   (set-keyboard-coding-system nil)
   (setq mac-command-modifier 'meta)
   (setq mac-right-command-modifier 'super)
-)
+  )
+(when (work-laptop-b)
+  (set-keyboard-coding-system nil)
+  (setq mac-command-modifier 'meta)
+  (setq mac-right-command-modifier 'super)
+  )
 
 (package-initialize)
 
@@ -47,8 +56,12 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 (when (work-laptop)
-       (load "LYRASIS_macros")
-       (message "work-related macros loaded"))
+  (load "LYRASIS_macros")
+  (message "work-related macros loaded"))
+
+(when (work-laptop-b)
+  (load "LYRASIS_macros")
+  (message "work-related macros loaded"))
 
 (cond ((display-graphic-p)
        (use-package darktooth-theme
@@ -102,6 +115,16 @@
   :ensure t
 )
 
+;; Just insert one tab when I hit tab.
+;; From http://www.pement.org/emacs_tabs.htm
+(global-set-key (kbd "TAB") 'self-insert-command)
+
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+
+(global-unset-key (kbd "C-z"))
+
+(global-unset-key (kbd "C-x C-z"))
+
 (setq backup-by-copying t
       create-lockfiles nil
       backup-directory-alist '((".*" . "~/.saves"))
@@ -111,11 +134,10 @@
       kept-old-versions 2
       version-control t)
 
-;; Just insert one tab when I hit tab.
-;; From http://www.pement.org/emacs_tabs.htm
-(global-set-key (kbd "TAB") 'self-insert-command)
-
-(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+(eval-after-load 'grep
+  '(progn
+     (add-to-list 'grep-find-ignored-directories ".bundle")
+     (add-to-list 'grep-find-ignored-directories "coverage")))
 
 ;; do not disable things for me.
 (put 'downcase-region 'disabled nil)
@@ -239,6 +261,19 @@
 (setq org-special-ctrl-a/e t)
 
 (when (work-laptop)
+(setq org-agenda-files
+      (delq nil
+            (mapcar (lambda (x) (and (file-exists-p x) x))
+                    '(
+                      "~/org/cspace.org"
+                      "~/org/diary.org"
+                      "~/org/islandora.org"
+                      "~/org/meetings.org"
+                      "~/org/migrations.org"
+		      "~/org/notes.org"
+                      "~/org/work.org"
+)))))
+(when (work-laptop-b)
 (setq org-agenda-files
       (delq nil
             (mapcar (lambda (x) (and (file-exists-p x) x))
@@ -516,6 +551,9 @@
 (when (work-laptop)
        (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
 	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+(when (work-laptop-b)
+       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
 
 (use-package markdown-mode
   :ensure t
@@ -528,6 +566,9 @@
 (use-package auto-org-md
   :ensure t
 )
+
+(fset 'noblame
+   (kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))
 
 (use-package magit
   :ensure t
