@@ -111,6 +111,7 @@ The init settings are largely taken from [[http://pages.sachachua.com/.emacs.d/S
 (setq load-prefer-newer t)
 (message "use-package is set up now")
 #+END_SRC
+
 **** Set up package sources
 
 Prevents "Failed to download 'gnu' archive" error
@@ -130,6 +131,24 @@ These are the external repos from which =use-package= gets packages.
 (message "Loaded package sources")
 #+END_SRC
 
+**** Set up treesit language sources
+As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+
+#+begin_src emacs-lisp
+  (setq treesit-language-source-alist
+     '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+       (css "https://github.com/tree-sitter/tree-sitter-css")
+       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+       (go "https://github.com/tree-sitter/tree-sitter-go")
+       (html "https://github.com/tree-sitter/tree-sitter-html")
+       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+       (json "https://github.com/tree-sitter/tree-sitter-json")
+       (make "https://github.com/alemuller/tree-sitter-make")
+       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+       (python "https://github.com/tree-sitter/tree-sitter-python")
+       (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+       (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+#+end_src
 **** Personal code sources
 Stuff from outside the package system. Add locations to =load-path= so Emacs can find them.
 
@@ -149,6 +168,17 @@ Load appropriate macros, depending on device.
     (load "LYRASIS_macros")
     (message "work-related macros loaded"))
 #+END_SRC
+**** Set up exec-path-from-shell
+Needs to be called as soon as possible for native compilation:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :if (memq window-system '(mac ns x))
+    :config
+    (exec-path-from-shell-initialize))
+#+END_SRC
+
 ** Appearance/UI
 
 Make the graphical client dark and pretty.
@@ -448,6 +478,14 @@ I got errors when I tried to enable this on 2021-03-05
 #+END_SRC
 
 ** Data
+*** nhexl-mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package nhexl-mode
+  :ensure t
+  )
+#+END_SRC
+
 *** XML
 
 The following enables folding of XML
