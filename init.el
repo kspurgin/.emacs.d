@@ -52,6 +52,20 @@
   (package-refresh-contents))
 (message "Loaded package sources")
 
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (go "https://github.com/tree-sitter/tree-sitter-go")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
@@ -62,6 +76,12 @@
 (when (work-laptop-b)
   (load "LYRASIS_macros")
   (message "work-related macros loaded"))
+
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns x))
+  :config
+  (exec-path-from-shell-initialize))
 
 (cond ((display-graphic-p)
        (use-package darktooth-theme
@@ -228,6 +248,10 @@
   (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
   :config
   (setq php-style-delete-trailing-whitespace t)
+  )
+
+(use-package nhexl-mode
+  :ensure t
   )
 
 (require 'hideshow)
