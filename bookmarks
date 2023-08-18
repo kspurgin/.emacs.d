@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("jessi-migration-advice"
+(("omca-authorities-swap"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "\n:LOGBOOK:\nCLOCK")
+ (rear-context-string . "ies swap project")
+ (position . 54060))
+("jessi-migration-advice"
  (filename . "~/org/migrations.org")
  (front-context-string . "*** Migration ad")
  (rear-context-string . "s\n** Consulting\n")
@@ -184,9 +189,9 @@
  (position . 1947))
 ("csv-importer-cspace"
  (filename . "~/org/cspace.org")
- (front-context-string . "  :LOGBOOK:\n  CL")
- (rear-context-string . "CONVERTER TOOL)\n")
- (position . 31737))
+ (front-context-string . "* CSV IMPORTER (")
+ (rear-context-string . "again?\n   :END:\n")
+ (position . 65776))
 ("activities"
  (filename . "~/org/work.org")
  (front-context-string)
