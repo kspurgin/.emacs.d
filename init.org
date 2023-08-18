@@ -31,19 +31,19 @@ My approach is going to be to put my whole current init file in one big code blo
 
 I set this up first, because:
 
- - I use Emacs on multiple devices with different operating systems
- - I want different contact info set on work vs. personal machines
- - Some things need to be loaded (or not, or differently) based on the OS
+- I use Emacs on multiple devices with different operating systems
+- I want different contact info set on work vs. personal machines
+- Some things need to be loaded (or not, or differently) based on the OS
 
 **** Define systems
 
 #+BEGIN_SRC emacs-lisp
-(defun personal-laptop ()
-  (equal (system-name) "spore"))
-(defun work-laptop ()
-  (equal (system-name) "Kristina-Macbook-Pro.local"))
-(defun work-laptop-b ()
-  (equal (system-name) "Kristina-MBP"))
+  (defun personal-laptop ()
+    (equal (system-name) "spore"))
+  (defun work-laptop ()
+    (equal (system-name) "Kristina-Macbook-Pro.local"))
+  (defun work-laptop-b ()
+    (equal (system-name) "Kristina-MBP"))
 #+END_SRC
 
 **** Define contact info
@@ -88,47 +88,47 @@ The right command key still acts as super/command in order to control windows, e
 #+END_SRC
 *** Where are all the things?
 **** Basics
- First, set up the load path, so it can be overridden.
+First, set up the load path, so it can be overridden.
 
- The =package-initialize= call is required before anything below can happen!
+The =package-initialize= call is required before anything below can happen!
 
- #+BEGIN_SRC emacs-lisp
- (package-initialize)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (package-initialize)
+#+END_SRC
 
 Use =use-package= to install and configure packages! Here we set up use-package for later use.
 
 The init settings are largely taken from [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua]]. The =use-package= documentation is [[https://github.com/jwiegley/use-package][here]].
 
 #+BEGIN_SRC emacs-lisp
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(setq use-package-verbose t)
-(require 'use-package)
-(use-package auto-compile
-  :ensure t
-  :config (auto-compile-on-load-mode))
-(setq load-prefer-newer t)
-(message "use-package is set up now")
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (setq use-package-verbose t)
+  (require 'use-package)
+  (use-package auto-compile
+    :ensure t
+    :config (auto-compile-on-load-mode))
+  (setq load-prefer-newer t)
+  (message "use-package is set up now")
 #+END_SRC
 
 **** Set up package sources
 
 Prevents "Failed to download 'gnu' archive" error
 #+BEGIN_SRC emacs-lisp
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+END_SRC
 
 These are the external repos from which =use-package= gets packages.
 
 #+BEGIN_SRC emacs-lisp
-(unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (package-refresh-contents))
-(unless (assoc-default "org" package-archives)
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-  (package-refresh-contents))
-(message "Loaded package sources")
+  (unless (assoc-default "melpa" package-archives)
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+    (package-refresh-contents))
+  (unless (assoc-default "org" package-archives)
+    (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+    (package-refresh-contents))
+  (message "Loaded package sources")
 #+END_SRC
 
 **** Set up treesit language sources
@@ -136,25 +136,25 @@ As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 
 #+begin_src emacs-lisp
   (setq treesit-language-source-alist
-     '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-       (css "https://github.com/tree-sitter/tree-sitter-css")
-       (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-       (go "https://github.com/tree-sitter/tree-sitter-go")
-       (html "https://github.com/tree-sitter/tree-sitter-html")
-       (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-       (json "https://github.com/tree-sitter/tree-sitter-json")
-       (make "https://github.com/alemuller/tree-sitter-make")
-       (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-       (python "https://github.com/tree-sitter/tree-sitter-python")
-       (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-       (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+	'((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	  (css "https://github.com/tree-sitter/tree-sitter-css")
+	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+	  (go "https://github.com/tree-sitter/tree-sitter-go")
+	  (html "https://github.com/tree-sitter/tree-sitter-html")
+	  (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	  (json "https://github.com/tree-sitter/tree-sitter-json")
+	  (make "https://github.com/alemuller/tree-sitter-make")
+	  (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	  (python "https://github.com/tree-sitter/tree-sitter-python")
+	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 #+end_src
 **** Personal code sources
 Stuff from outside the package system. Add locations to =load-path= so Emacs can find them.
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+  (add-to-list 'load-path "~/.emacs.d/lisp")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 #+END_SRC
 
 Load appropriate macros, depending on device.
@@ -184,49 +184,49 @@ Needs to be called as soon as possible for native compilation:
 Make the graphical client dark and pretty.
 
 #+BEGIN_SRC emacs-lisp
-(cond ((display-graphic-p)
-       (use-package darktooth-theme
-	 :ensure t
-         :config
-           (load-theme 'darktooth t)
-           (darktooth-modeline)
-)
-       (message "loaded theme")
-       ))
+  (cond ((display-graphic-p)
+	 (use-package darktooth-theme
+	   :ensure t
+	   :config
+	   (load-theme 'darktooth t)
+	   (darktooth-modeline)
+	   )
+	 (message "loaded theme")
+	 ))
 #+END_SRC
 
 Before turning on =darktooth-modeline= I wanted the mode line of active buffer window to be red. This is suppressed now:
 
 #+BEGIN_SRC emacs-lisp :tangle no
-(set-face-attribute  'mode-line
-                 nil
-                 :foreground "gray90"
-                 :background "dark red"
-                 :box '(:line-width 1 :style released-button))
+  (set-face-attribute  'mode-line
+		       nil
+		       :foreground "gray90"
+		       :background "dark red"
+		       :box '(:line-width 1 :style released-button))
 #+END_SRC
 
 *** TODO Random stuff to document/organize
 
- #+BEGIN_SRC emacs-lisp
- ;; do not show the toolbar (big icons across top)
- (tool-bar-mode 0)
+#+BEGIN_SRC emacs-lisp
+  ;; do not show the toolbar (big icons across top)
+  (tool-bar-mode 0)
 
- ;; show column numbers 20100625 12:20
- (column-number-mode)
+  ;; show column numbers 20100625 12:20
+  (column-number-mode)
 
- ;; do not blink the cursor
- (blink-cursor-mode 0)
+  ;; do not blink the cursor
+  (blink-cursor-mode 0)
 
- ;; stretch the cursor to show the size of the character under cursor
- ;; useful for seeing tabs and other weird whitespace
- (setq x-stretch-cursor t)
+  ;; stretch the cursor to show the size of the character under cursor
+  ;; useful for seeing tabs and other weird whitespace
+  (setq x-stretch-cursor t)
 
- ;; will make the display of date and time persistent.
- (setq display-time-day-and-date t) (display-time)
+  ;; will make the display of date and time persistent.
+  (setq display-time-day-and-date t) (display-time)
 
- ;; don't show that stupid message on the scratch file
- (setq initial-scratch-message nil)
- #+END_SRC
+  ;; don't show that stupid message on the scratch file
+  (setq initial-scratch-message nil)
+#+END_SRC
 ** General behavior
 
 Save the desktop automatically. When you start up again, load the (local) buffers you had open when you closed Emacs. (It won't keep Tramp buffers open, unfortunately.
@@ -234,36 +234,36 @@ Save the desktop automatically. When you start up again, load the (local) buffer
 Certain types of buffers are not important and we don't want them saved/reopened.
 
 #+BEGIN_SRC emacs-lisp
-(desktop-save-mode 1)
-(add-to-list 'desktop-globals-to-save 'file-name-history)
-(setq desktop-restore-frames t) ;;doesn't seem to work, at least on Ubuntu.
-(setq desktop-buffers-not-to-save
-     (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-	        "\\)$"))
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+  (desktop-save-mode 1)
+  (add-to-list 'desktop-globals-to-save 'file-name-history)
+  (setq desktop-restore-frames t) ;;doesn't seem to work, at least on Ubuntu.
+  (setq desktop-buffers-not-to-save
+	(concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+		"\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+		"\\)$"))
+  (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+  (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+  (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+  (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 #+END_SRC
 
 Don't ring the error bell at me!
 
 #+BEGIN_SRC emacs-lisp
-(setq ring-bell-function 'ignore)
+  (setq ring-bell-function 'ignore)
 #+END_SRC
 
 Standard indent is 2 spaces
 
 #+BEGIN_SRC emacs-lisp
-(setq standard-indent 2)
+  (setq standard-indent 2)
 #+END_SRC
 
 Kill trailing whitespace on save (added 2022-09-23)
 
 #+begin_src emacs-lisp
-(add-hook 'before-save-hook
-          'delete-trailing-whitespace)
+  (add-hook 'before-save-hook
+	    'delete-trailing-whitespace)
 #+end_src
 
 [[https://github.com/jordonbiondo/column-enforce-mode][Highlight text that extends beyond a certain column:]] (added 2022-09-23)
@@ -273,7 +273,7 @@ whitespace-mode does this as well, but makes things too visually noisy.
 #+BEGIN_SRC emacs-lisp
   (use-package column-enforce-mode
     :ensure t
-  )
+    )
 #+END_SRC
 *** Global key bindings
 **** Just insert one tab when I hit tab.
@@ -302,31 +302,31 @@ From this excellent explainer: [[http://www.pement.org/emacs_tabs.htm][Understan
 
 *** Backups
 
-    This section is stolen wholesale from [[https://github.com/bnbeckwith/bnb-emacs/tree/6072f959b7015baa2b21854017b655890392dee6][here]].
+This section is stolen wholesale from [[https://github.com/bnbeckwith/bnb-emacs/tree/6072f959b7015baa2b21854017b655890392dee6][here]].
 
-   Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
+Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
 
-   #+BEGIN_SRC emacs-lisp
-     (setq backup-by-copying t
-           create-lockfiles nil
-           backup-directory-alist '((".*" . "~/.saves"))
-           ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
-           delete-old-versions t
-           kept-new-versions 6
-           kept-old-versions 2
-           version-control t)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq backup-by-copying t
+	create-lockfiles nil
+	backup-directory-alist '((".*" . "~/.saves"))
+	;; auto-save-file-name-transforms `((".*" "~/.saves" t))
+	delete-old-versions t
+	kept-new-versions 6
+	kept-old-versions 2
+	version-control t)
+#+END_SRC
 
-   Here's a quick rundown of the settings:
+Here's a quick rundown of the settings:
 
-   - [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
-   - [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
-   - [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
-   - [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
-   - [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
-   - [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
-   - [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
-   - [[elisp:(describe-variable%20'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
+- [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
+- [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
+- [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
+- [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
+- [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
+- [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
+- [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
+- [[elisp:(describe-variable%20'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
 *** Grep
 #+begin_src emacs-lisp
   (eval-after-load 'grep
@@ -387,103 +387,113 @@ From this excellent explainer: [[http://www.pement.org/emacs_tabs.htm][Understan
 *** General
 
 #+BEGIN_SRC emacs-lisp
-(setq blink-matching-paren nil)
-(show-paren-mode t)
-(setq show-paren-delay 0)
-(setq show-paren-style 'expression)
+  (setq blink-matching-paren nil)
+  (show-paren-mode t)
+  (setq show-paren-delay 0)
+  (setq show-paren-style 'expression)
 
-;; automatically turn on sytax highlighting
-(global-font-lock-mode 1)
+  ;; automatically turn on sytax highlighting
+  (global-font-lock-mode 1)
 #+END_SRC
+**** Tree-sitter
+
+As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+
+#+begin_src emacs-lisp
+  ;; (setq major-mode-remap-alist
+  ;;       '((enh-ruby-mode . ruby-ts-mode)
+  ;; 	(ruby-mode . ruby-ts-mode)
+  ;; 	(js2-mode . js-ts-mode)
+  ;; 	(python-mode . python-ts-mode)))
+
+
+  (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(bash_\\(profile\\|history\\|log\\(in\\|out\\)\\)\\|z?log\\(in\\|out\\)\\)\\'" . bash-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(shrc\\|zshrc\\|m?kshrc\\|bashrc\\|t?cshrc\\|esrc\\)\\'" . bash-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . bash-ts-mode))
+#+end_src
+
 **** Setup editorconfig
 https://github.com/editorconfig/editorconfig-emacs#readme
 
 #+BEGIN_SRC emacs-lisp
-(use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1))
+  ;; (use-package editorconfig
+  ;;   :ensure t
+  ;;   :config
+  ;;   (editorconfig-mode 1))
 #+END_SRC
+
 **** TODO Better comment/document
 *** Javascript
 #+BEGIN_SRC emacs-lisp
-(add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
+  (add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
 #+END_SRC
 *** Perl
 
 =cperl-mode= is an enhanced Perl mode.
 
 #+BEGIN_SRC emacs-lisp
-(use-package cperl-mode
-  :mode "\\.p[lm]\\'"
-  :interpreter "perl"
-  :config (load "cperl-setup"))
+  (use-package cperl-mode
+    :mode "\\.p[lm]\\'"
+    :interpreter "perl"
+    :config (load "cperl-setup"))
 #+END_SRC
 *** Ruby
 
-Use enhanced ruby mode.
-
-I've customized the color of the double/single quote string delimiters because the default was hard to see on a dark background.
-
-#+BEGIN_SRC emacs-lisp
-(use-package enh-ruby-mode
-  :ensure t
-  :mode "\\.rb\\'"
-  :interpreter "ruby"
-  :custom-face
-  (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
-  (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
-  (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
-  )
-  :config
-  (setq indent-tabs-mode nil)
-#+END_SRC
+#+begin_src emacs-lisp
+  (add-hook 'ruby-ts-mode-hook 'column-enforce-mode)
+#+end_src
 
 Added 2022-09-23:
 
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-refactor
     :ensure t
-  )
-    :config
-    (add-hook 'enh-ruby-mode-hook 'ruby-refactor-mode-launch)
+    )
+  :config
+  (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch)
 #+END_SRC
 
-#+begin_src emacs-lisp
+Use enhanced ruby mode.
+
+I've customized the color of the double/single quote string delimiters because the default was hard to see on a dark background.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package enh-ruby-mode
+    :ensure t
+    :mode "\\.rb\\'"
+    :interpreter "ruby"
+    :custom-face
+    (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
+    (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
+    (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
+    )
+  :config
+  (setq indent-tabs-mode nil)
+  (add-hook 'enh-ruby-mode-hook 'ruby-refactor-mode-launch)
+
   (add-hook 'enh-ruby-mode-hook 'column-enforce-mode)
-#+end_src
+#+END_SRC
 
 Use rubocopfmt
 https://github.com/jimeh/rubocopfmt.el
 I got errors when I tried to enable this on 2021-03-05
 
 #+BEGIN_SRC emacs-lisp :tangle no
-(use-package rubocopfmt
-  :ensure t
-  :hook
-  (ruby-mode . rubocopfmt-mode))
+  (use-package rubocopfmt
+    :ensure t
+    :hook
+    (ruby-ts-mode . rubocopfmt-mode))
 #+END_SRC
 
-*** PHP
-
-#+BEGIN_SRC emacs-lisp
-(use-package php-mode
-  :ensure t
-  :mode "\\.php\\'"
-  :init
-  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
-  :config
-  (setq php-style-delete-trailing-whitespace t)
-  )
-#+END_SRC
 
 ** Data
 *** nhexl-mode
 
 #+BEGIN_SRC emacs-lisp
-(use-package nhexl-mode
-  :ensure t
-  )
+  (use-package nhexl-mode
+    :ensure t
+    )
 #+END_SRC
 
 *** XML
@@ -493,29 +503,31 @@ The following enables folding of XML
 From: https://emacs.stackexchange.com/questions/2884/the-old-how-to-fold-xml-question
 
 #+BEGIN_SRC emacs-lisp
-(require 'hideshow)
-(require 'sgml-mode)
-(require 'nxml-mode)
-(add-to-list 'hs-special-modes-alist
-             '(nxml-mode
-               "<!--\\|<[^/>]*[^/]>"
-               "-->\\|</[^/>]*[^/]>"
+  (require 'hideshow)
+  (require 'sgml-mode)
+  (require 'nxml-mode)
+  (add-to-list 'hs-special-modes-alist
+	       '(nxml-mode
+		 "<!--\\|<[^/>]*[^/]>"
+		 "-->\\|</[^/>]*[^/]>"
 
-               "<!--"
-               sgml-skip-tag-forward
-               nil))
-(add-hook 'nxml-mode-hook 'hs-minor-mode)
-(define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
+		 "<!--"
+		 sgml-skip-tag-forward
+		 nil))
+  (add-hook 'nxml-mode-hook 'hs-minor-mode)
+  (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
 
 #+END_SRC
 *** YAML
 
-#+BEGIN_SRC emacs-lisp
-(use-package yaml-mode
-  :ensure t
-  :mode (("\\.yml\\'" . yaml-mode)
-	 ("\\.yaml\\'" . yaml-mode))
-  )
+See also Tree-sitter under general coding config
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package yaml-mode
+    :ensure t
+    :mode (("\\.yml\\'" . yaml-mode)
+	   ("\\.yaml\\'" . yaml-mode))
+    )
 #+END_SRC
 
 ** Org-mode
@@ -523,110 +535,110 @@ From: https://emacs.stackexchange.com/questions/2884/the-old-how-to-fold-xml-que
 Everything would be worse than it is if there were no =org-mode=. Use it, USE IT, *USE IT*.
 
 #+BEGIN_SRC emacs-lisp
-(use-package org
-  :ensure t
-  :custom-face
-  (org-headline-done ((t (:foreground "gray50"))))
-)
+  (use-package org
+    :ensure t
+    :custom-face
+    (org-headline-done ((t (:foreground "gray50"))))
+    )
 #+END_SRC
 
 C-a moves to beginning of heading (after asterisks and todo states, etc). C-e moves to end of heading (before tags). ([[https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-heading-smartly-in-org-mode][src]])
 
 #+BEGIN_SRC emacs-lisp
-(setq org-special-ctrl-a/e t)
+  (setq org-special-ctrl-a/e t)
 #+END_SRC
 
 *** Agenda
- Setup agenda files and refile targets.
+Setup agenda files and refile targets.
 
- #+BEGIN_SRC emacs-lisp
- (when (work-laptop)
- (setq org-agenda-files
-       (delq nil
-             (mapcar (lambda (x) (and (file-exists-p x) x))
-                     '(
-                       "~/org/cspace.org"
-                       "~/org/diary.org"
-                       "~/org/islandora.org"
-                       "~/org/meetings.org"
-                       "~/org/migrations.org"
-		       "~/org/notes.org"
-                       "~/org/work.org"
- )))))
- (when (work-laptop-b)
- (setq org-agenda-files
-       (delq nil
-             (mapcar (lambda (x) (and (file-exists-p x) x))
-                     '(
-                       "~/org/cspace.org"
-                       "~/org/diary.org"
-                       "~/org/islandora.org"
-                       "~/org/meetings.org"
-                       "~/org/migrations.org"
-		       "~/org/notes.org"
-                       "~/org/work.org"
- )))))
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (when (work-laptop)
+    (setq org-agenda-files
+	  (delq nil
+		(mapcar (lambda (x) (and (file-exists-p x) x))
+			'(
+			  "~/org/cspace.org"
+			  "~/org/diary.org"
+			  "~/org/islandora.org"
+			  "~/org/meetings.org"
+			  "~/org/migrations.org"
+			  "~/org/notes.org"
+			  "~/org/work.org"
+			  )))))
+  (when (work-laptop-b)
+    (setq org-agenda-files
+	  (delq nil
+		(mapcar (lambda (x) (and (file-exists-p x) x))
+			'(
+			  "~/org/cspace.org"
+			  "~/org/diary.org"
+			  "~/org/islandora.org"
+			  "~/org/meetings.org"
+			  "~/org/migrations.org"
+			  "~/org/notes.org"
+			  "~/org/work.org"
+			  )))))
+#+END_SRC
 *** Clocking time
 #+BEGIN_SRC emacs-lisp
-(setq org-clock-into-drawer t)
-;; Change tasks to INPROGRESS when clocking in
-;; (setq org-clock-in-switch-to-state "INPROGRESS")
-;; Clock out when moving task to a done state
-;; (setq org-clock-out-when-done t)
+  (setq org-clock-into-drawer t)
+  ;; Change tasks to INPROGRESS when clocking in
+  ;; (setq org-clock-in-switch-to-state "INPROGRESS")
+  ;; Clock out when moving task to a done state
+  ;; (setq org-clock-out-when-done t)
 
-(setq org-clock-idle-time 5)
-;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-(setq org-clock-out-remove-zero-time-clocks t)
-(setq org-log-note-clock-out nil)
-(setq org-duration-format 'h:mm)
+  (setq org-clock-idle-time 5)
+  ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+  (setq org-clock-out-remove-zero-time-clocks t)
+  (setq org-log-note-clock-out nil)
+  (setq org-duration-format 'h:mm)
 #+END_SRC
 *** Filing/refiling
 Use all of my agenda files as refile targets:
 
 #+BEGIN_SRC emacs-lisp
-(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 #+END_SRC
 
- From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
+From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
 
- #+BEGIN_QUOTE
- We configure org-refile-use-outline-path to tell Org to include the destination file as an element in the path to a heading, and to use the full paths as completion targets rather than just the heading text itself.
+#+BEGIN_QUOTE
+We configure org-refile-use-outline-path to tell Org to include the destination file as an element in the path to a heading, and to use the full paths as completion targets rather than just the heading text itself.
 
- What this results in is a targets listing containing forward-slash-delimited filenames and headings, as though they were paths on disk. Because the filename also appears by itself, you can select that to refile to the top level of the file.
- #+END_QUOTE
+What this results in is a targets listing containing forward-slash-delimited filenames and headings, as though they were paths on disk. Because the filename also appears by itself, you can select that to refile to the top level of the file.
+#+END_QUOTE
 
- #+BEGIN_SRC emacs-lisp
- (setq org-refile-use-outline-path 'file)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-refile-use-outline-path 'file)
+#+END_SRC
 
- From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
+From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
 
- #+BEGIN_QUOTE
- ...The default behavior for Refile is to allow you to do a step-by-step completion of this path, but if you’re using Helm, Helm is overriding the completing read to make it into a narrowing list (that we have all come to love).
+#+BEGIN_QUOTE
+...The default behavior for Refile is to allow you to do a step-by-step completion of this path, but if you’re using Helm, Helm is overriding the completing read to make it into a narrowing list (that we have all come to love).
 
- So what you need to do is tell Org that you don’t want to complete in steps; you want Org to generate all of the possible completions and present them at once. Helm then lets you narrow to the one you want.
- #+END_QUOTE
+So what you need to do is tell Org that you don’t want to complete in steps; you want Org to generate all of the possible completions and present them at once. Helm then lets you narrow to the one you want.
+#+END_QUOTE
 
- #+BEGIN_SRC emacs-lisp
- (setq org-outline-path-complete-in-steps nil)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-outline-path-complete-in-steps nil)
+#+END_SRC
 
- From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
+From https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html:
 
- #+BEGIN_QUOTE
- Occasionally you may want to refile something into another file or heading and place it beneath a new parent that you create on-the-fly. If you do not set up this configuration, you will not be able to create new parents during refile, so I recommend setting it up.
- #+END_QUOTE
+#+BEGIN_QUOTE
+Occasionally you may want to refile something into another file or heading and place it beneath a new parent that you create on-the-fly. If you do not set up this configuration, you will not be able to create new parents during refile, so I recommend setting it up.
+#+END_QUOTE
 
- #+BEGIN_SRC emacs-lisp
- (setq org-refile-allow-creating-parent-nodes 'confirm)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+#+END_SRC
 *** Todos
 
 The codes after the state keywords are documented [[https://orgmode.org/manual/Tracking-TODO-state-changes.html#Tracking-TODO-state-changes][here]].
 
- - ! = timestamp
- - @ = record note
+- ! = timestamp
+- @ = record note
 
 The sequences representing action items are the ones starting with TODO and ASK. These are separate because they feel different to me and I want to require having to record a note when an ASK becomes ANSWERED.
 
@@ -635,12 +647,12 @@ MTG is so I can clock time in meetings.
 ONGOING is so I can clock time in non-meeting activities that aren't tasks or projects, like email/communication and meta-work.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords
-      '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
-	(sequence "|" "CANCELED(c@)" )
-        (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
-        (sequence "MTG(m)" "|" )
-        (sequence "ONGOING(o)" "|" )))
+  (setq org-todo-keywords
+	'((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
+	  (sequence "|" "CANCELED(c@)" )
+	  (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
+	  (sequence "MTG(m)" "|" )
+	  (sequence "ONGOING(o)" "|" )))
 #+END_SRC
 *** Visuals
 
@@ -652,54 +664,54 @@ This ensures the whole headline is styled according to =org-headline-done=.
 
 
 *** TODO A bunch of random =org-mode= settings to organize and document at some point
-    :LOGBOOK:
-    - State "TODO"       from              [2019-10-29 Tue 22:57]
-    :END:
+:LOGBOOK:
+- State "TODO"       from              [2019-10-29 Tue 22:57]
+:END:
 
 #+BEGIN_SRC emacs-lisp
-;;############################################################################
-;; org-mode
-;;############################################################################
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+  ;;############################################################################
+  ;; org-mode
+  ;;############################################################################
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cb" 'org-iswitchb)
 
 
-;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
+  ;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
 
-(setq org-agenda-show-all-dates t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-deadline-warning-days 0)
-(setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
-(setq org-enforce-todo-dependencies t)
-(setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-agenda-show-all-dates t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-deadline-warning-days 0)
+  (setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
 
-(setq org-log-into-drawer t)
-;; Save clock data and state changes and notes in the LOGBOOK drawer
+  (setq org-log-into-drawer t)
+  ;; Save clock data and state changes and notes in the LOGBOOK drawer
 
-(setq org-startup-indented nil)
-(setq org-hide-leading-stars nil)
+  (setq org-startup-indented nil)
+  (setq org-hide-leading-stars nil)
 
 
-(add-hook 'org-mode-hook
-          (lambda ()
-            (visual-line-mode t))
-          t)
+  (add-hook 'org-mode-hook
+	    (lambda ()
+	      (visual-line-mode t))
+	    t)
 
-;; prevents accidentally editing hidden text when the point is inside a folded region
-(setq org-catch-invisible-edits 'error)
+  ;; prevents accidentally editing hidden text when the point is inside a folded region
+  (setq org-catch-invisible-edits 'error)
 
-(setq org-cycle-include-plain-lists t)
+  (setq org-cycle-include-plain-lists t)
 
-; insert blank lines before headings but not new list items
-(setf org-blank-before-new-entry '((heading . nil) (plain-list-item . auto)))
+					  ; insert blank lines before headings but not new list items
+  (setf org-blank-before-new-entry '((heading . nil) (plain-list-item . auto)))
 
-; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
-; From http://doc.norang.ca/org-mode.html
+					  ; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
+					  ; From http://doc.norang.ca/org-mode.html
 
-(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 #+END_SRC
 
 ** Productivity
@@ -708,11 +720,11 @@ This ensures the whole headline is styled according to =org-headline-done=.
 Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Abbrevs.html][in the Emacs manual]]. I still have not figured out the best way to use them, and invariably they become annoying.
 
 #+BEGIN_SRC emacs-lisp :tangle no
-;; turn on abbrev mode globally
-(setq-default abbrev-mode t)
-(load "my_abbrevs")
-;; stop asking whether to save newly added abbrev when quitting emacs
-(setq save-abbrevs nil)
+  ;; turn on abbrev mode globally
+  (setq-default abbrev-mode t)
+  (load "my_abbrevs")
+  ;; stop asking whether to save newly added abbrev when quitting emacs
+  (setq save-abbrevs nil)
 
 #+END_SRC
 *** Buffer management
@@ -726,151 +738,151 @@ I got my start configuring =ibuffer= with [[http://martinowen.net/blog/2010/02/0
 Set up to use ibuffer.
 
 #+BEGIN_SRC emacs-lisp
-(use-package ibuffer)
+  (use-package ibuffer)
 #+END_SRC
 
 Functions to define human-readable size column for ibuffer. This is required by the ibuffer and ibuffer-vc setup below. From [[https://www.emacswiki.org/emacs/IbufferMode#h5o-11][here]].
 
 #+BEGIN_SRC emacs-lisp
-(defun ajv/human-readable-file-sizes-to-bytes (string)
-  "Convert a human-readable file size into bytes."
-  (interactive)
-  (cond
-   ((string-suffix-p "G" string t)
-    (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "M" string t)
-    (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "K" string t)
-    (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
-   (t
-    (string-to-number (substring string 0 (- (length string) 1))))
-   )
-  )
+  (defun ajv/human-readable-file-sizes-to-bytes (string)
+    "Convert a human-readable file size into bytes."
+    (interactive)
+    (cond
+     ((string-suffix-p "G" string t)
+      (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
+     ((string-suffix-p "M" string t)
+      (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
+     ((string-suffix-p "K" string t)
+      (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
+     (t
+      (string-to-number (substring string 0 (- (length string) 1))))
+     )
+    )
 
-(defun ajv/bytes-to-human-readable-file-sizes (bytes)
-  "Convert number of bytes to human-readable file size."
-  (interactive)
-  (cond
-   ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
-   ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
-   ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
-   ((> bytes 100000) (format "%10.0fk" (/ bytes 1000.0)))
-   ((> bytes 1000) (format "%10.1fk" (/ bytes 1000.0)))
-   (t (format "%10d" bytes)))
-  )
+  (defun ajv/bytes-to-human-readable-file-sizes (bytes)
+    "Convert number of bytes to human-readable file size."
+    (interactive)
+    (cond
+     ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
+     ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
+     ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
+     ((> bytes 100000) (format "%10.0fk" (/ bytes 1000.0)))
+     ((> bytes 1000) (format "%10.1fk" (/ bytes 1000.0)))
+     (t (format "%10d" bytes)))
+    )
 
-;; Use human readable Size column instead of original one
-(define-ibuffer-column size-h
-  (:name "Size"
-	 :inline t
-	 :summarizer
-	 (lambda (column-strings)
-	   (let ((total 0))
-	     (dolist (string column-strings)
-	       (setq total
-		     ;; like, ewww ...
-		     (+ (float (ajv/human-readable-file-sizes-to-bytes string))
-			total)))
-	     (ajv/bytes-to-human-readable-file-sizes total)))	 ;; :summarizer nil
-	 )
-  (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
+  ;; Use human readable Size column instead of original one
+  (define-ibuffer-column size-h
+    (:name "Size"
+	   :inline t
+	   :summarizer
+	   (lambda (column-strings)
+	     (let ((total 0))
+	       (dolist (string column-strings)
+		 (setq total
+		       ;; like, ewww ...
+		       (+ (float (ajv/human-readable-file-sizes-to-bytes string))
+			  total)))
+	       (ajv/bytes-to-human-readable-file-sizes total)))	 ;; :summarizer nil
+	   )
+    (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
 #+END_SRC
 
 Set up to use ibuffer.
 
 #+BEGIN_SRC emacs-lisp
-(use-package ibuffer
-:bind ("C-x C-b" . ibuffer)
-:config
-  (setq ibuffer-formats
-      '((mark modified read-only locked " "
-	      (name 20 20 :left :elide)
-	      " "
-	      (size-h 11 -1 :right)
-	      " "
-	      (mode 16 16 :left :elide)
-	      " "
-	      filename-and-process)
-	(mark " "
-	      (name 16 -1)
-	      " " filename)))
-)
+  (use-package ibuffer
+    :bind ("C-x C-b" . ibuffer)
+    :config
+    (setq ibuffer-formats
+	  '((mark modified read-only locked " "
+		  (name 20 20 :left :elide)
+		  " "
+		  (size-h 11 -1 :right)
+		  " "
+		  (mode 16 16 :left :elide)
+		  " "
+		  filename-and-process)
+	    (mark " "
+		  (name 16 -1)
+		  " " filename)))
+    )
 #+END_SRC
 
 
 Set up to use ibuffer-vc.
 
 #+BEGIN_SRC emacs-lisp
-(use-package ibuffer-vc
- :ensure t
- :config
-   (add-hook 'ibuffer-hook
-     (lambda ()
-       (ibuffer-vc-set-filter-groups-by-vc-root)
-       (unless (eq ibuffer-sorting-mode 'alphabetic)
-         (ibuffer-do-sort-by-alphabetic))))
-   (setq ibuffer-formats
-         '((mark modified read-only vc-status-mini " "
-                 (name 18 18 :left :elide)
-                 " "
-                 (size-h 9 -1 :right)
-                 " "
-                 (mode 16 16 :left :elide)
-                 " "
-                 (vc-status 16 16 :left)
-                 " "
-                 vc-relative-file)))
-)
+  (use-package ibuffer-vc
+    :ensure t
+    :config
+    (add-hook 'ibuffer-hook
+	      (lambda ()
+		(ibuffer-vc-set-filter-groups-by-vc-root)
+		(unless (eq ibuffer-sorting-mode 'alphabetic)
+		  (ibuffer-do-sort-by-alphabetic))))
+    (setq ibuffer-formats
+	  '((mark modified read-only vc-status-mini " "
+		  (name 18 18 :left :elide)
+		  " "
+		  (size-h 9 -1 :right)
+		  " "
+		  (mode 16 16 :left :elide)
+		  " "
+		  (vc-status 16 16 :left)
+		  " "
+		  vc-relative-file)))
+    )
 #+END_SRC
 
 I set up my default filter groups below. These are for groups that are not handled by version control. Switch to these by doing =/ R=.
 
 #+BEGIN_SRC emacs-lisp
-(setq ibuffer-saved-filter-groups
-    '(("filters"
-      ("magit" (name .".*magit"))
-      ("migration: Boston Athenaeum" (or
-                (filename . "code/migrations-private/boston_athenaeum")
-                (filename . "data/BostonAthenaeum")))
-      ("migration: CSWS" (or
-                 (filename . "data/CSWS")
-                 (filename . "code/migrations-private/csws")))
-      ("tracking work" (mode . org-mode))
-      ("meta" (or
-                (basename . "diary.org")
-                (basename . "meetings.org")
-                (basename . "time.org")
-                (basename . "work.org")))
-)))
+  (setq ibuffer-saved-filter-groups
+	'(("filters"
+	   ("magit" (name .".*magit"))
+	   ("migration: Boston Athenaeum" (or
+					   (filename . "code/migrations-private/boston_athenaeum")
+					   (filename . "data/BostonAthenaeum")))
+	   ("migration: CSWS" (or
+			       (filename . "data/CSWS")
+			       (filename . "code/migrations-private/csws")))
+	   ("tracking work" (mode . org-mode))
+	   ("meta" (or
+		    (basename . "diary.org")
+		    (basename . "meetings.org")
+		    (basename . "time.org")
+		    (basename . "work.org")))
+	   )))
 #+END_SRC
 
 Then load the filter groups automagically with a hook.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'ibuffer-mode-hook
-	  '(lambda ()
-	     (ibuffer-switch-to-saved-filter-groups "filters")))
+  (add-hook 'ibuffer-mode-hook
+	    '(lambda ()
+	       (ibuffer-switch-to-saved-filter-groups "filters")))
 #+END_SRC
 
 Keep =ibuffer= updated automagically, with filter groups applied.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'ibuffer-mode-hook
-	  '(lambda ()
-	     (ibuffer-auto-mode 1)
-	     (ibuffer-switch-to-saved-filter-groups "filters")))
+  (add-hook 'ibuffer-mode-hook
+	    '(lambda ()
+	       (ibuffer-auto-mode 1)
+	       (ibuffer-switch-to-saved-filter-groups "filters")))
 #+END_SRC
 
 Killing unmodified buffers is not a thing we need to be prompted about. You will still be prompted if you try to kill a modified buffer.
 
 #+BEGIN_SRC emacs-lisp
-(setq ibuffer-expert t)
+  (setq ibuffer-expert t)
 #+END_SRC
 
 Nor do we want to see empty filter groups. No visual clutter!
 
 #+BEGIN_SRC emacs-lisp
-(setq ibuffer-show-empty-filter-groups nil)
+  (setq ibuffer-show-empty-filter-groups nil)
 #+END_SRC
 
 *** Counsel
@@ -878,10 +890,10 @@ Nor do we want to see empty filter groups. No visual clutter!
 =counsel= is a collection of =ivy= enhanced versions of common Emacs commands.
 
 #+BEGIN_SRC emacs-lisp
-(use-package counsel
+  (use-package counsel
     :ensure t
     :bind (("M-x" . counsel-M-x))
-)
+    )
 #+END_SRC
 *** Ivy
 
@@ -893,54 +905,54 @@ I'm trying this out, as of <2019-10-22 Tue>
 
 Setting =ivy-intial-inputs-alist= to nil turns off the default behavior of starting filters with =^=.
 #+BEGIN_SRC emacs-lisp
-(use-package ivy
-  :ensure t
-  :diminish ivy-mode
-  :config
-  (ivy-mode t)
-  (setq ivy-initial-inputs-alist nil)
-)
+  (use-package ivy
+    :ensure t
+    :diminish ivy-mode
+    :config
+    (ivy-mode t)
+    (setq ivy-initial-inputs-alist nil)
+    )
 #+END_SRC
 
 The following allows you to select entered text with C-p/C-n:
 
 #+BEGIN_SRC emacs-lisp
-(setq ivy-use-selectable-prompt t)
+  (setq ivy-use-selectable-prompt t)
 #+END_SRC
 
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
 *** Other
 #+BEGIN_SRC emacs-lisp
-(use-package visual-regexp-steroids
-  :ensure t
-  :ensure visual-regexp
-  :bind (("C-c r" . vr/replace)
-	 ("C-c q" . vr/query-replace)
-	 ("C-M-R" . vr/isearch-backward)
-	 ("C-M-S" . vr/isearch-forward))
-  )
+  (use-package visual-regexp-steroids
+    :ensure t
+    :ensure visual-regexp
+    :bind (("C-c r" . vr/replace)
+	   ("C-c q" . vr/query-replace)
+	   ("C-M-R" . vr/isearch-backward)
+	   ("C-M-S" . vr/isearch-forward))
+    )
 
-(use-package yasnippet
-  :ensure t
-  :config (yas-global-mode 1)
-  )
+  (use-package yasnippet
+    :ensure t
+    :config (yas-global-mode 1)
+    )
 #+END_SRC
 
 Control which directories are excluded by grep:
 
 #+BEGIN_SRC emacs-lisp
-(eval-after-load 'grep
-  '(progn
-     (add-to-list 'grep-find-ignored-directories "tmp")
-     (add-to-list 'grep-find-ignored-directories "bundle")
-     (add-to-list 'grep-find-ignored-directories "spring")
-     (add-to-list 'grep-find-ignored-directories "storage")
-     (add-to-list 'grep-find-ignored-directories "packs")
-     (add-to-list 'grep-find-ignored-directories "node_modules")
-     (add-to-list 'grep-find-ignored-directories ".bundle")
-     (add-to-list 'grep-find-ignored-directories "auto")
-     (add-to-list 'grep-find-ignored-directories "elpa")))
-(add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
+  (eval-after-load 'grep
+    '(progn
+       (add-to-list 'grep-find-ignored-directories "tmp")
+       (add-to-list 'grep-find-ignored-directories "bundle")
+       (add-to-list 'grep-find-ignored-directories "spring")
+       (add-to-list 'grep-find-ignored-directories "storage")
+       (add-to-list 'grep-find-ignored-directories "packs")
+       (add-to-list 'grep-find-ignored-directories "node_modules")
+       (add-to-list 'grep-find-ignored-directories ".bundle")
+       (add-to-list 'grep-find-ignored-directories "auto")
+       (add-to-list 'grep-find-ignored-directories "elpa")))
+  (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
 #+END_SRC
 **** TODO comment/organize this better
 *** Projectile
@@ -959,9 +971,9 @@ Projectile is a project interaction library for Emacs. Its goal is to provide a 
     (setq projectile-create-missing-test-files "t"))
 #+END_SRC
 **** TODO Read up on Projectile and configure
-     :LOGBOOK:
-     - State "TODO"       from              [2019-10-22 Tue 22:27]
-     :END:
+:LOGBOOK:
+- State "TODO"       from              [2019-10-22 Tue 22:27]
+:END:
 https://projectile.readthedocs.io/en/latest/usage/
 *** Swiper
 
@@ -972,9 +984,9 @@ Swiper helps you search through emacs, and shows you text around the matching te
 #+END_QUOTE
 
 #+BEGIN_SRC emacs-lisp
-(use-package swiper
-  :ensure t
-  :bind (("C-s" . swiper)))
+  (use-package swiper
+    :ensure t
+    :bind (("C-s" . swiper)))
 #+END_SRC
 
 #+BEGIN_QUOTE
@@ -989,83 +1001,83 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
 [[https://asciidoctor.org/docs/asciidoc-writers-guide/][In-depth writer's guide]] -- [[https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/][Quick reference]]
 
 #+BEGIN_SRC emacs-lisp
-(use-package adoc-mode
-  :ensure t
-  :mode (("\\.adoc\\'" . adoc-mode)
-         ("\\.asciidoc\\'" . adoc-mode))
-  :config
-  (progn
-     (set-face-attribute  'adoc-meta-face
-                      nil
-                      :foreground "pink1"
-                      :height 100)
+  (use-package adoc-mode
+    :ensure t
+    :mode (("\\.adoc\\'" . adoc-mode)
+	   ("\\.asciidoc\\'" . adoc-mode))
+    :config
+    (progn
+      (set-face-attribute  'adoc-meta-face
+			   nil
+			   :foreground "pink1"
+			   :height 100)
 
-     (set-face-attribute  adoc-meta-hide-face
-                      nil
-                      :foreground "gray40"
-                      :height 100)
-  )
-)
+      (set-face-attribute  adoc-meta-hide-face
+			   nil
+			   :foreground "gray40"
+			   :height 100)
+      )
+    )
 #+END_SRC
 *** HTML
 Required for =org-mode= HTML export:
 
 #+BEGIN_SRC emacs-lisp
-(use-package htmlize
-  :ensure t
-)
+  (use-package htmlize
+    :ensure t
+    )
 #+END_SRC
 *** LaTeX
 
 Currently I only am using this at work.
 
 #+BEGIN_SRC emacs-lisp
-(when (work-laptop)
-       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
-(when (work-laptop-b)
-       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+  (when (work-laptop)
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+    (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+  (when (work-laptop-b)
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+    (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
 #+END_SRC
 *** Markdown
 
 For editing Markdown text.
 
 #+BEGIN_SRC emacs-lisp
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  (use-package markdown-mode
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+	   ("\\.md\\'" . markdown-mode)
+	   ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 *** Org-mode export
 
 =auto-org-md= is a simple package that exports a markdown file automatically when you save an org file. [[https://github.com/jamcha-aa/auto-org-md][github]]
 
 #+BEGIN_SRC emacs-lisp
-(use-package auto-org-md
-  :ensure t
-)
+  (use-package auto-org-md
+    :ensure t
+    )
 #+END_SRC
 ** Version control
 
 Macro to format copied ~git log~ output for .git-blame-ignore-revs:
 
 #+begin_src emacs-lisp
-(fset 'noblame
-   (kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))
+  (fset 'noblame
+	(kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))
 #+end_src
 
 Try =magit= again. Manual is [[https://magit.vc/manual/magit/index.html#Top][here]].
 
 #+BEGIN_SRC emacs-lisp
-(use-package magit
-  :ensure t
-  :bind (("C-x g" . magit-status))
-  :config
-  (setq git-commit-style-convention-checks nil))
+  (use-package magit
+    :ensure t
+    :bind (("C-x g" . magit-status))
+    :config
+    (setq git-commit-style-convention-checks nil))
 #+END_SRC
 
 ~git-commit-style-convention-checks~ doesn't nag you about super short commit messages.
@@ -1073,16 +1085,16 @@ Try =magit= again. Manual is [[https://magit.vc/manual/magit/index.html#Top][her
 This is supposed to be neat: it will let you step back in time through your changes. But I don't want to mess with it until I'm used to =magit=.
 
 #+BEGIN_SRC emacs-lisp :tangle no
-(use-package git-timemachine
-  :ensure t
-  :bind (("s-g" . git-timemachine)))
+  (use-package git-timemachine
+    :ensure t
+    :bind (("s-g" . git-timemachine)))
 #+END_SRC
 ** Writing
 
 Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.html)
 
 #+BEGIN_SRC emacs-lisp
-(setq sentence-end-double-space nil)
+  (setq sentence-end-double-space nil)
 #+END_SRC
 
 
@@ -1090,77 +1102,77 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
 
 #+BEGIN_SRC emacs-lisp
 
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;;; tramp
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(require 'tramp)
-(cond ((string-equal system-type 'gnu/linux)
-       (setq tramp-default-method "ssh"))
-      ((string-equal system-type 'darwin)
-       (setq tramp-default-method "ssh"))
-      ((string-equal system-name 'windows-nt)
-       (setq tramp-default-method "plink")))
+  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ;;; tramp
+  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  (require 'tramp)
+  (cond ((string-equal system-type 'gnu/linux)
+	 (setq tramp-default-method "ssh"))
+	((string-equal system-type 'darwin)
+	 (setq tramp-default-method "ssh"))
+	((string-equal system-name 'windows-nt)
+	 (setq tramp-default-method "plink")))
 
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;;; dired stuff
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;; do not open a bajillion buffers to navigate file system
-(require 'dired-single)
+  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ;;; dired stuff
+  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ;; do not open a bajillion buffers to navigate file system
+  (require 'dired-single)
 
-(defun my-dired-init ()
-  "Bunch of stuff to run for dired, either immediately or when it's
-   loaded."
-  ;; <add other stuff here>
-  (define-key dired-mode-map [return] 'joc-dired-single-buffer)
-  (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
-  (define-key dired-mode-map "^"
-   (function
-    (lambda nil (interactive) (joc-dired-single-buffer "..")))))
+  (defun my-dired-init ()
+    "Bunch of stuff to run for dired, either immediately or when it's
+     loaded."
+    ;; <add other stuff here>
+    (define-key dired-mode-map [return] 'joc-dired-single-buffer)
+    (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
+    (define-key dired-mode-map "^"
+		(function
+		 (lambda nil (interactive) (joc-dired-single-buffer "..")))))
 
-;; if dired's already loaded, then the keymap will be bound
-(if (boundp 'dired-mode-map)
-   ;; we're good to go; just add our bindings
-   (my-dired-init)
-  ;; it's not loaded yet, so add our bindings to the load-hook
-  (add-hook 'dired-load-hook 'my-dired-init))
+  ;; if dired's already loaded, then the keymap will be bound
+  (if (boundp 'dired-mode-map)
+      ;; we're good to go; just add our bindings
+      (my-dired-init)
+    ;; it's not loaded yet, so add our bindings to the load-hook
+    (add-hook 'dired-load-hook 'my-dired-init))
 
-;; human readable file sizes
-;; from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
-(setq dired-listing-switches "-Alh")
+  ;; human readable file sizes
+  ;; from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
+  (setq dired-listing-switches "-Alh")
 
-;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-;;; MISCELLANEOUS TOOLS
-;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  ;;; MISCELLANEOUS TOOLS
+  ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-;; copy full path of buffer
-;; Added 20150916 from:
-;;  http://stackoverflow.com/questions/3669511/the-function-to-show-current-files-full-path-in-mini-buffer
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-(defun show-file-name ()
-  "Show the full path file name in the minibuffer."
-  (interactive)
-  (message (buffer-file-name))
-  (kill-new (file-truename buffer-file-name))
-)
-(global-set-key "\C-cz" 'show-file-name)
+  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  ;; copy full path of buffer
+  ;; Added 20150916 from:
+  ;;  http://stackoverflow.com/questions/3669511/the-function-to-show-current-files-full-path-in-mini-buffer
+  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  (defun show-file-name ()
+    "Show the full path file name in the minibuffer."
+    (interactive)
+    (message (buffer-file-name))
+    (kill-new (file-truename buffer-file-name))
+    )
+  (global-set-key "\C-cz" 'show-file-name)
 
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-;; delete duplicate/repeated buffer lines
-;; sort lines before using since lines have to be one after the other
-;; 20091206 01:16 commented out because not working right
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  ;; delete duplicate/repeated buffer lines
+  ;; sort lines before using since lines have to be one after the other
+  ;; 20091206 01:16 commented out because not working right
+  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   (defun uniquify-all-lines-region (start end)
     "Find duplicate lines in region START to END keeping first occurrence."
     (interactive "*r")
     (save-excursion
       (let ((end (copy-marker end)))
-        (while
-            (progn
-              (goto-char start)
-              (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
-          (replace-match "\\1\n\\2")))))
+	(while
+	    (progn
+	      (goto-char start)
+	      (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
+	  (replace-match "\\1\n\\2")))))
 
   (defun uniquify-all-lines-buffer ()
     "Delete duplicate lines in buffer and keep first occurrence."
@@ -1173,50 +1185,50 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
     (save-excursion
       (goto-char beg)
       (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
-        (replace-match "\\1"))))
+	(replace-match "\\1"))))
 
   (defun uniquify-buffer-lines ()
     "Remove duplicate adjacent lines in the current buffer."
     (interactive)
     (uniquify-region-lines (point-min) (point-max)))
 
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-;; do an incremental search on a regexp and hide lines that match the regexp.
-;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-(require 'hide-lines)
-(require 'hidesearch)
-;; (global-set-key (kbd "C-c C-s") 'hidesearch)
-;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
+  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  ;; do an incremental search on a regexp and hide lines that match the regexp.
+  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  (require 'hide-lines)
+  (require 'hidesearch)
+  ;; (global-set-key (kbd "C-c C-s") 'hidesearch)
+  ;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
 
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(ansi-color-names-vector
-;;    ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
-;;  '(custom-safe-themes
-;;    (quote
-;;     ("c1709b576b0bdf885e380f8f787c2063ea3fb55be6c92400d4361014430b4efa" "272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
-;;  '(package-selected-packages
-;;    (quote
-;;     (visual-regexp-steroids yasnippet markdown-mode flymd yaml-mode auto-org-md use-package php-mode org move-text darktooth-theme auto-compile)))
-;;  '(pos-tip-background-color "#36473A")
-;;  '(pos-tip-foreground-color "#FFFFC8"))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight bold :height 98 :size 13 :width normal)))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
+  ;; (custom-set-variables
+  ;;  ;; custom-set-variables was added by Custom.
+  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;;  ;; Your init file should contain only one such instance.
+  ;;  ;; If there is more than one, they won't work right.
+  ;;  '(ansi-color-names-vector
+  ;;    ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
+  ;;  '(custom-safe-themes
+  ;;    (quote
+  ;;     ("c1709b576b0bdf885e380f8f787c2063ea3fb55be6c92400d4361014430b4efa" "272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
+  ;;  '(package-selected-packages
+  ;;    (quote
+  ;;     (visual-regexp-steroids yasnippet markdown-mode flymd yaml-mode auto-org-md use-package php-mode org move-text darktooth-theme auto-compile)))
+  ;;  '(pos-tip-background-color "#36473A")
+  ;;  '(pos-tip-foreground-color "#FFFFC8"))
+  ;; (custom-set-faces
+  ;;  ;; custom-set-faces was added by Custom.
+  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;;  ;; Your init file should contain only one such instance.
+  ;;  ;; If there is more than one, they won't work right.
+  ;;  '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight bold :height 98 :size 13 :width normal)))))
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     (quote
+      (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
 
 #+END_SRC
 * Other good configs
@@ -1236,15 +1248,15 @@ This file takes a page out of the book of Hardcore Freestyle Emacs, in which a s
 I don't remember what these things are or what they do...
 
 #+BEGIN_SRC emacs-lisp
-; everytime bookmark is changed, automatically save it
-; from http://ergoemacs.org/emacs/bookmark.html
-(setq bookmark-save-flag 1)
+					  ; everytime bookmark is changed, automatically save it
+					  ; from http://ergoemacs.org/emacs/bookmark.html
+  (setq bookmark-save-flag 1)
 #+END_SRC
 * Improvements
 ** TODO don't change todo state when clocking into =MTG=
-   :LOGBOOK:
-   - State "TODO"       from              [2019-10-31 Thu 13:09]
-   :END:
+:LOGBOOK:
+- State "TODO"       from              [2019-10-31 Thu 13:09]
+:END:
 
 I also like the idea of clocking out when setting mark to =WAITING=
 

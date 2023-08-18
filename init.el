@@ -53,18 +53,18 @@
 (message "Loaded package sources")
 
 (setq treesit-language-source-alist
-   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-     (go "https://github.com/tree-sitter/tree-sitter-go")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (make "https://github.com/alemuller/tree-sitter-make")
-     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	(css "https://github.com/tree-sitter/tree-sitter-css")
+	(elisp "https://github.com/Wilfred/tree-sitter-elisp")
+	(go "https://github.com/tree-sitter/tree-sitter-go")
+	(html "https://github.com/tree-sitter/tree-sitter-html")
+	(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	(json "https://github.com/tree-sitter/tree-sitter-json")
+	(make "https://github.com/alemuller/tree-sitter-make")
+	(markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	(python "https://github.com/tree-sitter/tree-sitter-python")
+	(ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+	(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -86,10 +86,10 @@
 (cond ((display-graphic-p)
        (use-package darktooth-theme
 	 :ensure t
-         :config
-           (load-theme 'darktooth t)
-           (darktooth-modeline)
-)
+	 :config
+	 (load-theme 'darktooth t)
+	 (darktooth-modeline)
+	 )
        (message "loaded theme")
        ))
 
@@ -116,9 +116,9 @@
 (add-to-list 'desktop-globals-to-save 'file-name-history)
 (setq desktop-restore-frames t) ;;doesn't seem to work, at least on Ubuntu.
 (setq desktop-buffers-not-to-save
-     (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-	        "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-	        "\\)$"))
+      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+	      "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+	      "\\)$"))
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
@@ -129,11 +129,11 @@
 (setq standard-indent 2)
 
 (add-hook 'before-save-hook
-          'delete-trailing-whitespace)
+	  'delete-trailing-whitespace)
 
 (use-package column-enforce-mode
   :ensure t
-)
+  )
 
 (global-set-key (kbd "TAB") 'self-insert-command)
 
@@ -209,10 +209,22 @@
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
 
-(use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1))
+;; (setq major-mode-remap-alist
+;;       '((enh-ruby-mode . ruby-ts-mode)
+;; 	(ruby-mode . ruby-ts-mode)
+;; 	(js2-mode . js-ts-mode)
+;; 	(python-mode . python-ts-mode)))
+
+
+(add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(bash_\\(profile\\|history\\|log\\(in\\|out\\)\\)\\|z?log\\(in\\|out\\)\\)\\'" . bash-ts-mode))
+(add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(shrc\\|zshrc\\|m?kshrc\\|bashrc\\|t?cshrc\\|esrc\\)\\'" . bash-ts-mode))
+(add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . bash-ts-mode))
+
+;; (use-package editorconfig
+;;   :ensure t
+;;   :config
+;;   (editorconfig-mode 1))
 
 (add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
 
@@ -221,34 +233,13 @@
   :interpreter "perl"
   :config (load "cperl-setup"))
 
-(use-package enh-ruby-mode
-  :ensure t
-  :mode "\\.rb\\'"
-  :interpreter "ruby"
-  :custom-face
-  (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
-  (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
-  (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
-  )
-  :config
-  (setq indent-tabs-mode nil)
+(add-hook 'ruby-ts-mode-hook 'column-enforce-mode)
 
 (use-package ruby-refactor
   :ensure t
-)
-  :config
-  (add-hook 'enh-ruby-mode-hook 'ruby-refactor-mode-launch)
-
-(add-hook 'enh-ruby-mode-hook 'column-enforce-mode)
-
-(use-package php-mode
-  :ensure t
-  :mode "\\.php\\'"
-  :init
-  (add-hook 'php-mode-hook (lambda () (electric-indent-local-mode -1)))
-  :config
-  (setq php-style-delete-trailing-whitespace t)
   )
+:config
+(add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch)
 
 (use-package nhexl-mode
   :ensure t
@@ -258,56 +249,50 @@
 (require 'sgml-mode)
 (require 'nxml-mode)
 (add-to-list 'hs-special-modes-alist
-             '(nxml-mode
-               "<!--\\|<[^/>]*[^/]>"
-               "-->\\|</[^/>]*[^/]>"
+	     '(nxml-mode
+	       "<!--\\|<[^/>]*[^/]>"
+	       "-->\\|</[^/>]*[^/]>"
 
-               "<!--"
-               sgml-skip-tag-forward
-               nil))
+	       "<!--"
+	       sgml-skip-tag-forward
+	       nil))
 (add-hook 'nxml-mode-hook 'hs-minor-mode)
 (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
-
-(use-package yaml-mode
-  :ensure t
-  :mode (("\\.yml\\'" . yaml-mode)
-	 ("\\.yaml\\'" . yaml-mode))
-  )
 
 (use-package org
   :ensure t
   :custom-face
   (org-headline-done ((t (:foreground "gray50"))))
-)
+  )
 
 (setq org-special-ctrl-a/e t)
 
 (when (work-laptop)
-(setq org-agenda-files
-      (delq nil
-            (mapcar (lambda (x) (and (file-exists-p x) x))
-                    '(
-                      "~/org/cspace.org"
-                      "~/org/diary.org"
-                      "~/org/islandora.org"
-                      "~/org/meetings.org"
-                      "~/org/migrations.org"
-		      "~/org/notes.org"
-                      "~/org/work.org"
-)))))
+  (setq org-agenda-files
+	(delq nil
+	      (mapcar (lambda (x) (and (file-exists-p x) x))
+		      '(
+			"~/org/cspace.org"
+			"~/org/diary.org"
+			"~/org/islandora.org"
+			"~/org/meetings.org"
+			"~/org/migrations.org"
+			"~/org/notes.org"
+			"~/org/work.org"
+			)))))
 (when (work-laptop-b)
-(setq org-agenda-files
-      (delq nil
-            (mapcar (lambda (x) (and (file-exists-p x) x))
-                    '(
-                      "~/org/cspace.org"
-                      "~/org/diary.org"
-                      "~/org/islandora.org"
-                      "~/org/meetings.org"
-                      "~/org/migrations.org"
-		      "~/org/notes.org"
-                      "~/org/work.org"
-)))))
+  (setq org-agenda-files
+	(delq nil
+	      (mapcar (lambda (x) (and (file-exists-p x) x))
+		      '(
+			"~/org/cspace.org"
+			"~/org/diary.org"
+			"~/org/islandora.org"
+			"~/org/meetings.org"
+			"~/org/migrations.org"
+			"~/org/notes.org"
+			"~/org/work.org"
+			)))))
 
 (setq org-clock-into-drawer t)
 ;; Change tasks to INPROGRESS when clocking in
@@ -332,9 +317,9 @@
 (setq org-todo-keywords
       '((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
 	(sequence "|" "CANCELED(c@)" )
-        (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
-        (sequence "MTG(m)" "|" )
-        (sequence "ONGOING(o)" "|" )))
+	(sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
+	(sequence "MTG(m)" "|" )
+	(sequence "ONGOING(o)" "|" )))
 
 ;;############################################################################
 ;; org-mode
@@ -363,20 +348,20 @@
 
 
 (add-hook 'org-mode-hook
-          (lambda ()
-            (visual-line-mode t))
-          t)
+	  (lambda ()
+	    (visual-line-mode t))
+	  t)
 
 ;; prevents accidentally editing hidden text when the point is inside a folded region
 (setq org-catch-invisible-edits 'error)
 
 (setq org-cycle-include-plain-lists t)
 
-; insert blank lines before headings but not new list items
+					; insert blank lines before headings but not new list items
 (setf org-blank-before-new-entry '((heading . nil) (plain-list-item . auto)))
 
-; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
-; From http://doc.norang.ca/org-mode.html
+					; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
+					; From http://doc.norang.ca/org-mode.html
 
 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 
@@ -426,59 +411,59 @@
   (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
 
 (use-package ibuffer
-:bind ("C-x C-b" . ibuffer)
-:config
+  :bind ("C-x C-b" . ibuffer)
+  :config
   (setq ibuffer-formats
-      '((mark modified read-only locked " "
-	      (name 20 20 :left :elide)
-	      " "
-	      (size-h 11 -1 :right)
-	      " "
-	      (mode 16 16 :left :elide)
-	      " "
-	      filename-and-process)
-	(mark " "
-	      (name 16 -1)
-	      " " filename)))
-)
+	'((mark modified read-only locked " "
+		(name 20 20 :left :elide)
+		" "
+		(size-h 11 -1 :right)
+		" "
+		(mode 16 16 :left :elide)
+		" "
+		filename-and-process)
+	  (mark " "
+		(name 16 -1)
+		" " filename)))
+  )
 
 (use-package ibuffer-vc
- :ensure t
- :config
-   (add-hook 'ibuffer-hook
-     (lambda ()
-       (ibuffer-vc-set-filter-groups-by-vc-root)
-       (unless (eq ibuffer-sorting-mode 'alphabetic)
-         (ibuffer-do-sort-by-alphabetic))))
-   (setq ibuffer-formats
-         '((mark modified read-only vc-status-mini " "
-                 (name 18 18 :left :elide)
-                 " "
-                 (size-h 9 -1 :right)
-                 " "
-                 (mode 16 16 :left :elide)
-                 " "
-                 (vc-status 16 16 :left)
-                 " "
-                 vc-relative-file)))
-)
+  :ensure t
+  :config
+  (add-hook 'ibuffer-hook
+	    (lambda ()
+	      (ibuffer-vc-set-filter-groups-by-vc-root)
+	      (unless (eq ibuffer-sorting-mode 'alphabetic)
+		(ibuffer-do-sort-by-alphabetic))))
+  (setq ibuffer-formats
+	'((mark modified read-only vc-status-mini " "
+		(name 18 18 :left :elide)
+		" "
+		(size-h 9 -1 :right)
+		" "
+		(mode 16 16 :left :elide)
+		" "
+		(vc-status 16 16 :left)
+		" "
+		vc-relative-file)))
+  )
 
 (setq ibuffer-saved-filter-groups
-    '(("filters"
-      ("magit" (name .".*magit"))
-      ("migration: Boston Athenaeum" (or
-                (filename . "code/migrations-private/boston_athenaeum")
-                (filename . "data/BostonAthenaeum")))
-      ("migration: CSWS" (or
-                 (filename . "data/CSWS")
-                 (filename . "code/migrations-private/csws")))
-      ("tracking work" (mode . org-mode))
-      ("meta" (or
-                (basename . "diary.org")
-                (basename . "meetings.org")
-                (basename . "time.org")
-                (basename . "work.org")))
-)))
+      '(("filters"
+	 ("magit" (name .".*magit"))
+	 ("migration: Boston Athenaeum" (or
+					 (filename . "code/migrations-private/boston_athenaeum")
+					 (filename . "data/BostonAthenaeum")))
+	 ("migration: CSWS" (or
+			     (filename . "data/CSWS")
+			     (filename . "code/migrations-private/csws")))
+	 ("tracking work" (mode . org-mode))
+	 ("meta" (or
+		  (basename . "diary.org")
+		  (basename . "meetings.org")
+		  (basename . "time.org")
+		  (basename . "work.org")))
+	 )))
 
 (add-hook 'ibuffer-mode-hook
 	  '(lambda ()
@@ -494,9 +479,9 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (use-package counsel
-    :ensure t
-    :bind (("M-x" . counsel-M-x))
-)
+  :ensure t
+  :bind (("M-x" . counsel-M-x))
+  )
 
 (use-package ivy
   :ensure t
@@ -504,7 +489,7 @@
   :config
   (ivy-mode t)
   (setq ivy-initial-inputs-alist nil)
-)
+  )
 
 (setq ivy-use-selectable-prompt t)
 
@@ -551,46 +536,46 @@
 (use-package adoc-mode
   :ensure t
   :mode (("\\.adoc\\'" . adoc-mode)
-         ("\\.asciidoc\\'" . adoc-mode))
+	 ("\\.asciidoc\\'" . adoc-mode))
   :config
   (progn
-     (set-face-attribute  'adoc-meta-face
-                      nil
-                      :foreground "pink1"
-                      :height 100)
+    (set-face-attribute  'adoc-meta-face
+			 nil
+			 :foreground "pink1"
+			 :height 100)
 
-     (set-face-attribute  adoc-meta-hide-face
-                      nil
-                      :foreground "gray40"
-                      :height 100)
+    (set-face-attribute  adoc-meta-hide-face
+			 nil
+			 :foreground "gray40"
+			 :height 100)
+    )
   )
-)
 
 (use-package htmlize
   :ensure t
-)
+  )
 
 (when (work-laptop)
-       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+  (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
 (when (work-laptop-b)
-       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-	(add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+  (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
 
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
+	 ("\\.md\\'" . markdown-mode)
+	 ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
 (use-package auto-org-md
   :ensure t
-)
+  )
 
 (fset 'noblame
-   (kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))
+      (kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))
 
 (use-package magit
   :ensure t
@@ -624,13 +609,13 @@
   (define-key dired-mode-map [return] 'joc-dired-single-buffer)
   (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
   (define-key dired-mode-map "^"
-   (function
-    (lambda nil (interactive) (joc-dired-single-buffer "..")))))
+	      (function
+	       (lambda nil (interactive) (joc-dired-single-buffer "..")))))
 
 ;; if dired's already loaded, then the keymap will be bound
 (if (boundp 'dired-mode-map)
-   ;; we're good to go; just add our bindings
-   (my-dired-init)
+    ;; we're good to go; just add our bindings
+    (my-dired-init)
   ;; it's not loaded yet, so add our bindings to the load-hook
   (add-hook 'dired-load-hook 'my-dired-init))
 
@@ -653,7 +638,7 @@
   (interactive)
   (message (buffer-file-name))
   (kill-new (file-truename buffer-file-name))
-)
+  )
 (global-set-key "\C-cz" 'show-file-name)
 
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -661,34 +646,34 @@
 ;; sort lines before using since lines have to be one after the other
 ;; 20091206 01:16 commented out because not working right
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-  (defun uniquify-all-lines-region (start end)
-    "Find duplicate lines in region START to END keeping first occurrence."
-    (interactive "*r")
-    (save-excursion
-      (let ((end (copy-marker end)))
-        (while
-            (progn
-              (goto-char start)
-              (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
-          (replace-match "\\1\n\\2")))))
+(defun uniquify-all-lines-region (start end)
+  "Find duplicate lines in region START to END keeping first occurrence."
+  (interactive "*r")
+  (save-excursion
+    (let ((end (copy-marker end)))
+      (while
+	  (progn
+	    (goto-char start)
+	    (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
+	(replace-match "\\1\n\\2")))))
 
-  (defun uniquify-all-lines-buffer ()
-    "Delete duplicate lines in buffer and keep first occurrence."
-    (interactive "*")
-    (uniquify-region-lines (point-min) (point-max)))
+(defun uniquify-all-lines-buffer ()
+  "Delete duplicate lines in buffer and keep first occurrence."
+  (interactive "*")
+  (uniquify-region-lines (point-min) (point-max)))
 
-  (defun uniquify-region-lines (beg end)
-    "Remove duplicate adjacent lines in region."
-    (interactive "*r")
-    (save-excursion
-      (goto-char beg)
-      (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
-        (replace-match "\\1"))))
+(defun uniquify-region-lines (beg end)
+  "Remove duplicate adjacent lines in region."
+  (interactive "*r")
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
+      (replace-match "\\1"))))
 
-  (defun uniquify-buffer-lines ()
-    "Remove duplicate adjacent lines in the current buffer."
-    (interactive)
-    (uniquify-region-lines (point-min) (point-max)))
+(defun uniquify-buffer-lines ()
+  "Remove duplicate adjacent lines in the current buffer."
+  (interactive)
+  (uniquify-region-lines (point-min) (point-max)))
 
 ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 ;; do an incremental search on a regexp and hide lines that match the regexp.
@@ -729,5 +714,5 @@
     (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
 
 ; everytime bookmark is changed, automatically save it
-; from http://ergoemacs.org/emacs/bookmark.html
+					; from http://ergoemacs.org/emacs/bookmark.html
 (setq bookmark-save-flag 1)
