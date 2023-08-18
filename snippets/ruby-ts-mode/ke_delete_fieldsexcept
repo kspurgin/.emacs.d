@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ke_delete_fieldsexcept
+# key: kedelfe
+# --
+transform Delete::FieldsExcept,
+fields: %i[x]

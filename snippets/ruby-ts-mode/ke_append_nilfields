@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ke_append_nilfields
+# key: ke_append_nil
+# --
+transform Append::NilFields,
+fields: %i[$0]
