@@ -3,4 +3,5 @@
 # key: kedelfe
 # --
 transform Delete::FieldsExcept,
-fields: %i[x]
+  fields: %i[$1]
+$0

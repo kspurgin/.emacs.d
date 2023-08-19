@@ -2,5 +2,6 @@
 # name: ke_deduplicate_table
 # --
 transform Deduplicate::Table,
-field: :x,
-delete_field: true
+  field: :$1${2:,
+  delete_field: true}
+$0

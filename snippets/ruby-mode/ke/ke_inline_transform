@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_inline_transform
+# key: ke_inline
+# --
+transform do |row|
+  $0
+  row
+end
