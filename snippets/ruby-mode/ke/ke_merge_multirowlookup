@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: ke_merge_multirowlookup
+# key: kemrlkup
+# --
+transform Merge::MultiRowLookup,
+  lookup: $1,
+  keycolumn: :$2,
+  fieldmap: {$3}${4:,
+  constantmap: {${5:hash}\}}${6:,
+  conditions: ->(_r, rows)${7:lambdadef}}${8:,
+  null_placeholder: "${9:%NULLVALUE%}"}${10:,
+  delim: "${11:;}"}${12:,
+  sorter: Lookup::RowSorter.new(
+  on: :${13:x}${14:, dir: :desc, as: :to_i, blanks: :last}
+  )}${15:,
+  multikey: true}
+$0

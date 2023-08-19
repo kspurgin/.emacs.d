@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_rename_f
+# key: ke_rename_f
+# --
+transform Rename::Field,
+  from: :${1:old},
+  to: :${2:new}
+$0
