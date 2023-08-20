@@ -1,34 +1,25 @@
-(defun personal-laptop ()
-  (equal (system-name) "spore"))
-(defun work-laptop ()
-  (equal (system-name) "Kristina-Macbook-Pro.local"))
-(defun work-laptop-b ()
-  (equal (system-name) "Kristina-MBP"))
+(defun init-computer-os ()
+  (cond ((equal (system-name) "secunit") 'nix)
+	((equal (system-name) "spore") 'nix)
+	((equal (system-name) "Kristina-Macbook-Pro.local") 'mac)
+	((equal (system-name) "Kristina-MBP") 'mac)))
+
+(defun init-computer-context ()
+  (cond ((equal (init-computer-os) 'nix) 'personal)
+	((equal (init-computer-os) 'mac) 'work)))
 
 (setq user-full-name "Kristina M. Spurgin")
-(when (personal-laptop)
+(when (equal (init-computer-context) 'personal)
   (setq user-mail-address "kristina@le-champignon.net")
-  (message "You are on your personal laptop.")
-  )
-(when (work-laptop)
+  (message "You are on your personal laptop."))
+(when (equal (init-computer-context) 'work)
   (setq user-mail-address "kristina.spurgin@lyrasis.org")
-  (message "You are on your work laptop.")
-  )
-(when (work-laptop-b)
-  (setq user-mail-address "kristina.spurgin@lyrasis.org")
-  (message "You are on your work laptop.")
-  )
+  (message "You are on your work laptop."))
 
-(when (work-laptop)
+(when (equal (init-computer-os) 'mac)
   (set-keyboard-coding-system nil)
   (setq mac-command-modifier 'meta)
-  (setq mac-right-command-modifier 'super)
-  )
-(when (work-laptop-b)
-  (set-keyboard-coding-system nil)
-  (setq mac-command-modifier 'meta)
-  (setq mac-right-command-modifier 'super)
-  )
+  (setq mac-right-command-modifier 'super))
 
 (package-initialize)
 
@@ -36,9 +27,6 @@
   (package-install 'use-package))
 (setq use-package-verbose t)
 (require 'use-package)
-(use-package auto-compile
-  :ensure t
-  :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
 (message "use-package is set up now")
 
@@ -69,11 +57,7 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-(when (work-laptop)
-  (load "LYRASIS_macros")
-  (message "work-related macros loaded"))
-
-(when (work-laptop-b)
+(when (equal (init-computer-context) 'work)
   (load "LYRASIS_macros")
   (message "work-related macros loaded"))
 
@@ -267,20 +251,7 @@
 
 (setq org-special-ctrl-a/e t)
 
-(when (work-laptop)
-  (setq org-agenda-files
-	(delq nil
-	      (mapcar (lambda (x) (and (file-exists-p x) x))
-		      '(
-			"~/org/cspace.org"
-			"~/org/diary.org"
-			"~/org/islandora.org"
-			"~/org/meetings.org"
-			"~/org/migrations.org"
-			"~/org/notes.org"
-			"~/org/work.org"
-			)))))
-(when (work-laptop-b)
+(when (equal (init-computer-context) 'work)
   (setq org-agenda-files
 	(delq nil
 	      (mapcar (lambda (x) (and (file-exists-p x) x))
@@ -555,10 +526,7 @@
   :ensure t
   )
 
-(when (work-laptop)
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-  (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
-(when (work-laptop-b)
+(when (equal (init-computer-context) 'work)
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
   (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
 
