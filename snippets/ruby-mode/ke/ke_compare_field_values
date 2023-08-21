@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: ke_compare_field_values
+# key: kecomparefieldvalues
+# --
+transform Compare::FieldValues,
+  fields: %i[$1],
+  target: :$2${3:,
+  downcase: false}${4:,
+  strip: false}${5:,
+  ignore_blank: true}
+$0

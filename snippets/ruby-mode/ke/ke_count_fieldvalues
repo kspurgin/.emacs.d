@@ -1,0 +1,10 @@
+# key: kecountfieldvalues
+# name: ke_count_field_values
+# --
+transform Count::FieldValues,
+  field: :$1,
+  target: :$2${3:,
+  delim: '${4:;}'}${5:,
+  placeholder: '${6:%NULLVALUE%}'}${7:,
+  count_empty: false}
+$0

@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: ke_clean_regexpfindreplacefieldvals
+# key: kecleanregexpfindreplacefieldvals
+# --
+transform Clean::RegexpFindReplaceFieldVals,
+  fields: ${1:%i[]},
+  find: '$2',
+  replace: '$3'${4:,
+  casesensitive: false}${5:,
+  multival: true}${6:,
+  sep: "${7:|}"}${8:,
+  debug: true}
+$0

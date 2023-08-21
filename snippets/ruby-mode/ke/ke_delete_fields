@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ke_delete_fields
+# key: kedeletefields
+# --
+transform Delete::Fields,
+  fields: %i[$1]
+$0
