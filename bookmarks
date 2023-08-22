@@ -2,7 +2,13 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-config"
+(("wpl_cspace_migration"
+ (filename . "~/org/mig/wpl_westerville_public_library_cs.org")
+ (front-context-string . "bkmk\n    :LOGBOO")
+ (rear-context-string . "L Migration dev\n")
+ (position . 45)
+ (last-modified 25829 11302 103946 0))
+("org-config"
  (filename . "~/.emacs.d/init.org")
  (front-context-string . "\nEverything woul")
  (rear-context-string . "RC\n\n** Org-mode\n")
@@ -290,10 +296,10 @@
  (position . 35519))
 ("mw-metawork"
  (filename . "~/org/work.org")
- (front-context-string . "bkmk\n   check ou")
+ (front-context-string . "xbkmk\n\n   :LOGBO")
  (rear-context-string . "GOING Meta-work\n")
- (position . 88205)
- (last-modified 25827 55319 763544 0))
+ (position . 88271)
+ (last-modified 25829 10302 661659 0))
 ("communication"
  (filename . "~/org/work.org")
  (front-context-string . "bkmk\n   :LOGBOOK")
