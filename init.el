@@ -94,6 +94,14 @@
        (message "loaded theme")
        ))
 
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(global-auto-revert-mode t)
+
 (setq standard-indent 2)
 
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
@@ -104,6 +112,11 @@
 (global-unset-key (kbd "C-x C-z"))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(add-hook 'before-save-hook
+	  #'(lambda ()
+	      (or (file-exists-p (file-name-directory buffer-file-name))
+		  (make-directory (file-name-directory buffer-file-name) t))))
 
 (desktop-save-mode 1)
 (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -125,6 +138,11 @@
       kept-new-versions 6
       kept-old-versions 2
       version-control t)
+
+(eval-after-load 'grep
+  '(progn
+     (add-to-list 'grep-find-ignored-directories ".bundle")
+     (add-to-list 'grep-find-ignored-directories "coverage")))
 
 ;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
 (setq next-line-add-newlines nil)
@@ -174,6 +192,8 @@
   :config
   (editorconfig-mode 1))
 
+(add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
+
 (use-package cperl-mode
   :mode "\\.p[lm]\\'"
   :interpreter "perl"
@@ -210,11 +230,21 @@
 (add-hook 'nxml-mode-hook 'hs-minor-mode)
 (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
 
+(with-eval-after-load 'org
+  (add-hook 'org-mode-hook #'visual-line-mode))
+
+(setq org-hide-leading-stars nil)
+
+(setq org-startup-indented nil)
+
 (setf org-blank-before-new-entry '((heading . t) (plain-list-item . auto)))
 
 (custom-set-faces
  '(org-headline-done ((t (:foreground "gray50")))))
 (setq org-fontify-done-headline t)
+
+(setq org-clock-into-drawer t)
+(setq org-log-into-drawer t)
 
 (setq org-fold-catch-invisible-edits "smart")
 
@@ -274,6 +304,8 @@
 
 (setq org-enforce-todo-checkbox-dependencies t)
 
+(setq bookmark-save-flag 1)
+
 (require 'ibuffer)
 (load "ibuffer-human-readable")
 (keymap-global-set "C-x C-b" 'ibuffer)
@@ -324,11 +356,29 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (use-package counsel
-  :ensure t
   :bind (("M-x" . counsel-M-x))
   )
 
+(use-package ivy
+  :diminish ivy-mode
+  :config
+  (ivy-mode t)
+  (setq ivy-initial-inputs-alist nil)
+  )
+
 (setq ivy-use-selectable-prompt t)
+
+(use-package visual-regexp-steroids
+  :ensure visual-regexp
+  :bind (("C-c r" . vr/replace)
+	 ("C-c q" . vr/query-replace)
+	 ("C-M-R" . vr/isearch-backward)
+	 ("C-M-S" . vr/isearch-forward))
+  )
+
+(use-package yasnippet
+  :config (yas-global-mode 1)
+  )
 
 (eval-after-load 'grep
   '(progn
@@ -344,7 +394,6 @@
 (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
 
 (use-package projectile
-  :ensure t
   :config
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -353,11 +402,9 @@
   (setq projectile-create-missing-test-files "t"))
 
 (use-package swiper
-  :ensure t
   :bind (("C-s" . swiper)))
 
 (use-package adoc-mode
-  :ensure t
   :mode (("\\.adoc\\'" . adoc-mode)
 	 ("\\.asciidoc\\'" . adoc-mode))
   :config
@@ -375,7 +422,6 @@
   )
 
 (use-package htmlize
-  :ensure t
   )
 
 (when (equal (init-computer-context) 'work)
@@ -383,22 +429,18 @@
   (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
 
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
 	 ("\\.md\\'" . markdown-mode)
 	 ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
-(use-package auto-org-md
-  :ensure t
-  )
+(use-package auto-org-md)
 
 (fset 'noblame
       (kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))
 
 (use-package magit
-  :ensure t
   :bind (("C-x g" . magit-status))
   :config
   (setq git-commit-style-convention-checks nil))

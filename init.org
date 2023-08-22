@@ -33,7 +33,6 @@ I set this up first, because:
 - Some things need to be loaded (or not, or differently) based on the OS
 
   My user name stays the same across contexts:
-
   #+begin_src emacs-lisp
     (setq user-full-name "Kristina M. Spurgin")
   #+end_src
@@ -216,23 +215,25 @@ Make the graphical client dark and pretty:
 	 ))
 #+END_SRC
 
-
 ** General behavior
 
-Do not "helpfully" disable things for me:#+begin_src emacs-lisp
+Do not "helpfully" disable things for me:
+#+begin_src emacs-lisp
   (put 'downcase-region 'disabled nil)
   (put 'upcase-region 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
 #+end_src
 
-Allows typing just "y" instead of "yes" when you exit:#+begin_src emacs-lisp
+Allows typing just "y" instead of "yes" when you exit:
+#+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
 make emacs automatically notice any changes made to files on disk
 especially useful for making reftex notice changes to bibtex files
 http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
-Fri May 22 19:32:12 EDT 2009#+begin_src emacs-lisp
+Fri May 22 19:32:12 EDT 2009
+#+begin_src emacs-lisp
   (global-auto-revert-mode t)
 #+end_src
 
@@ -268,7 +269,8 @@ Kill trailing whitespace on save:
 
 auto-create non-existing directories to save files
 http://atomized.org/2008/12/emacs-create-directory-before-saving/
-Sun Dec 14 00:04:46 EST 2008#+begin_src emacs-lisp
+Sun Dec 14 00:04:46 EST 2008
+#+begin_src emacs-lisp
   (add-hook 'before-save-hook
 	    #'(lambda ()
 		(or (file-exists-p (file-name-directory buffer-file-name))
@@ -291,8 +293,6 @@ Certain types of buffers are not important and we don't want them saved/reopened
   (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 #+END_SRC
-
-
 
 Backups section is stolen wholesale from [[https://github.com/bnbeckwith/bnb-emacs/tree/6072f959b7015baa2b21854017b655890392dee6][here]]. Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
 
@@ -318,12 +318,14 @@ Here's a quick rundown of the settings:
 #+END_SRC
 
 
-*** Grep#+begin_src emacs-lisp
+*** Grep
+#+begin_src emacs-lisp
   (eval-after-load 'grep
     '(progn
        (add-to-list 'grep-find-ignored-directories ".bundle")
        (add-to-list 'grep-find-ignored-directories "coverage")))
 #+end_src
+
 *** TODO More to document/comment
 #+BEGIN_SRC emacs-lisp
 
@@ -394,8 +396,8 @@ https://github.com/editorconfig/editorconfig-emacs#readme
     (editorconfig-mode 1))
 #+END_SRC
 
-**** TODO Better comment/document
-*** Javascript#+BEGIN_SRC emacs-lisp
+*** Javascript
+#+BEGIN_SRC emacs-lisp
   (add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
 #+END_SRC
 *** Perl
@@ -425,13 +427,14 @@ Added 2022-09-23:
 #+END_SRC
 **** Ruby style
 
-Enforce standardrb's:
+As of [2023-08-22 Tue], I can't figure out how to enforce the following standardrb cop:
 
-#+begin_verse
+#+begin_example
 Layout/AccessModifierIndentationLayout/ArgumentAlignment:
   Enabled: true
   EnforcedStyle: with_fixed_indentation
-#+end_verse
+#+end_example
+
 #+begin_src emacs-lisp
   (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
@@ -519,23 +522,25 @@ It has been included in Emacs by default since 22.1, but just in case...
 
 When Visual Line mode is enabled, ‘word-wrap’ is turned on in
 this buffer, and simple editing commands are redefined to act on
-visual lines, not logical lines.#+begin_src emacs-lisp
+visual lines, not logical lines.
+#+begin_src emacs-lisp
   (with-eval-after-load 'org
     (add-hook 'org-mode-hook #'visual-line-mode))
 #+end_src
 
-Show leading stars!#+begin_src emacs-lisp
+Show leading stars!
+#+begin_src emacs-lisp
   (setq org-hide-leading-stars nil)
 #+end_src
 
 Non-nil means turn on ‘org-indent-mode’ on startup.
 This can also be configured on a per-file basis by adding one of
 the following lines anywhere in the buffer:
-
 #+begin_example
 ,#+STARTUP: indent
 ,#+STARTUP: noindent
-#+end_example#+begin_src emacs-lisp
+#+end_example
+#+begin_src emacs-lisp
   (setq org-startup-indented nil)
 #+end_src
 
@@ -551,11 +556,11 @@ Format DONE headings:
   (setq org-fontify-done-headline t)
 #+end_src
 
-Store clock data, state changes, and state notes are in the LOGBOOK drawer:#+begin_src emacs-lisp
+Store clock data, state changes, and state notes are in the LOGBOOK drawer:
+#+begin_src emacs-lisp
   (setq org-clock-into-drawer t)
   (setq org-log-into-drawer t)
 #+end_src
-
 
 *** Org-mode editing
 
@@ -706,6 +711,7 @@ Occasionally you may want to refile something into another file or heading and p
 #+BEGIN_SRC emacs-lisp
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
+
 *** Todos
 
 The codes after the state keywords are documented [[https://orgmode.org/manual/Tracking-TODO-state-changes.html#Tracking-TODO-state-changes][here]].
@@ -751,7 +757,8 @@ to change it while Emacs is running is through the customize interface.
 
 The number of times which Emacs’s bookmark list may be modified before
 it is automatically saved.).  If it is a number, Emacs will also
-automatically save bookmarks when it is killed.#+begin_src emacs-lisp
+automatically save bookmarks when it is killed.
+#+begin_src emacs-lisp
   (setq bookmark-save-flag 1)
 #+end_src
 
@@ -878,7 +885,6 @@ Nor do we want to see empty filter groups. No visual clutter!
 =counsel= is a collection of =ivy= enhanced versions of common Emacs commands.
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
-    :ensure t
     :bind (("M-x" . counsel-M-x))
     )
 #+END_SRC
@@ -890,9 +896,9 @@ Nor do we want to see empty filter groups. No visual clutter!
 
 I'm trying this out, as of <2019-10-22 Tue>
 
-Setting =ivy-intial-inputs-alist= to nil turns off the default behavior of starting filters with =^=.#+BEGIN_SRC emacs-lisp
+Setting =ivy-intial-inputs-alist= to nil turns off the default behavior of starting filters with =^=.
+#+BEGIN_SRC emacs-lisp
   (use-package ivy
-    :ensure t
     :diminish ivy-mode
     :config
     (ivy-mode t)
@@ -906,9 +912,9 @@ The following allows you to select entered text with C-p/C-n:
 #+END_SRC
 
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
-*** Other#+BEGIN_SRC emacs-lisp
+*** Other
+#+BEGIN_SRC emacs-lisp
   (use-package visual-regexp-steroids
-    :ensure t
     :ensure visual-regexp
     :bind (("C-c r" . vr/replace)
 	   ("C-c q" . vr/query-replace)
@@ -917,7 +923,6 @@ The following allows you to select entered text with C-p/C-n:
     )
 
   (use-package yasnippet
-    :ensure t
     :config (yas-global-mode 1)
     )
 #+END_SRC
@@ -937,14 +942,13 @@ Control which directories are excluded by grep:
        (add-to-list 'grep-find-ignored-directories "elpa")))
   (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
 #+END_SRC
-**** TODO comment/organize this better
+
 *** Projectile
 #+BEGIN_QUOTE
 Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies (when feasible). --[[https://projectile.readthedocs.io/en/latest/][Projectile docs]]
 #+END_QUOTE
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :ensure t
     :config
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -966,7 +970,6 @@ Swiper helps you search through emacs, and shows you text around the matching te
 #+END_QUOTE
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
-    :ensure t
     :bind (("C-s" . swiper)))
 #+END_SRC
 
@@ -975,6 +978,7 @@ Now, you can search through Emacs using Swiper. When you run =C-s= the swiper se
 #+END_QUOTE
 
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
+
 ** Publishing
 *** AsciiDoc
 When I can't write in/publish from =org-mode=, AsciiDoc is my text markup language of choice. In some ways I even prefer it to =org-mode=! (Admonition blocks, ToCs rendered in github, includes!). [[https://asciidoctor.org/docs/what-is-asciidoc/][More on why it is great...]]
@@ -982,7 +986,6 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
 [[https://asciidoctor.org/docs/asciidoc-writers-guide/][In-depth writer's guide]] -- [[https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/][Quick reference]]
 #+BEGIN_SRC emacs-lisp
   (use-package adoc-mode
-    :ensure t
     :mode (("\\.adoc\\'" . adoc-mode)
 	   ("\\.asciidoc\\'" . adoc-mode))
     :config
@@ -999,13 +1002,14 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
       )
     )
 #+END_SRC
+
 *** HTML
 Required for =org-mode= HTML export:
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
-    :ensure t
     )
 #+END_SRC
+
 *** LaTeX
 
 Currently I only am using this at work.
@@ -1014,26 +1018,26 @@ Currently I only am using this at work.
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
     (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
 #+END_SRC
+
 *** Markdown
 
 For editing Markdown text.
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-    :ensure t
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
 	   ("\\.md\\'" . markdown-mode)
 	   ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "multimarkdown"))
 #+END_SRC
+
 *** Org-mode export
 
 =auto-org-md= is a simple package that exports a markdown file automatically when you save an org file. [[https://github.com/jamcha-aa/auto-org-md][github]]
 #+BEGIN_SRC emacs-lisp
-  (use-package auto-org-md
-    :ensure t
-    )
+  (use-package auto-org-md)
 #+END_SRC
+
 ** Version control
 
 Macro to format copied ~git log~ output for .git-blame-ignore-revs:
@@ -1045,7 +1049,6 @@ Macro to format copied ~git log~ output for .git-blame-ignore-revs:
 Try =magit= again. Manual is [[https://magit.vc/manual/magit/index.html#Top][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t
     :bind (("C-x g" . magit-status))
     :config
     (setq git-commit-style-convention-checks nil))
@@ -1059,6 +1062,7 @@ This is supposed to be neat: it will let you step back in time through your chan
     :ensure t
     :bind (("s-g" . git-timemachine)))
 #+END_SRC
+
 ** Writing
 
 Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.html)
@@ -1066,10 +1070,8 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
   (setq sentence-end-double-space nil)
 #+END_SRC
 
-
 ** Big Config Blob
 #+BEGIN_SRC emacs-lisp
-
   ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ;;; tramp
   ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
