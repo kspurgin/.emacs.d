@@ -65,9 +65,9 @@ Then, define contact info depending on context:
 
 Then, if applicable, fix the Mac keyboard:
 
- - turn off any special OS-related keyboard stuff
- - set Mac keyboard's left command key to act as meta (i.e. Alt on windows) key
- - The right command key still acts as super/command in order to control windows, etc.
+- turn off any special OS-related keyboard stuff
+- set Mac keyboard's left command key to act as meta (i.e. Alt on windows) key
+- The right command key still acts as super/command in order to control windows, etc.
 
 #+BEGIN_SRC emacs-lisp
   (when (equal (init-computer-os) 'mac)
@@ -150,18 +150,18 @@ If 29.1 or higher, set up treesit language sources as per [[https://www.masterin
 #+begin_src emacs-lisp
   (when (>= emacs-major-version 29)
     (setq treesit-language-source-alist
-	'((bash "https://github.com/tree-sitter/tree-sitter-bash")
-	  (css "https://github.com/tree-sitter/tree-sitter-css")
-	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-	  (go "https://github.com/tree-sitter/tree-sitter-go")
-	  (html "https://github.com/tree-sitter/tree-sitter-html")
-	  (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-	  (json "https://github.com/tree-sitter/tree-sitter-json")
-	  (make "https://github.com/alemuller/tree-sitter-make")
-	  (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-	  (python "https://github.com/tree-sitter/tree-sitter-python")
-	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-	  (yaml "https://github.com/ikatyang/tree-sitter-yaml"))))
+	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	    (css "https://github.com/tree-sitter/tree-sitter-css")
+	    (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+	    (go "https://github.com/tree-sitter/tree-sitter-go")
+	    (html "https://github.com/tree-sitter/tree-sitter-html")
+	    (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	    (json "https://github.com/tree-sitter/tree-sitter-json")
+	    (make "https://github.com/alemuller/tree-sitter-make")
+	    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	    (python "https://github.com/tree-sitter/tree-sitter-python")
+	    (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+	    (yaml "https://github.com/ikatyang/tree-sitter-yaml"))))
 #+end_src
 
 
@@ -183,7 +183,44 @@ Load appropriate macro files, depending on device.
 
 ** Appearance/UI
 
-Make the graphical client dark and pretty.
+Stretch the cursor to show the size of the character under cursor. Useful for seeing tabs and other weird whitespace
+
+#+begin_src emacs-lisp
+  (setq x-stretch-cursor t)
+#+end_src
+
+*** Don't be hideously annoying
+
+ - Do not blink the cursor
+ - Don't ring the error bell at me!
+
+#+begin_src emacs-lisp
+  (blink-cursor-mode 0)
+  (setq ring-bell-function 'ignore)
+#+end_src
+
+*** Hide some stuff
+
+ - Hide toolbar (big icons across top)
+ - Hide scratch file message:
+
+#+begin_src emacs-lisp
+  (tool-bar-mode 0)
+  (setq initial-scratch-message nil)
+#+end_src
+
+*** Show some stuff
+
+ - Show column number in mode line
+ - Make the display of date and time persistent in mode line
+
+#+begin_src emacs-lisp
+   (column-number-mode)
+   (setq display-time-day-and-date t) (display-time)
+#+end_src
+
+*** Theme, colors, faces
+Make the graphical client dark and pretty:
 
 #+BEGIN_SRC emacs-lisp
   (cond ((display-graphic-p)
@@ -196,41 +233,75 @@ Make the graphical client dark and pretty.
 	 ))
 #+END_SRC
 
-Before turning on =darktooth-modeline= I wanted the mode line of active buffer window to be red. This is suppressed now:
 
-#+BEGIN_SRC emacs-lisp :tangle no
-  (set-face-attribute  'mode-line
-		       nil
-		       :foreground "gray90"
-		       :background "dark red"
-		       :box '(:line-width 1 :style released-button))
-#+END_SRC
-
-*** TODO Random stuff to document/organize
-
-#+BEGIN_SRC emacs-lisp
-  ;; do not show the toolbar (big icons across top)
-  (tool-bar-mode 0)
-
-  ;; show column numbers 20100625 12:20
-  (column-number-mode)
-
-  ;; do not blink the cursor
-  (blink-cursor-mode 0)
-
-  ;; stretch the cursor to show the size of the character under cursor
-  ;; useful for seeing tabs and other weird whitespace
-  (setq x-stretch-cursor t)
-
-  ;; will make the display of date and time persistent.
-  (setq display-time-day-and-date t) (display-time)
-
-  ;; don't show that stupid message on the scratch file
-  (setq initial-scratch-message nil)
-#+END_SRC
 ** General behavior
 
-Save the desktop automatically. When you start up again, load the (local) buffers you had open when you closed Emacs. (It won't keep Tramp buffers open, unfortunately.
+Do not "helpfully" disable things for me:
+#+begin_src emacs-lisp
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+#+end_src
+
+Allows typing just "y" instead of "yes" when you exit:
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+make emacs automatically notice any changes made to files on disk
+especially useful for making reftex notice changes to bibtex files
+http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
+Fri May 22 19:32:12 EDT 2009
+#+begin_src emacs-lisp
+  (global-auto-revert-mode t)
+#+end_src
+
+Standard indent is 2 spaces
+
+#+BEGIN_SRC emacs-lisp
+  (setq standard-indent 2)
+#+END_SRC
+
+*** Global key bindings
+
+General/self-explanatory:
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+#+end_src
+
+Just insert one tab when I hit tab. From: [[http://www.pement.org/emacs_tabs.htm][Understanding GNU Emacs and Tabs]]
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "TAB") 'self-insert-command)
+#+end_src
+
+Disable suspend-frame command key bindings because they are annoying AF:
+
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-z"))
+  (global-unset-key (kbd "C-x C-z"))
+#+end_src
+
+*** Saving, persistence, backups
+
+Kill trailing whitespace on save:
+
+#+begin_src emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
+
+auto-create non-existing directories to save files
+http://atomized.org/2008/12/emacs-create-directory-before-saving/
+Sun Dec 14 00:04:46 EST 2008
+#+begin_src emacs-lisp
+  (add-hook 'before-save-hook
+	    #'(lambda ()
+		(or (file-exists-p (file-name-directory buffer-file-name))
+		    (make-directory (file-name-directory buffer-file-name) t))))
+#+end_src
+
+Save the desktop automatically. When you start up again, load the (local) buffers you had open when you closed Emacs. (It won't keep Tramp buffers open, unfortunately.)
 
 Certain types of buffers are not important and we don't want them saved/reopened.
 
@@ -248,62 +319,20 @@ Certain types of buffers are not important and we don't want them saved/reopened
   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 #+END_SRC
 
-Don't ring the error bell at me!
 
-#+BEGIN_SRC emacs-lisp
-  (setq ring-bell-function 'ignore)
-#+END_SRC
 
-Standard indent is 2 spaces
+Backups section is stolen wholesale from [[https://github.com/bnbeckwith/bnb-emacs/tree/6072f959b7015baa2b21854017b655890392dee6][here]]. Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
 
-#+BEGIN_SRC emacs-lisp
-  (setq standard-indent 2)
-#+END_SRC
+Here's a quick rundown of the settings:
 
-Kill trailing whitespace on save (added 2022-09-23)
-
-#+begin_src emacs-lisp
-  (add-hook 'before-save-hook
-	    'delete-trailing-whitespace)
-#+end_src
-
-[[https://github.com/jordonbiondo/column-enforce-mode][Highlight text that extends beyond a certain column:]] (added 2022-09-23)
-
-whitespace-mode does this as well, but makes things too visually noisy.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package column-enforce-mode)
-#+END_SRC
-*** Global key bindings
-**** Just insert one tab when I hit tab.
-From this excellent explainer: [[http://www.pement.org/emacs_tabs.htm][Understanding GNU Emacs and Tabs]]
-
-#+begin_src emacs-lisp
-
-  (global-set-key (kbd "TAB") 'self-insert-command)
-
-#+end_src
-
-**** Disable suspend-frame command key bindings because they are annoying AF.
-
-#+begin_src emacs-lisp
-  (global-unset-key (kbd "C-z"))
-
-  (global-unset-key (kbd "C-x C-z"))
-#+end_src
-**** Self-explanatory
-
-#+begin_src emacs-lisp
-
-  (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
-
-#+end_src
-
-*** Backups
-
-This section is stolen wholesale from [[https://github.com/bnbeckwith/bnb-emacs/tree/6072f959b7015baa2b21854017b655890392dee6][here]].
-
-Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
+- [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
+- [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
+- [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
+- [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
+- [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
+- [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
+- [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
+- [[elisp:(describe-variable%20'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
 
 #+BEGIN_SRC emacs-lisp
   (setq backup-by-copying t
@@ -316,16 +345,7 @@ Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]
 	version-control t)
 #+END_SRC
 
-Here's a quick rundown of the settings:
 
-- [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
-- [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
-- [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
-- [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
-- [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
-- [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
-- [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
-- [[elisp:(describe-variable%20'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
 *** Grep
 #+begin_src emacs-lisp
   (eval-after-load 'grep
@@ -336,14 +356,6 @@ Here's a quick rundown of the settings:
 *** TODO More to document/comment
 
 #+BEGIN_SRC emacs-lisp
-
-  ;; do not disable things for me.
-  (put 'downcase-region 'disabled nil)
-  (put 'upcase-region 'disabled nil)
-  (put 'narrow-to-region 'disabled nil)
-
-  ;; will allow you to type just "y" instead of "yes" when you exit.
-  (fset 'yes-or-no-p 'y-or-n-p)
 
   ;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
   (setq next-line-add-newlines nil)
@@ -356,20 +368,6 @@ Here's a quick rundown of the settings:
   (use-package move-text
     :config
     (move-text-default-bindings))
-
-  ;; make emacs automatically notice any changes made to files on disk
-  ;; especially useful for making reftex notice changes to bibtex files
-  ;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
-  ;; Fri May 22 19:32:12 EDT 2009
-  (global-auto-revert-mode t)
-
-    ;;; auto-create non-existing directories to save files
-    ;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
-    ;;; Sun Dec 14 00:04:46 EST 2008
-  (add-hook 'before-save-hook
-	    #'(lambda ()
-	       (or (file-exists-p (file-name-directory buffer-file-name))
-		   (make-directory (file-name-directory buffer-file-name) t))))
 
   ;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
   ;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
@@ -393,6 +391,15 @@ Here's a quick rundown of the settings:
   ;; automatically turn on sytax highlighting
   (global-font-lock-mode 1)
 #+END_SRC
+
+Added 2022-09-23: [[https://github.com/jordonbiondo/column-enforce-mode][Highlight text that extends beyond a certain column:]]
+
+whitespace-mode does this as well, but makes things too visually noisy.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package column-enforce-mode)
+#+END_SRC
+
 **** Tree-sitter
 
 As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
@@ -410,20 +417,6 @@ As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
   (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
   (add-to-list 'auto-mode-alist '("\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . ruby-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
-#+end_src
-
-[2023-08-22 Tue] - Remove tree-sitter override of sexp navigation in all programming modes ([[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][src]]):
-
-#+begin_src emacs-lisp
-  (defun mp-remove-treesit-sexp-changes ()
-    (when (eq forward-sexp-function #'treesit-forward-sexp)
-      (setq forward-sexp-function nil))
-    (when (eq transpose-sexps-function #'treesit-transpose-sexps)
-      (setq transpose-sexps-function #'transpose-sexps-default-function))
-    (when (eq forward-sentence-function #'treesit-forward-sentence)
-      (setq forward-sentence-function #'forward-sentence-default-function)))
-
-  (add-hook 'prog-mode-hook #'mp-remove-treesit-sexp-changes)
 #+end_src
 
 **** Setup editorconfig
@@ -465,8 +458,8 @@ Added 2022-09-23:
 
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-refactor
-  :config
-  (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
+    :config
+    (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
 #+END_SRC
 **** Ruby style
 
@@ -567,49 +560,177 @@ It has been included in Emacs by default since 22.1, but just in case...
     (use-package org))
 #+END_SRC
 
-*** Org-mode appearance
-(org-headline-done ((t (:foreground "gray50"))))
+*** Org-mode appearance, formatting
 
-*** Org-mode general behavior
-C-a moves to beginning of heading (after asterisks and todo states, etc). C-e moves to end of heading (before tags). ([[https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-heading-smartly-in-org-mode][src]])
+When Visual Line mode is enabled, ‘word-wrap’ is turned on in
+this buffer, and simple editing commands are redefined to act on
+visual lines, not logical lines.
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (add-hook 'org-mode-hook #'visual-line-mode))
+#+end_src
+
+Show leading stars!
+#+begin_src emacs-lisp
+  (setq org-hide-leading-stars nil)
+#+end_src
+
+Non-nil means turn on ‘org-indent-mode’ on startup.
+This can also be configured on a per-file basis by adding one of
+the following lines anywhere in the buffer:
+
+   ,#+STARTUP: indent
+   ,#+STARTUP: noindent
+#+begin_src emacs-lisp
+  (setq org-startup-indented nil)
+#+end_src
+
+Insert blank lines before headings but not new list items:
+
+#+begin_src emacs-lisp
+  (setf org-blank-before-new-entry '((heading . t) (plain-list-item . auto)))
+#+end_src
+
+Format DONE headings:
+
+#+begin_src emacs-lisp
+  (custom-set-faces
+   '(org-headline-done ((t (:foreground "gray50")))))
+  (setq org-fontify-done-headline t)
+#+end_src
+
+Store clock data, state changes, and state notes are in the LOGBOOK drawer:
+#+begin_src emacs-lisp
+  (setq org-clock-into-drawer t)
+  (setq org-log-into-drawer t)
+#+end_src
+
+
+*** Org-mode editing
+
+Check if in invisible region before inserting or deleting a character.
+
+#+begin_src emacs-lisp
+  (setq org-fold-catch-invisible-edits "smart")
+  #+end_src
+C-a moves to beginning of heading (after asterisks and todo states, etc).
+C-e moves to end of heading (before tags).
+https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-heading-smartly-in-org-mode
 
 #+BEGIN_SRC emacs-lisp
   (setq org-special-ctrl-a/e t)
 #+END_SRC
 
+*** Keybindings - global
+
+#+begin_src emacs-lisp
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cb" 'org-iswitchb)
+#+end_src
+
 *** Agenda
-Setup agenda files and refile targets.
+
+Conditionally set up agenda files. Currently only using at work:
 
 #+BEGIN_SRC emacs-lisp
   (when (equal (init-computer-context) 'work)
     (setq org-agenda-files
 	  (delq nil
 		(mapcar (lambda (x) (and (file-exists-p x) x))
-			'(
-			  "~/org/cspace.org"
-			  "~/org/diary.org"
+			'("~/org/cspace.org"
 			  "~/org/islandora.org"
 			  "~/org/meetings.org"
 			  "~/org/migrations.org"
 			  "~/org/notes.org"
-			  "~/org/work.org"
-			  )))))
+			  "~/org/work.org")))))
 #+END_SRC
-*** Clocking time
-#+BEGIN_SRC emacs-lisp
-  (setq org-clock-into-drawer t)
-  ;; Change tasks to INPROGRESS when clocking in
-  ;; (setq org-clock-in-switch-to-state "INPROGRESS")
-  ;; Clock out when moving task to a done state
-  ;; (setq org-clock-out-when-done t)
 
+Non-nil means ‘org-agenda’ shows every day in the selected range.
+When nil, only the days which actually have entries are shown.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-show-all-dates t)
+#+end_src
+
+Non-nil means don’t show deadlines when the corresponding item is done.
+When nil, the deadline is still shown and should give you a happy feeling.
+This is relevant for the daily/weekly agenda.  It applies only to the
+actual date of the deadline.  Warnings about approaching and past-due
+deadlines are always turned off when the item is DONE.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-skip-deadline-if-done t)
+#+end_src
+
+Non-nil means don’t show scheduled items in agenda when they are done.
+This is relevant for the daily/weekly agenda, not for the TODO list.  It
+applies only to the actual date of the scheduling.  Warnings about an item
+with a past scheduling dates are always turned off when the item is DONE.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-skip-scheduled-if-done t)
+#+end_src
+
+*** Clocking time
+By customizing the variable org-clock-idle-time to some integer, such as 10 or 15, Emacs can alert you when you get back to your computer after being idle for that many minutes80, and ask what you want to do with the idle time. There will be a question waiting for you when you get back, indicating how much idle time has passed constantly updated with the current amount, as well as a set of choices to correct the discrepancy ... What if you subtracted those away minutes from the current clock, and now want to apply them to a new clock? Simply clock in to any task immediately after the subtraction. Org will notice that you have subtracted time “on the books”, so to speak, and will ask if you want to apply those minutes to the next task you clock in on.
+
+There is one other instance when this clock resolution magic occurs. Say you were clocked in and hacking away, and suddenly your cat chased a mouse who scared a hamster that crashed into your UPS’s power button! You suddenly lose all your buffers, but thanks to auto-save you still have your recent Org mode changes, including your last clock in.
+
+If you restart Emacs and clock into any task, Org will notice that you have a dangling clock which was never clocked out from your last session. Using that clock’s starting time as the beginning of the unaccounted-for period, Org will ask how you want to resolve that time. The logic and behavior is identical to dealing with away time due to idleness; it is just happening due to a recovery event rather than a set amount of idle time.
+
+You can also check all the files visited by your Org agenda for dangling clocks at any time using M-x org-resolve-clocks RET (or C-c C-x C-z). ([[https://orgmode.org/manual/Resolving-idle-time.html#index-org_002dclock_002didle_002dtime][src]])
+
+#+begin_src emacs-lisp
   (setq org-clock-idle-time 5)
-  ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+#+end_src
+
+Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+
+#+begin_src emacs-lisp
   (setq org-clock-out-remove-zero-time-clocks t)
+#+end_src
+
+Whether or not a dialog opens every time you clock out, so you can enter a note.
+
+Left nil because I don't often need to enter a note. This is the format that it uses to create a note, where the note is under the clock entry it refers to:
+
+#+begin_example
+   :LOGBOOK:
+   CLOCK: [2023-08-22 Tue 12:20]--[2023-08-22 Tue 12:21] =>  0:01
+   - testing note
+#+end_example
+
+#+begin_src emacs-lisp
   (setq org-log-note-clock-out nil)
+#+end_src
+
+#+BEGIN_SRC emacs-lisp
   (setq org-duration-format 'h:mm)
 #+END_SRC
+
+*** Scheduling, reminders, etc.
+
+Number of days before expiration during which a deadline becomes active.
+This variable governs the display in sparse trees and in the agenda.
+When 0 or negative, it means use this number (the absolute value of it)
+even if a deadline has a different individual lead time specified.
+
+#+begin_src emacs-lisp
+  (setq org-deadline-warning-days 0)
+#+end_src
+
 *** Filing/refiling
+
+The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
+
+From: http://doc.norang.ca/org-mode.html
+
+#+begin_src emacs-lisp
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+#+end_src
+
 Use all of my agenda files as refile targets:
 
 #+BEGIN_SRC emacs-lisp
@@ -670,14 +791,28 @@ ONGOING is so I can clock time in non-meeting activities that aren't tasks or pr
 	  (sequence "MTG(m)" "|" )
 	  (sequence "ONGOING(o)" "|" )))
 #+END_SRC
-*** Visuals
 
-This ensures the whole headline is styled according to =org-headline-done=.
+Non-nil means undone TODO entries will block switching the parent to DONE.
+Also, if a parent has an :ORDERED: property, switching an entry to DONE will
+be blocked if any prior sibling is not yet done.
+Finally, if the parent is blocked because of ordered siblings of its own,
+the child will also be blocked.
 
-#+BEGIN_SRC
-(setq org-fontify-done-headline t)
-#+END_SRC
+#+begin_src emacs-lisp
+  (setq org-enforce-todo-dependencies t)
+#+end_src
 
+Non-nil means unchecked boxes will block switching the parent to DONE.
+When this is nil, checkboxes have no influence on switching TODO states.
+When non-nil, you first need to check off all check boxes before the TODO
+entry can be switched to DONE.
+This variable needs to be set before org.el is loaded, and you need to
+restart Emacs after a change to make the change effective.  The only way
+to change it while Emacs is running is through the customize interface.
+
+#+begin_src emacs-lisp
+  (setq org-enforce-todo-checkbox-dependencies t)
+#+end_src
 
 *** TODO A bunch of random =org-mode= settings to organize and document at some point
 :LOGBOOK:
@@ -685,49 +820,11 @@ This ensures the whole headline is styled according to =org-headline-done=.
 :END:
 
 #+BEGIN_SRC emacs-lisp
-  ;;############################################################################
-  ;; org-mode
-  ;;############################################################################
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cb" 'org-iswitchb)
 
 
-  ;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
-
-  (setq org-agenda-show-all-dates t)
-  (setq org-agenda-skip-deadline-if-done t)
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-deadline-warning-days 0)
-  (setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
-  (setq org-enforce-todo-dependencies t)
-  (setq org-enforce-todo-checkbox-dependencies t)
-
-  (setq org-log-into-drawer t)
-  ;; Save clock data and state changes and notes in the LOGBOOK drawer
-
-  (setq org-startup-indented nil)
-  (setq org-hide-leading-stars nil)
 
 
-  (add-hook 'org-mode-hook
-	    (lambda ()
-	      (visual-line-mode t))
-	    t)
 
-  ;; prevents accidentally editing hidden text when the point is inside a folded region
-  (setq org-catch-invisible-edits 'error)
-
-  (setq org-cycle-include-plain-lists t)
-
-					  ; insert blank lines before headings but not new list items
-  (setf org-blank-before-new-entry '((heading . nil) (plain-list-item . auto)))
-
-					  ; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
-					  ; From http://doc.norang.ca/org-mode.html
-
-  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 #+END_SRC
 
 ** Productivity
@@ -812,21 +909,21 @@ The following is WIP:
   (setq ibuffer-my-vc-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
   (setq ibuffer-my-manual-saved-groups
 	'(("magit" (name .".*magit"))
-	   ("mig: wpl"
-	    (or (filename . "code/mig/wpl-collectionspace-migration")
-		(filename . "data/wpl_westerville_public_library")))
-	   ("mig: az-ccp"
-	    (or (filename . "code/mig/az_ccp_cspace_migration")
-		(filename . "data/az_ccp")))
-	   ("mig: ksu"
-	    (or (filename . "code/mig/ksu_collectionspace_migration")
-		(filename . "data/ksu")))
-	   ("meta" (or
-		    (basename . "cspace.org")
-		    (basename . "islandora.org")
-		    (basename . "meetings.org")
-		    (basename . "migrations.org")
-		    (basename . "work.org")))))
+	  ("mig: wpl"
+	   (or (filename . "code/mig/wpl-collectionspace-migration")
+	       (filename . "data/wpl_westerville_public_library")))
+	  ("mig: az-ccp"
+	   (or (filename . "code/mig/az_ccp_cspace_migration")
+	       (filename . "data/az_ccp")))
+	  ("mig: ksu"
+	   (or (filename . "code/mig/ksu_collectionspace_migration")
+	       (filename . "data/ksu")))
+	  ("meta" (or
+		   (basename . "cspace.org")
+		   (basename . "islandora.org")
+		   (basename . "meetings.org")
+		   (basename . "migrations.org")
+		   (basename . "work.org")))))
   (setq ibuffer-my-all-saved-groups (append ibuffer-my-manual-saved-groups ibuffer-my-vc-groups))
   (setq ibuffer-saved-filter-groups '(("filters"
 				       (append
@@ -839,10 +936,10 @@ Keep =ibuffer= updated automagically, with filter groups applied.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'ibuffer-mode-hook
 	    #'(lambda ()
-	       (ibuffer-auto-mode 1)
-	       (unless (eq ibuffer-sorting-mode 'alphabetic)
-		 (ibuffer-do-sort-by-alphabetic))
-	       (ibuffer-switch-to-saved-filter-groups "filters")))
+		(ibuffer-auto-mode 1)
+		(unless (eq ibuffer-sorting-mode 'alphabetic)
+		  (ibuffer-do-sort-by-alphabetic))
+		(ibuffer-switch-to-saved-filter-groups "filters")))
 #+END_SRC
 
 Killing unmodified buffers is not a thing we need to be prompted about. You will still be prompted if you try to kill a modified buffer.

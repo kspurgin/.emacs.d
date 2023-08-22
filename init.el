@@ -55,24 +55,35 @@
 
 (when (>= emacs-major-version 29)
   (setq treesit-language-source-alist
-      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-	(css "https://github.com/tree-sitter/tree-sitter-css")
-	(elisp "https://github.com/Wilfred/tree-sitter-elisp")
-	(go "https://github.com/tree-sitter/tree-sitter-go")
-	(html "https://github.com/tree-sitter/tree-sitter-html")
-	(javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-	(json "https://github.com/tree-sitter/tree-sitter-json")
-	(make "https://github.com/alemuller/tree-sitter-make")
-	(markdown "https://github.com/ikatyang/tree-sitter-markdown")
-	(python "https://github.com/tree-sitter/tree-sitter-python")
-	(ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-	(yaml "https://github.com/ikatyang/tree-sitter-yaml"))))
+	'((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	  (css "https://github.com/tree-sitter/tree-sitter-css")
+	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+	  (go "https://github.com/tree-sitter/tree-sitter-go")
+	  (html "https://github.com/tree-sitter/tree-sitter-html")
+	  (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+	  (json "https://github.com/tree-sitter/tree-sitter-json")
+	  (make "https://github.com/alemuller/tree-sitter-make")
+	  (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+	  (python "https://github.com/tree-sitter/tree-sitter-python")
+	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+	  (yaml "https://github.com/ikatyang/tree-sitter-yaml"))))
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 (when (equal (init-computer-context) 'work)
   (load "LYRASIS_macros")
   (message "work-related macros loaded"))
+
+(setq x-stretch-cursor t)
+
+(blink-cursor-mode 0)
+(setq ring-bell-function 'ignore)
+
+(tool-bar-mode 0)
+(setq initial-scratch-message nil)
+
+(column-number-mode)
+(setq display-time-day-and-date t) (display-time)
 
 (cond ((display-graphic-p)
        (use-package darktooth-theme
@@ -83,24 +94,29 @@
        (message "loaded theme")
        ))
 
-;; do not show the toolbar (big icons across top)
-(tool-bar-mode 0)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
-;; show column numbers 20100625 12:20
-(column-number-mode)
+(fset 'yes-or-no-p 'y-or-n-p)
 
-;; do not blink the cursor
-(blink-cursor-mode 0)
+(global-auto-revert-mode t)
 
-;; stretch the cursor to show the size of the character under cursor
-;; useful for seeing tabs and other weird whitespace
-(setq x-stretch-cursor t)
+(setq standard-indent 2)
 
-;; will make the display of date and time persistent.
-(setq display-time-day-and-date t) (display-time)
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;; don't show that stupid message on the scratch file
-(setq initial-scratch-message nil)
+(global-set-key (kbd "TAB") 'self-insert-command)
+
+(global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-x C-z"))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(add-hook 'before-save-hook
+	  #'(lambda ()
+	      (or (file-exists-p (file-name-directory buffer-file-name))
+		  (make-directory (file-name-directory buffer-file-name) t))))
 
 (desktop-save-mode 1)
 (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -113,23 +129,6 @@
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-
-(setq ring-bell-function 'ignore)
-
-(setq standard-indent 2)
-
-(add-hook 'before-save-hook
-	  'delete-trailing-whitespace)
-
-(use-package column-enforce-mode)
-
-(global-set-key (kbd "TAB") 'self-insert-command)
-
-(global-unset-key (kbd "C-z"))
-
-(global-unset-key (kbd "C-x C-z"))
-
-(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
 (setq backup-by-copying t
       create-lockfiles nil
@@ -145,14 +144,6 @@
      (add-to-list 'grep-find-ignored-directories ".bundle")
      (add-to-list 'grep-find-ignored-directories "coverage")))
 
-;; do not disable things for me.
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
-;; will allow you to type just "y" instead of "yes" when you exit.
-(fset 'yes-or-no-p 'y-or-n-p)
-
 ;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
 (setq next-line-add-newlines nil)
 
@@ -164,20 +155,6 @@
 (use-package move-text
   :config
   (move-text-default-bindings))
-
-;; make emacs automatically notice any changes made to files on disk
-;; especially useful for making reftex notice changes to bibtex files
-;; http://josephhall.org/nqb2/index.php/2009/04/11/reftex-1
-;; Fri May 22 19:32:12 EDT 2009
-(global-auto-revert-mode t)
-
-  ;;; auto-create non-existing directories to save files
-  ;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
-  ;;; Sun Dec 14 00:04:46 EST 2008
-(add-hook 'before-save-hook
-	  #'(lambda ()
-	     (or (file-exists-p (file-name-directory buffer-file-name))
-		 (make-directory (file-name-directory buffer-file-name) t))))
 
 ;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
 ;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
@@ -196,6 +173,8 @@
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
 
+(use-package column-enforce-mode)
+
 ;; (setq major-mode-remap-alist
 ;;       '((enh-ruby-mode . ruby-ts-mode)
 ;; 	(ruby-mode . ruby-ts-mode)
@@ -208,16 +187,6 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . ruby-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
-
-(defun mp-remove-treesit-sexp-changes ()
-  (when (eq forward-sexp-function #'treesit-forward-sexp)
-    (setq forward-sexp-function nil))
-  (when (eq transpose-sexps-function #'treesit-transpose-sexps)
-    (setq transpose-sexps-function #'transpose-sexps-default-function))
-  (when (eq forward-sentence-function #'treesit-forward-sentence)
-    (setq forward-sentence-function #'forward-sentence-default-function)))
-
-(add-hook 'prog-mode-hook #'mp-remove-treesit-sexp-changes)
 
 (use-package editorconfig
   :config
@@ -238,8 +207,8 @@
 (setq ruby-method-call-indent nil)
 
 (use-package ruby-refactor
-:config
-(add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
+  :config
+  (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
 
 (setq ruby-deep-arglist nil)
 (setq ruby-deep-indent-paren nil)
@@ -261,33 +230,59 @@
 (add-hook 'nxml-mode-hook 'hs-minor-mode)
 (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
 
+(with-eval-after-load 'org
+  (add-hook 'org-mode-hook #'visual-line-mode))
+
+(setq org-hide-leading-stars nil)
+
+(setq org-startup-indented nil)
+
+(setf org-blank-before-new-entry '((heading . t) (plain-list-item . auto)))
+
+(custom-set-faces
+ '(org-headline-done ((t (:foreground "gray50")))))
+(setq org-fontify-done-headline t)
+
+(setq org-clock-into-drawer t)
+(setq org-log-into-drawer t)
+
+(setq org-fold-catch-invisible-edits "smart")
+
 (setq org-special-ctrl-a/e t)
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 (when (equal (init-computer-context) 'work)
   (setq org-agenda-files
 	(delq nil
 	      (mapcar (lambda (x) (and (file-exists-p x) x))
-		      '(
-			"~/org/cspace.org"
-			"~/org/diary.org"
+		      '("~/org/cspace.org"
 			"~/org/islandora.org"
 			"~/org/meetings.org"
 			"~/org/migrations.org"
 			"~/org/notes.org"
-			"~/org/work.org"
-			)))))
+			"~/org/work.org")))))
 
-(setq org-clock-into-drawer t)
-;; Change tasks to INPROGRESS when clocking in
-;; (setq org-clock-in-switch-to-state "INPROGRESS")
-;; Clock out when moving task to a done state
-;; (setq org-clock-out-when-done t)
+(setq org-agenda-show-all-dates t)
+
+(setq org-agenda-skip-deadline-if-done t)
+
+(setq org-agenda-skip-scheduled-if-done t)
 
 (setq org-clock-idle-time 5)
-;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+
 (setq org-clock-out-remove-zero-time-clocks t)
+
 (setq org-log-note-clock-out nil)
+
 (setq org-duration-format 'h:mm)
+
+(setq org-deadline-warning-days 0)
+
+(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 
 (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
@@ -304,49 +299,11 @@
 	(sequence "MTG(m)" "|" )
 	(sequence "ONGOING(o)" "|" )))
 
-;;############################################################################
-;; org-mode
-;;############################################################################
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
-
-;; from http://orgmode.org/manual/Tracking-TODO-state-changes.html
-
-(setq org-agenda-show-all-dates t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-deadline-warning-days 0)
-(setq org-use-property-inheritance (quote ("COLLECTION" "VENDOR")))
 (setq org-enforce-todo-dependencies t)
+
 (setq org-enforce-todo-checkbox-dependencies t)
 
-(setq org-log-into-drawer t)
-;; Save clock data and state changes and notes in the LOGBOOK drawer
 
-(setq org-startup-indented nil)
-(setq org-hide-leading-stars nil)
-
-
-(add-hook 'org-mode-hook
-	  (lambda ()
-	    (visual-line-mode t))
-	  t)
-
-;; prevents accidentally editing hidden text when the point is inside a folded region
-(setq org-catch-invisible-edits 'error)
-
-(setq org-cycle-include-plain-lists t)
-
-					; insert blank lines before headings but not new list items
-(setf org-blank-before-new-entry '((heading . nil) (plain-list-item . auto)))
-
-					; The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
-					; From http://doc.norang.ca/org-mode.html
-
-(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 
 (require 'ibuffer)
 (load "ibuffer-human-readable")
@@ -388,10 +345,10 @@
 
 (add-hook 'ibuffer-mode-hook
 	  #'(lambda ()
-	     (ibuffer-auto-mode 1)
-	     (unless (eq ibuffer-sorting-mode 'alphabetic)
-	       (ibuffer-do-sort-by-alphabetic))
-	     (ibuffer-switch-to-saved-filter-groups "filters")))
+	      (ibuffer-auto-mode 1)
+	      (unless (eq ibuffer-sorting-mode 'alphabetic)
+		(ibuffer-do-sort-by-alphabetic))
+	      (ibuffer-switch-to-saved-filter-groups "filters")))
 
 (setq ibuffer-expert t)
 
