@@ -591,7 +591,8 @@ Conditionally set up agenda files. Currently only using at work:
 			  "~/org/meetings.org"
 			  "~/org/migrations.org"
 			  "~/org/notes.org"
-			  "~/org/work.org")))))
+			  "~/org/work.org"
+			  "~/org/mig/wpl_westerville_public_library_cs.org")))))
 #+END_SRC
 
 Non-nil means ‘org-agenda’ shows every day in the selected range.

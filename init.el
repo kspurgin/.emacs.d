@@ -234,7 +234,8 @@
 			"~/org/meetings.org"
 			"~/org/migrations.org"
 			"~/org/notes.org"
-			"~/org/work.org")))))
+			"~/org/work.org"
+			"~/org/mig/wpl_westerville_public_library_cs.org")))))
 
 (setq org-agenda-show-all-dates t)
 
