@@ -1,3 +1,5 @@
+(setq user-full-name "Kristina M. Spurgin")
+
 (defun init-computer-os ()
   (cond ((equal (system-name) "secunit") 'nix)
 	((equal (system-name) "spore") 'nix)
@@ -8,7 +10,6 @@
   (cond ((equal (init-computer-os) 'nix) 'personal)
 	((equal (init-computer-os) 'mac) 'work)))
 
-(setq user-full-name "Kristina M. Spurgin")
 (when (equal (init-computer-context) 'personal)
   (setq user-mail-address "kristina@le-champignon.net")
   (message "You are on your personal laptop."))
@@ -21,26 +22,39 @@
   (setq mac-command-modifier 'meta)
   (setq mac-right-command-modifier 'super))
 
-(package-initialize)
+(when (version< emacs-version "29.1")
+  (package-initialize)
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (setq use-package-verbose t)
+  (require 'use-package)
+  (setq load-prefer-newer t)
+  (message "use-package is set up for Emacs <29.1"))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(setq use-package-verbose t)
-(require 'use-package)
-(setq load-prefer-newer t)
-(message "use-package is set up now")
+(when (>= emacs-major-version 29)
+  (message "use-package is included by default")
+  (setq package-install-upgrade-built-in t))
+
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
+  :config
+  (exec-path-from-shell-initialize)
+  (message "exec-path-from-shell initialized"))
 
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (package-refresh-contents))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 (unless (assoc-default "org" package-archives)
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-  (package-refresh-contents))
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+(package-refresh-contents)
 (message "Loaded package sources")
 
-(setq treesit-language-source-alist
+(when (>= emacs-major-version 29)
+  (setq treesit-language-source-alist
       '((bash "https://github.com/tree-sitter/tree-sitter-bash")
 	(css "https://github.com/tree-sitter/tree-sitter-css")
 	(elisp "https://github.com/Wilfred/tree-sitter-elisp")
@@ -52,24 +66,16 @@
 	(markdown "https://github.com/ikatyang/tree-sitter-markdown")
 	(python "https://github.com/tree-sitter/tree-sitter-python")
 	(ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-	(yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+	(yaml "https://github.com/ikatyang/tree-sitter-yaml"))))
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 (when (equal (init-computer-context) 'work)
   (load "LYRASIS_macros")
   (message "work-related macros loaded"))
 
-(use-package exec-path-from-shell
-  :ensure t
-  :if (memq window-system '(mac ns x))
-  :config
-  (exec-path-from-shell-initialize))
-
 (cond ((display-graphic-p)
        (use-package darktooth-theme
-	 :ensure t
 	 :config
 	 (load-theme 'darktooth t)
 	 (darktooth-modeline)
@@ -115,9 +121,7 @@
 (add-hook 'before-save-hook
 	  'delete-trailing-whitespace)
 
-(use-package column-enforce-mode
-  :ensure t
-  )
+(use-package column-enforce-mode)
 
 (global-set-key (kbd "TAB") 'self-insert-command)
 
@@ -158,7 +162,6 @@
 
 					; Move line or region up or down with M-up/down arrow
 (use-package move-text
-  :ensure t
   :config
   (move-text-default-bindings))
 
@@ -206,7 +209,6 @@
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . bash-ts-mode))
 
 (use-package editorconfig
-  :ensure t
   :config
   (editorconfig-mode 1))
 
@@ -220,14 +222,10 @@
 (add-hook 'ruby-ts-mode-hook 'column-enforce-mode)
 
 (use-package ruby-refactor
-  :ensure t
-  )
 :config
-(add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch)
+(add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
 
-(use-package nhexl-mode
-  :ensure t
-  )
+(use-package nhexl-mode)
 
 (require 'hideshow)
 (require 'sgml-mode)
@@ -242,12 +240,6 @@
 	       nil))
 (add-hook 'nxml-mode-hook 'hs-minor-mode)
 (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
-
-(use-package org
-  :ensure t
-  :custom-face
-  (org-headline-done ((t (:foreground "gray50"))))
-  )
 
 (setq org-special-ctrl-a/e t)
 
@@ -336,113 +328,49 @@
 
 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 
-(use-package ibuffer)
+(require 'ibuffer)
+(load "ibuffer-human-readable")
+(keymap-global-set "C-x C-b" 'ibuffer)
 
-(defun ajv/human-readable-file-sizes-to-bytes (string)
-  "Convert a human-readable file size into bytes."
-  (interactive)
-  (cond
-   ((string-suffix-p "G" string t)
-    (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "M" string t)
-    (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
-   ((string-suffix-p "K" string t)
-    (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
-   (t
-    (string-to-number (substring string 0 (- (length string) 1))))
-   )
-  )
+(use-package ibuffer-vc)
 
-(defun ajv/bytes-to-human-readable-file-sizes (bytes)
-  "Convert number of bytes to human-readable file size."
-  (interactive)
-  (cond
-   ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
-   ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
-   ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
-   ((> bytes 100000) (format "%10.0fk" (/ bytes 1000.0)))
-   ((> bytes 1000) (format "%10.1fk" (/ bytes 1000.0)))
-   (t (format "%10d" bytes)))
-  )
+(setq ibuffer-formats
+      '((mark modified read-only vc-status-mini " "
+	      (name 18 18 :left :elide)
+	      " "
+	      (size-h 9 -1 :right)
+	      " "
+	      (mode 16 16 :left :elide)
+	      " "
+	      (vc-status 16 16 :left)
+	      " "
+	      vc-relative-file)))
 
-;; Use human readable Size column instead of original one
-(define-ibuffer-column size-h
-  (:name "Size"
-	 :inline t
-	 :summarizer
-	 (lambda (column-strings)
-	   (let ((total 0))
-	     (dolist (string column-strings)
-	       (setq total
-		     ;; like, ewww ...
-		     (+ (float (ajv/human-readable-file-sizes-to-bytes string))
-			total)))
-	     (ajv/bytes-to-human-readable-file-sizes total)))	 ;; :summarizer nil
-	 )
-  (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
-
-(use-package ibuffer
-  :bind ("C-x C-b" . ibuffer)
-  :config
-  (setq ibuffer-formats
-	'((mark modified read-only locked " "
-		(name 20 20 :left :elide)
-		" "
-		(size-h 11 -1 :right)
-		" "
-		(mode 16 16 :left :elide)
-		" "
-		filename-and-process)
-	  (mark " "
-		(name 16 -1)
-		" " filename)))
-  )
-
-(use-package ibuffer-vc
-  :ensure t
-  :config
-  (add-hook 'ibuffer-hook
-	    (lambda ()
-	      (ibuffer-vc-set-filter-groups-by-vc-root)
-	      (unless (eq ibuffer-sorting-mode 'alphabetic)
-		(ibuffer-do-sort-by-alphabetic))))
-  (setq ibuffer-formats
-	'((mark modified read-only vc-status-mini " "
-		(name 18 18 :left :elide)
-		" "
-		(size-h 9 -1 :right)
-		" "
-		(mode 16 16 :left :elide)
-		" "
-		(vc-status 16 16 :left)
-		" "
-		vc-relative-file)))
-  )
-
+(setq ibuffer-filter-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
 (setq ibuffer-saved-filter-groups
       '(("filters"
 	 ("magit" (name .".*magit"))
-	 ("migration: Boston Athenaeum" (or
-					 (filename . "code/migrations-private/boston_athenaeum")
-					 (filename . "data/BostonAthenaeum")))
-	 ("migration: CSWS" (or
-			     (filename . "data/CSWS")
-			     (filename . "code/migrations-private/csws")))
-	 ("tracking work" (mode . org-mode))
+	 ("mig: wpl"
+	  (or (filename . "code/mig/wpl-collectionspace-migration")
+	      (filename . "data/wpl_westerville_public_library")))
+	 ("mig: az-ccp"
+	  (or (filename . "code/mig/az_ccp_cspace_migration")
+	      (filename . "data/az_ccp")))
+	 ("mig: ksu"
+	  (or (filename . "code/mig/ksu_collectionspace_migration")
+	      (filename . "data/ksu")))
 	 ("meta" (or
-		  (basename . "diary.org")
+		  (basename . "cspace.org")
+		  (basename . "islandora.org")
 		  (basename . "meetings.org")
-		  (basename . "time.org")
-		  (basename . "work.org")))
-	 )))
-
-(add-hook 'ibuffer-mode-hook
-	  '(lambda ()
-	     (ibuffer-switch-to-saved-filter-groups "filters")))
+		  (basename . "migrations.org")
+		  (basename . "work.org"))))))
 
 (add-hook 'ibuffer-mode-hook
 	  '(lambda ()
 	     (ibuffer-auto-mode 1)
+	     (unless (eq ibuffer-sorting-mode 'alphabetic)
+	       (ibuffer-do-sort-by-alphabetic))
 	     (ibuffer-switch-to-saved-filter-groups "filters")))
 
 (setq ibuffer-expert t)

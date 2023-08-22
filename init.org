@@ -3,9 +3,6 @@
 #+STARTUP: overview
 #+PROPERTY: header-args:emacs-lisp   :tangle "~/.emacs.d/init.el"
 
-* Configuration
-** About this file
-
 My personal Emacs config, taking a single file literate approach, inspired by [[https://raw.githubusercontent.com/sachac/.emacs.d/gh-pages/Sacha.org][Sacha Chua]].
 
 The following are directly from her config, to remind me how to work with this until I get used to it:
@@ -26,8 +23,8 @@ config can load =Sacha.el= without loading Org first.
 
 My approach is going to be to put my whole current init file in one big code block, and then chip away at documenting it better.
 
-** Starting up
-*** System & personal info
+* Configuration
+** System & personal info
 
 I set this up first, because:
 
@@ -35,7 +32,13 @@ I set this up first, because:
 - I want different contact info set on work vs. personal machines
 - Some things need to be loaded (or not, or differently) based on the OS
 
-**** Define computer operating systems and contexts
+  My user name stays the same across contexts:
+
+  #+begin_src emacs-lisp
+    (setq user-full-name "Kristina M. Spurgin")
+  #+end_src
+
+Add functions to define computer operating systems and contexts:
 
 #+BEGIN_SRC emacs-lisp
   (defun init-computer-os ()
@@ -49,12 +52,9 @@ I set this up first, because:
 	  ((equal (init-computer-os) 'mac) 'work)))
 #+END_SRC
 
-**** Define contact info
-
-Name remains the same. Email changes from personal to work!
+Then, define contact info depending on context:
 
 #+BEGIN_SRC emacs-lisp
-  (setq user-full-name "Kristina M. Spurgin")
   (when (equal (init-computer-context) 'personal)
     (setq user-mail-address "kristina@le-champignon.net")
     (message "You are on your personal laptop."))
@@ -63,13 +63,11 @@ Name remains the same. Email changes from personal to work!
     (message "You are on your work laptop."))
 #+END_SRC
 
-**** Fix the Mac keyboard
+Then, if applicable, fix the Mac keyboard:
 
-First, turn off any special OS-related keyboard stuff.
-
-Then set Mac keyboard's left command key to act as meta (i.e. Alt on windows) key.
-
-The right command key still acts as super/command in order to control windows, etc.
+ - turn off any special OS-related keyboard stuff
+ - set Mac keyboard's left command key to act as meta (i.e. Alt on windows) key
+ - The right command key still acts as super/command in order to control windows, etc.
 
 #+BEGIN_SRC emacs-lisp
   (when (equal (init-computer-os) 'mac)
@@ -77,53 +75,81 @@ The right command key still acts as super/command in order to control windows, e
     (setq mac-command-modifier 'meta)
     (setq mac-right-command-modifier 'super))
 #+END_SRC
-*** Where are all the things?
-**** Basics
-First, set up the load path, so it can be overridden.
 
-The =package-initialize= call is required before anything below can happen!
+** Package management
 
-#+BEGIN_SRC emacs-lisp
-  (package-initialize)
-#+END_SRC
+use-package was added to Emacs 29.1.
+*** If we are not on 29.1 yet
 
-Use =use-package= to install and configure packages! Here we set up use-package for later use.
-
-The init settings are largely taken from [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua]]. The =use-package= documentation is [[https://github.com/jwiegley/use-package][here]].
+The following will set it up the old way in case we are using this on an older version.
 
 #+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-  (setq use-package-verbose t)
-  (require 'use-package)
-  (setq load-prefer-newer t)
-  (message "use-package is set up now")
+  (when (version< emacs-version "29.1")
+    (package-initialize)
+    (unless (package-installed-p 'use-package)
+      (package-install 'use-package))
+    (setq use-package-verbose t)
+    (require 'use-package)
+    (setq load-prefer-newer t)
+    (message "use-package is set up for Emacs <29.1"))
 #+END_SRC
 
-**** Set up package sources
+*** If we are on 29.1 or newer...
 
-Prevents "Failed to download 'gnu' archive" error
+The following allows us to use ~package-install~ to upgrade ~use-package~ to newer versions released on GNU ELPA ([[https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/NEWS?h=emacs-29][src]]):
+
+#+begin_src emacs-lisp
+  (when (>= emacs-major-version 29)
+    (message "use-package is included by default")
+    (setq package-install-upgrade-built-in t))
+#+end_src
+
+*** Regardless of version:
+
+Always ensure packages. This means they will be installed if they aren't yet present on the system.
+
+To override this, do ~:ensure nil~ when setting up a package.
+
+#+begin_src emacs-lisp
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+#+end_src
+
+
+** Set up package sources and load paths
+
+Needs to be called as soon as possible for native compilation in certain environments:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :if (memq window-system '(mac ns x))
+    :config
+    (exec-path-from-shell-initialize)
+    (message "exec-path-from-shell initialized"))
+#+END_SRC
+
+Prevent "Failed to download 'gnu' archive" error when loading archives:
+
 #+BEGIN_SRC emacs-lisp
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+END_SRC
 
-These are the external repos from which =use-package= gets packages.
+Set up additional repositories/archives for inclusion in =list-packages=, and from which =use-package= can install:
 
 #+BEGIN_SRC emacs-lisp
   (unless (assoc-default "melpa" package-archives)
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-    (package-refresh-contents))
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
   (unless (assoc-default "org" package-archives)
-    (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-    (package-refresh-contents))
+    (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t))
+  (package-refresh-contents)
   (message "Loaded package sources")
 #+END_SRC
 
-**** Set up treesit language sources
-As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+If 29.1 or higher, set up treesit language sources as per [[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][Mastering Emacs article]]:
 
 #+begin_src emacs-lisp
-  (setq treesit-language-source-alist
+  (when (>= emacs-major-version 29)
+    (setq treesit-language-source-alist
 	'((bash "https://github.com/tree-sitter/tree-sitter-bash")
 	  (css "https://github.com/tree-sitter/tree-sitter-css")
 	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
@@ -135,32 +161,24 @@ As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 	  (markdown "https://github.com/ikatyang/tree-sitter-markdown")
 	  (python "https://github.com/tree-sitter/tree-sitter-python")
 	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+	  (yaml "https://github.com/ikatyang/tree-sitter-yaml"))))
 #+end_src
-**** Personal code sources
-Stuff from outside the package system. Add locations to =load-path= so Emacs can find them.
+
+
+Sometimes we want to use stuff from outside the package system.
+
+Typically I save such code to =.emacs.d/lisp= directory, so that's added to my load path:
 
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp")
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 #+END_SRC
 
-Load appropriate macros, depending on device.
+Load appropriate macro files, depending on device.
 
 #+BEGIN_SRC emacs-lisp
   (when (equal (init-computer-context) 'work)
     (load "LYRASIS_macros")
     (message "work-related macros loaded"))
-#+END_SRC
-**** Set up exec-path-from-shell
-Needs to be called as soon as possible for native compilation:
-
-#+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-    :ensure t
-    :if (memq window-system '(mac ns x))
-    :config
-    (exec-path-from-shell-initialize))
 #+END_SRC
 
 ** Appearance/UI
@@ -170,7 +188,6 @@ Make the graphical client dark and pretty.
 #+BEGIN_SRC emacs-lisp
   (cond ((display-graphic-p)
 	 (use-package darktooth-theme
-	   :ensure t
 	   :config
 	   (load-theme 'darktooth t)
 	   (darktooth-modeline)
@@ -255,9 +272,7 @@ Kill trailing whitespace on save (added 2022-09-23)
 whitespace-mode does this as well, but makes things too visually noisy.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package column-enforce-mode
-    :ensure t
-    )
+  (use-package column-enforce-mode)
 #+END_SRC
 *** Global key bindings
 **** Just insert one tab when I hit tab.
@@ -339,7 +354,6 @@ Here's a quick rundown of the settings:
 
 					  ; Move line or region up or down with M-up/down arrow
   (use-package move-text
-    :ensure t
     :config
     (move-text-default-bindings))
 
@@ -402,7 +416,6 @@ https://github.com/editorconfig/editorconfig-emacs#readme
 
 #+BEGIN_SRC emacs-lisp
   (use-package editorconfig
-    :ensure t
     :config
     (editorconfig-mode 1))
 #+END_SRC
@@ -432,10 +445,8 @@ Added 2022-09-23:
 
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-refactor
-    :ensure t
-    )
   :config
-  (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch)
+  (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
 #+END_SRC
 
 Use enhanced ruby mode.
@@ -444,7 +455,6 @@ I've customized the color of the double/single quote string delimiters because t
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package enh-ruby-mode
-    :ensure t
     :mode "\\.rb\\'"
     :interpreter "ruby"
     :custom-face
@@ -465,7 +475,6 @@ I got errors when I tried to enable this on 2021-03-05
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package rubocopfmt
-    :ensure t
     :hook
     (ruby-ts-mode . rubocopfmt-mode))
 #+END_SRC
@@ -475,9 +484,7 @@ I got errors when I tried to enable this on 2021-03-05
 *** nhexl-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package nhexl-mode
-    :ensure t
-    )
+  (use-package nhexl-mode)
 #+END_SRC
 
 *** XML
@@ -508,7 +515,6 @@ See also Tree-sitter under general coding config
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package yaml-mode
-    :ensure t
     :mode (("\\.yml\\'" . yaml-mode)
 	   ("\\.yaml\\'" . yaml-mode))
     )
@@ -518,14 +524,17 @@ See also Tree-sitter under general coding config
 
 Everything would be worse than it is if there were no =org-mode=. Use it, USE IT, *USE IT*.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org
-    :ensure t
-    :custom-face
-    (org-headline-done ((t (:foreground "gray50"))))
-    )
+It has been included in Emacs by default since 22.1, but just in case...
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (when (<= emacs-major-version 22)
+    (use-package org))
 #+END_SRC
 
+*** Org-mode appearance
+(org-headline-done ((t (:foreground "gray50"))))
+
+*** Org-mode general behavior
 C-a moves to beginning of heading (after asterisks and todo states, etc). C-e moves to end of heading (before tags). ([[https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-heading-smartly-in-org-mode][src]])
 
 #+BEGIN_SRC emacs-lisp
@@ -698,142 +707,96 @@ Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/ema
   (setq save-abbrevs nil)
 
 #+END_SRC
-*** Buffer management
+*** Buffer management: trick out =ibuffer=
 
-I always have waaaay too many things open. Ibuffer helps me navigate between them and keep track of them (and save, close, etc them in bulk quickly!)
+I always have waaaay too many things open. =ibuffer= helps me navigate between them and keep track of them (and save, close, etc them in bulk quickly!)
 
 I got my start configuring =ibuffer= with [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][this blog post]].
 
 =ibuffer= is so useful that there's no need for the old static buffer list.
 
-Set up to use ibuffer.
+Load functions to support human readable filesize in =ibuffer=.
+We need to require =ibuffer= first because otherwise definition of the new, inline size column will fail.
+
+#+begin_src emacs-lisp
+  (require 'ibuffer)
+  (load "ibuffer-human-readable")
+  (keymap-global-set "C-x C-b" 'ibuffer)
+#+end_src
+
+Set up =ibuffer-vc= to "group ibuffer's list by VC project, or show VC status". Here we also define our columns, including VC status and human-readable size:
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ibuffer)
+  (use-package ibuffer-vc)
 #+END_SRC
 
-Functions to define human-readable size column for ibuffer. This is required by the ibuffer and ibuffer-vc setup below. From [[https://www.emacswiki.org/emacs/IbufferMode#h5o-11][here]].
+Set up my default columns view, using VC and human readable size columns:
 
-#+BEGIN_SRC emacs-lisp
-  (defun ajv/human-readable-file-sizes-to-bytes (string)
-    "Convert a human-readable file size into bytes."
-    (interactive)
-    (cond
-     ((string-suffix-p "G" string t)
-      (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
-     ((string-suffix-p "M" string t)
-      (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
-     ((string-suffix-p "K" string t)
-      (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
-     (t
-      (string-to-number (substring string 0 (- (length string) 1))))
-     )
-    )
-
-  (defun ajv/bytes-to-human-readable-file-sizes (bytes)
-    "Convert number of bytes to human-readable file size."
-    (interactive)
-    (cond
-     ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
-     ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
-     ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
-     ((> bytes 100000) (format "%10.0fk" (/ bytes 1000.0)))
-     ((> bytes 1000) (format "%10.1fk" (/ bytes 1000.0)))
-     (t (format "%10d" bytes)))
-    )
-
-  ;; Use human readable Size column instead of original one
-  (define-ibuffer-column size-h
-    (:name "Size"
-	   :inline t
-	   :summarizer
-	   (lambda (column-strings)
-	     (let ((total 0))
-	       (dolist (string column-strings)
-		 (setq total
-		       ;; like, ewww ...
-		       (+ (float (ajv/human-readable-file-sizes-to-bytes string))
-			  total)))
-	       (ajv/bytes-to-human-readable-file-sizes total)))	 ;; :summarizer nil
-	   )
-    (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
-#+END_SRC
-
-Set up to use ibuffer.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ibuffer
-    :bind ("C-x C-b" . ibuffer)
-    :config
-    (setq ibuffer-formats
-	  '((mark modified read-only locked " "
-		  (name 20 20 :left :elide)
-		  " "
-		  (size-h 11 -1 :right)
-		  " "
-		  (mode 16 16 :left :elide)
-		  " "
-		  filename-and-process)
-	    (mark " "
-		  (name 16 -1)
-		  " " filename)))
-    )
-#+END_SRC
-
-
-Set up to use ibuffer-vc.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ibuffer-vc
-    :ensure t
-    :config
-    (add-hook 'ibuffer-hook
-	      (lambda ()
-		(ibuffer-vc-set-filter-groups-by-vc-root)
-		(unless (eq ibuffer-sorting-mode 'alphabetic)
-		  (ibuffer-do-sort-by-alphabetic))))
-    (setq ibuffer-formats
-	  '((mark modified read-only vc-status-mini " "
-		  (name 18 18 :left :elide)
-		  " "
-		  (size-h 9 -1 :right)
-		  " "
-		  (mode 16 16 :left :elide)
-		  " "
-		  (vc-status 16 16 :left)
-		  " "
-		  vc-relative-file)))
-    )
-#+END_SRC
+#+begin_src emacs-lisp
+  (setq ibuffer-formats
+	'((mark modified read-only vc-status-mini " "
+		(name 18 18 :left :elide)
+		" "
+		(size-h 9 -1 :right)
+		" "
+		(mode 16 16 :left :elide)
+		" "
+		(vc-status 16 16 :left)
+		" "
+		vc-relative-file)))
+#+end_src
 
 I set up my default filter groups below. These are for groups that are not handled by version control. Switch to these by doing =/ R=.
 
 #+BEGIN_SRC emacs-lisp
+  (setq ibuffer-filter-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
   (setq ibuffer-saved-filter-groups
 	'(("filters"
 	   ("magit" (name .".*magit"))
-	   ("migration: Boston Athenaeum" (or
-					   (filename . "code/migrations-private/boston_athenaeum")
-					   (filename . "data/BostonAthenaeum")))
-	   ("migration: CSWS" (or
-			       (filename . "data/CSWS")
-			       (filename . "code/migrations-private/csws")))
-	   ("tracking work" (mode . org-mode))
+	   ("mig: wpl"
+	    (or (filename . "code/mig/wpl-collectionspace-migration")
+		(filename . "data/wpl_westerville_public_library")))
+	   ("mig: az-ccp"
+	    (or (filename . "code/mig/az_ccp_cspace_migration")
+		(filename . "data/az_ccp")))
+	   ("mig: ksu"
+	    (or (filename . "code/mig/ksu_collectionspace_migration")
+		(filename . "data/ksu")))
 	   ("meta" (or
-		    (basename . "diary.org")
+		    (basename . "cspace.org")
+		    (basename . "islandora.org")
 		    (basename . "meetings.org")
-		    (basename . "time.org")
-		    (basename . "work.org")))
-	   )))
+		    (basename . "migrations.org")
+		    (basename . "work.org"))))))
 #+END_SRC
 
-Then load the filter groups automagically with a hook.
+The following is WIP:
 
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'ibuffer-mode-hook
-	    '(lambda ()
-	       (ibuffer-switch-to-saved-filter-groups "filters")))
-#+END_SRC
+#+begin_src emacs-lisp :tangle no
+  (setq ibuffer-my-vc-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
+  (setq ibuffer-my-manual-saved-groups
+	'(("magit" (name .".*magit"))
+	   ("mig: wpl"
+	    (or (filename . "code/mig/wpl-collectionspace-migration")
+		(filename . "data/wpl_westerville_public_library")))
+	   ("mig: az-ccp"
+	    (or (filename . "code/mig/az_ccp_cspace_migration")
+		(filename . "data/az_ccp")))
+	   ("mig: ksu"
+	    (or (filename . "code/mig/ksu_collectionspace_migration")
+		(filename . "data/ksu")))
+	   ("meta" (or
+		    (basename . "cspace.org")
+		    (basename . "islandora.org")
+		    (basename . "meetings.org")
+		    (basename . "migrations.org")
+		    (basename . "work.org")))))
+  (setq ibuffer-my-all-saved-groups (append ibuffer-my-manual-saved-groups ibuffer-my-vc-groups))
+  (setq ibuffer-saved-filter-groups '(("filters"
+				       (append
+					ibuffer-my-manual-saved-groups
+					ibuffer-my-vc-groups))))
+#+end_src
 
 Keep =ibuffer= updated automagically, with filter groups applied.
 
@@ -841,6 +804,8 @@ Keep =ibuffer= updated automagically, with filter groups applied.
   (add-hook 'ibuffer-mode-hook
 	    '(lambda ()
 	       (ibuffer-auto-mode 1)
+	       (unless (eq ibuffer-sorting-mode 'alphabetic)
+		 (ibuffer-do-sort-by-alphabetic))
 	       (ibuffer-switch-to-saved-filter-groups "filters")))
 #+END_SRC
 
