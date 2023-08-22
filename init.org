@@ -32,10 +32,10 @@ I set this up first, because:
 - I want different contact info set on work vs. personal machines
 - Some things need to be loaded (or not, or differently) based on the OS
 
-  My user name stays the same across contexts:
-  #+begin_src emacs-lisp
-    (setq user-full-name "Kristina M. Spurgin")
-  #+end_src
+My user name stays the same across contexts:
+#+begin_src emacs-lisp
+  (setq user-full-name "Kristina M. Spurgin")
+#+end_src
 
 Add functions to define computer operating systems and contexts:
 #+BEGIN_SRC emacs-lisp
@@ -177,8 +177,8 @@ Stretch the cursor to show the size of the character under cursor. Useful for se
 
 *** Don't be hideously annoying
 
- - Do not blink the cursor
- - Don't ring the error bell at me!
+- Do not blink the cursor
+- Don't ring the error bell at me!
 #+begin_src emacs-lisp
   (blink-cursor-mode 0)
   (setq ring-bell-function 'ignore)
@@ -186,8 +186,8 @@ Stretch the cursor to show the size of the character under cursor. Useful for se
 
 *** Hide some stuff
 
- - Hide toolbar (big icons across top)
- - Hide scratch file message:
+- Hide toolbar (big icons across top)
+- Hide scratch file message:
 #+begin_src emacs-lisp
   (tool-bar-mode 0)
   (setq initial-scratch-message nil)
@@ -195,11 +195,11 @@ Stretch the cursor to show the size of the character under cursor. Useful for se
 
 *** Show some stuff
 
- - Show column number in mode line
- - Make the display of date and time persistent in mode line
+- Show column number in mode line
+- Make the display of date and time persistent in mode line
 #+begin_src emacs-lisp
-   (column-number-mode)
-   (setq display-time-day-and-date t) (display-time)
+  (column-number-mode)
+  (setq display-time-day-and-date t) (display-time)
 #+end_src
 
 *** Theme, colors, faces
@@ -567,7 +567,8 @@ Store clock data, state changes, and state notes are in the LOGBOOK drawer:
 Check if in invisible region before inserting or deleting a character.
 #+begin_src emacs-lisp
   (setq org-fold-catch-invisible-edits "smart")
-  #+end_src
+#+end_src
+
 C-a moves to beginning of heading (after asterisks and todo states, etc).
 C-e moves to end of heading (before tags).
 https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-heading-smartly-in-org-mode
