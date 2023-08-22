@@ -94,14 +94,6 @@
        (message "loaded theme")
        ))
 
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(global-auto-revert-mode t)
-
 (setq standard-indent 2)
 
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
@@ -112,11 +104,6 @@
 (global-unset-key (kbd "C-x C-z"))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-(add-hook 'before-save-hook
-	  #'(lambda ()
-	      (or (file-exists-p (file-name-directory buffer-file-name))
-		  (make-directory (file-name-directory buffer-file-name) t))))
 
 (desktop-save-mode 1)
 (add-to-list 'desktop-globals-to-save 'file-name-history)
@@ -138,11 +125,6 @@
       kept-new-versions 6
       kept-old-versions 2
       version-control t)
-
-(eval-after-load 'grep
-  '(progn
-     (add-to-list 'grep-find-ignored-directories ".bundle")
-     (add-to-list 'grep-find-ignored-directories "coverage")))
 
 ;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
 (setq next-line-add-newlines nil)
@@ -192,8 +174,6 @@
   :config
   (editorconfig-mode 1))
 
-(add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
-
 (use-package cperl-mode
   :mode "\\.p[lm]\\'"
   :interpreter "perl"
@@ -230,21 +210,11 @@
 (add-hook 'nxml-mode-hook 'hs-minor-mode)
 (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
 
-(with-eval-after-load 'org
-  (add-hook 'org-mode-hook #'visual-line-mode))
-
-(setq org-hide-leading-stars nil)
-
-(setq org-startup-indented nil)
-
 (setf org-blank-before-new-entry '((heading . t) (plain-list-item . auto)))
 
 (custom-set-faces
  '(org-headline-done ((t (:foreground "gray50")))))
 (setq org-fontify-done-headline t)
-
-(setq org-clock-into-drawer t)
-(setq org-log-into-drawer t)
 
 (setq org-fold-catch-invisible-edits "smart")
 
@@ -303,8 +273,6 @@
 
 (setq org-enforce-todo-checkbox-dependencies t)
 
-
-
 (require 'ibuffer)
 (load "ibuffer-human-readable")
 (keymap-global-set "C-x C-b" 'ibuffer)
@@ -359,29 +327,7 @@
   :bind (("M-x" . counsel-M-x))
   )
 
-(use-package ivy
-  :ensure t
-  :diminish ivy-mode
-  :config
-  (ivy-mode t)
-  (setq ivy-initial-inputs-alist nil)
-  )
-
 (setq ivy-use-selectable-prompt t)
-
-(use-package visual-regexp-steroids
-  :ensure t
-  :ensure visual-regexp
-  :bind (("C-c r" . vr/replace)
-	 ("C-c q" . vr/query-replace)
-	 ("C-M-R" . vr/isearch-backward)
-	 ("C-M-S" . vr/isearch-forward))
-  )
-
-(use-package yasnippet
-  :ensure t
-  :config (yas-global-mode 1)
-  )
 
 (eval-after-load 'grep
   '(progn
@@ -585,7 +531,3 @@
  '(package-selected-packages
    (quote
     (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
-
-; everytime bookmark is changed, automatically save it
-					; from http://ergoemacs.org/emacs/bookmark.html
-(setq bookmark-save-flag 1)
