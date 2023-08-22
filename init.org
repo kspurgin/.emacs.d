@@ -412,6 +412,20 @@ As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
   (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
 #+end_src
 
+[2023-08-22 Tue] - Remove tree-sitter override of sexp navigation in all programming modes ([[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][src]]):
+
+#+begin_src emacs-lisp
+  (defun mp-remove-treesit-sexp-changes ()
+    (when (eq forward-sexp-function #'treesit-forward-sexp)
+      (setq forward-sexp-function nil))
+    (when (eq transpose-sexps-function #'treesit-transpose-sexps)
+      (setq transpose-sexps-function #'transpose-sexps-default-function))
+    (when (eq forward-sentence-function #'treesit-forward-sentence)
+      (setq forward-sentence-function #'forward-sentence-default-function)))
+
+  (add-hook 'prog-mode-hook #'mp-remove-treesit-sexp-changes)
+#+end_src
+
 **** Setup editorconfig
 https://github.com/editorconfig/editorconfig-emacs#readme
 

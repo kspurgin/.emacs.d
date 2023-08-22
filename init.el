@@ -209,6 +209,16 @@
 (add-to-list 'auto-mode-alist '("\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . ruby-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
 
+(defun mp-remove-treesit-sexp-changes ()
+  (when (eq forward-sexp-function #'treesit-forward-sexp)
+    (setq forward-sexp-function nil))
+  (when (eq transpose-sexps-function #'treesit-transpose-sexps)
+    (setq transpose-sexps-function #'transpose-sexps-default-function))
+  (when (eq forward-sentence-function #'treesit-forward-sentence)
+    (setq forward-sentence-function #'forward-sentence-default-function)))
+
+(add-hook 'prog-mode-hook #'mp-remove-treesit-sexp-changes)
+
 (use-package editorconfig
   :config
   (editorconfig-mode 1))
