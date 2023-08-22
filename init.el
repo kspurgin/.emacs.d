@@ -175,7 +175,7 @@
   ;;; http://atomized.org/2008/12/emacs-create-directory-before-saving/
   ;;; Sun Dec 14 00:04:46 EST 2008
 (add-hook 'before-save-hook
-	  '(lambda ()
+	  #'(lambda ()
 	     (or (file-exists-p (file-name-directory buffer-file-name))
 		 (make-directory (file-name-directory buffer-file-name) t))))
 
@@ -202,11 +202,12 @@
 ;; 	(js2-mode . js-ts-mode)
 ;; 	(python-mode . python-ts-mode)))
 
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(bash_\\(profile\\|history\\|log\\(in\\|out\\)\\)\\|z?log\\(in\\|out\\)\\)\\'" . bash-ts-mode))
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(shrc\\|zshrc\\|m?kshrc\\|bashrc\\|t?cshrc\\|esrc\\)\\'" . bash-ts-mode))
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . bash-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . ruby-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
 
 (use-package editorconfig
   :config
@@ -220,10 +221,19 @@
   :config (load "cperl-setup"))
 
 (add-hook 'ruby-ts-mode-hook 'column-enforce-mode)
+(setq ruby-after-operator-indent nil)
+(setq ruby-aligned-chain-calls nil)
+(setq ruby-align-to-stmt-keywords nil)
+(setq ruby-block-indent nil)
+(setq ruby-method-call-indent nil)
 
 (use-package ruby-refactor
 :config
 (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
+
+(setq ruby-deep-arglist nil)
+(setq ruby-deep-indent-paren nil)
+(setq ruby-method-params-indent 0)
 
 (use-package nhexl-mode)
 
@@ -367,7 +377,7 @@
 		  (basename . "work.org"))))))
 
 (add-hook 'ibuffer-mode-hook
-	  '(lambda ()
+	  #'(lambda ()
 	     (ibuffer-auto-mode 1)
 	     (unless (eq ibuffer-sorting-mode 'alphabetic)
 	       (ibuffer-do-sort-by-alphabetic))
