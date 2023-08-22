@@ -2,7 +2,13 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("omca-authorities-swap"
+(("csths-division-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "bkmk\n:LOGBOOK:\nC")
+ (rear-context-string . "ivision meeting\n")
+ (position . 30316)
+ (last-modified 25828 49260 641577 0))
+("omca-authorities-swap"
  (filename . "~/org/cspace.org")
  (front-context-string . "\n:LOGBOOK:\nCLOCK")
  (rear-context-string . "ies swap project")
