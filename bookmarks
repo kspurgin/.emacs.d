@@ -2,7 +2,19 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("csths-division-meeting"
+(("org-config"
+ (filename . "~/.emacs.d/init.org")
+ (front-context-string . "\nEverything woul")
+ (rear-context-string . "RC\n\n** Org-mode\n")
+ (position . 17601)
+ (last-modified 25828 64983 172438 0))
+("cspace-support-catholicu"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "bkmk\n:LOGBOOK:\nC")
+ (rear-context-string . "olic University\n")
+ (position . 24427)
+ (last-modified 25828 64922 397404 0))
+("csths-division-meeting"
  (filename . "~/org/meetings.org")
  (front-context-string . "bkmk\n:LOGBOOK:\nC")
  (rear-context-string . "ivision meeting\n")
