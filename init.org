@@ -811,55 +811,40 @@ Set up my default columns view, using VC and human readable size columns:
 		vc-relative-file)))
 #+end_src
 
-I set up my default filter groups below. These are for groups that are not handled by version control. Switch to these by doing =/ R=.
+I set up my default filter groups below. The repository-based groups produced by
+=ibuffer-vc= are interpolated after manually set up groups for projects that span
+github repos and data directories.
+
+I figured out how to do this by digging around in =ibuffer-vc.el= and then by
+finding [[https://github.com/chrisbarrett/spacemacs-layers/blob/2df814a3c20618a6c4e6d8b424984e84a8714e3f/cb-ibuffer/packages.el#L23][Chris Barrett's spacemacs ibuffer config]] via Github code search.
 #+BEGIN_SRC emacs-lisp
-  (setq ibuffer-filter-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
+  (setq ibuffer-my-vc-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
   (setq ibuffer-saved-filter-groups
-	'(("filters"
-	   ("magit" (name .".*magit"))
+	`(("filters"
 	   ("mig: wpl"
 	    (or (filename . "code/mig/wpl-collectionspace-migration")
-		(filename . "data/wpl_westerville_public_library")))
+		(filename . "data/wpl_westerville_public_library")
+		(filename . "org/mig/wpl_westerville_public_library_cs.org")))
 	   ("mig: az-ccp"
 	    (or (filename . "code/mig/az_ccp_cspace_migration")
 		(filename . "data/az_ccp")))
 	   ("mig: ksu"
 	    (or (filename . "code/mig/ksu_collectionspace_migration")
 		(filename . "data/ksu")))
+	   ,@ibuffer-my-vc-groups
 	   ("meta" (or
 		    (basename . "cspace.org")
 		    (basename . "islandora.org")
 		    (basename . "meetings.org")
 		    (basename . "migrations.org")
-		    (basename . "work.org"))))))
+		    (basename . "work.org")))
+	   ("emacs" (or (name . "\\*Messages\\*")
+			(name . "\\*Compile-Log\\*")
+			(name . "\\*Backtrace\\*")
+			(name . "\\*emacs\\*")))
+	   ("magit" (name .".*magit"))
+	   ("help" (name . "\\*Help\\*")))))
 #+END_SRC
-
-The following is WIP:
-#+begin_src emacs-lisp :tangle no
-  (setq ibuffer-my-vc-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
-  (setq ibuffer-my-manual-saved-groups
-	'(("magit" (name .".*magit"))
-	  ("mig: wpl"
-	   (or (filename . "code/mig/wpl-collectionspace-migration")
-	       (filename . "data/wpl_westerville_public_library")))
-	  ("mig: az-ccp"
-	   (or (filename . "code/mig/az_ccp_cspace_migration")
-	       (filename . "data/az_ccp")))
-	  ("mig: ksu"
-	   (or (filename . "code/mig/ksu_collectionspace_migration")
-	       (filename . "data/ksu")))
-	  ("meta" (or
-		   (basename . "cspace.org")
-		   (basename . "islandora.org")
-		   (basename . "meetings.org")
-		   (basename . "migrations.org")
-		   (basename . "work.org")))))
-  (setq ibuffer-my-all-saved-groups (append ibuffer-my-manual-saved-groups ibuffer-my-vc-groups))
-  (setq ibuffer-saved-filter-groups '(("filters"
-				       (append
-					ibuffer-my-manual-saved-groups
-					ibuffer-my-vc-groups))))
-#+end_src
 
 Keep =ibuffer= updated automagically, with filter groups applied.
 #+BEGIN_SRC emacs-lisp

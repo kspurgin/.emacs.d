@@ -324,25 +324,32 @@
 	      " "
 	      vc-relative-file)))
 
-(setq ibuffer-filter-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
+(setq ibuffer-my-vc-groups (ibuffer-vc-generate-filter-groups-by-vc-root))
 (setq ibuffer-saved-filter-groups
-      '(("filters"
-	 ("magit" (name .".*magit"))
+      `(("filters"
 	 ("mig: wpl"
 	  (or (filename . "code/mig/wpl-collectionspace-migration")
-	      (filename . "data/wpl_westerville_public_library")))
+	      (filename . "data/wpl_westerville_public_library")
+	      (filename . "org/mig/wpl_westerville_public_library_cs.org")))
 	 ("mig: az-ccp"
 	  (or (filename . "code/mig/az_ccp_cspace_migration")
 	      (filename . "data/az_ccp")))
 	 ("mig: ksu"
 	  (or (filename . "code/mig/ksu_collectionspace_migration")
 	      (filename . "data/ksu")))
+	 ,@ibuffer-my-vc-groups
 	 ("meta" (or
 		  (basename . "cspace.org")
 		  (basename . "islandora.org")
 		  (basename . "meetings.org")
 		  (basename . "migrations.org")
-		  (basename . "work.org"))))))
+		  (basename . "work.org")))
+	 ("emacs" (or (name . "\\*Messages\\*")
+		      (name . "\\*Compile-Log\\*")
+		      (name . "\\*Backtrace\\*")
+		      (name . "\\*emacs\\*")))
+	 ("magit" (name .".*magit"))
+	 ("help" (name . "\\*Help\\*")))))
 
 (add-hook 'ibuffer-mode-hook
 	  #'(lambda ()
