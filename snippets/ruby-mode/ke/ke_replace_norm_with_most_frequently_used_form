@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_replace_norm_with_most_frequently_used_form
+# key: ke_repl_norm_freq
+# --
+transform Replace::NormWithMostFrequentlyUsedForm,
+  normfield: :$1,
+  nonnormfield: :$2
+$0

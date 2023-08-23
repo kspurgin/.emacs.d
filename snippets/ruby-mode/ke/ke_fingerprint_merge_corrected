@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: ke_fingerprint_merge_corrected
+# key: ke_fp_mergecorr
+# --
+transform Fingerprint::MergeCorrected,
+  keycolumn: :${1:fingerprint},
+  lookup: ${2:lookup},
+  todofield: :${3:changed}${4:,
+  fieldmap: {
+    ${5:a: :ac}
+  \}}${6:,
+  tag_affected_in: :${7:changes_applied}}
+$0

@@ -1,0 +1,12 @@
+# key: ke_fp_flagchanged
+# name: ke_fingerprint_flag_changed
+# --
+transform Fingerprint::FlagChanged,
+  fingerprint: :${1:fingerprint},
+  source_fields: ${2:%i[${3:x y}]},
+  target: :${4:changed}${5:,
+  prefix: "${6:notfp}"}${7:,
+  delete_fp: true}${8:,
+  empty_equals_nil: false}${9:,
+  delim: "${10:;;;}"}
+$0

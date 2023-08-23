@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_filter_rows_field_populated
+# key: ke_filter_fpop
+# --
+transform FilterRows::FieldPopulated,
+  action: :${1:keep},
+  field: :${2:fieldname}
+$0

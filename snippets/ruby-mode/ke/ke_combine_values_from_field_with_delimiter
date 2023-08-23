@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: ke_combine_values_from_field_with_delimiter
+# key: ke_combine_field_vals
+# --
+transform CombineValues::FromFieldsWithDelimiter,
+  sources: ${1:%i[${2:x y}]},
+  target: :$3${4:,
+  delete_sources: false}${5:,
+  delim: "${6:, }"}
+$0

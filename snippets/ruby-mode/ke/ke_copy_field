@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_copy_field
+# key: ke_cf
+# --
+transform Copy::Field,
+  from: :$1,
+  to: :$2
+$0

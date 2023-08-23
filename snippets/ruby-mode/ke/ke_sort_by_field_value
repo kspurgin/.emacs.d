@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: ke_sort_by_field_value
+# key: ke_sort_fv
+# --
+transform Sort::ByFieldValue,
+  field: :$1${2:,
+  mode: :string}${3:,
+  delim: "${4:|}"}${5:,
+  blanks: :first}${6:,
+  order: :desc}
+$0

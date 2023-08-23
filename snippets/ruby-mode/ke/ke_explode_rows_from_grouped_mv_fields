@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_explode_rows_from_grouped_mv_fields
+# key: ke_explode_gmv
+# --
+transform Explode::RowsFromGroupedMultivalFields,
+  fields: %i[$1]${2:,
+  placeholder: "${3:%NULLVALUE%}"}
+$0

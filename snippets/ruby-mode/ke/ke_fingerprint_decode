@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: ke_fingerprint_decode
+# key: ke_fp_decode
+# --
+transform Fingerprint::Decode,
+  fingerprint: :$1{fingerprint},
+  source_fields: ${2:%i[${3:x y}]}${4:,
+  prefix: "${5:fp}"}${6:,
+  delim: "${7:;;;}"}
+$0

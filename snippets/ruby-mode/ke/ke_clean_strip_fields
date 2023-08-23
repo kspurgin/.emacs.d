@@ -1,0 +1,7 @@
+# key: ke_clean_stripf
+# name: ke_clean_strip_fields
+# --
+transform Clean::StripFields,
+  fields: ${1::all}${2:,
+  delim: "${3:|}"}
+$0
