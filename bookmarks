@@ -2,12 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("wpl_cspace_migration"
+(("wpl-westerville"
  (filename . "~/org/mig/wpl_westerville_public_library_cs.org")
  (front-context-string . "bkmk\n    :LOGBOO")
  (rear-context-string . "L Migration dev\n")
  (position . 45)
- (last-modified 25829 11302 103946 0))
+ (last-modified 25829 13477 523459 0))
 ("org-config"
  (filename . "~/.emacs.d/init.org")
  (front-context-string . "\nEverything woul")
@@ -168,11 +168,6 @@
  (rear-context-string . "** ONGOING unmc\n")
  (position . 44123)
  (last-modified 25827 37060 996927 0))
-("wpl-westerville"
- (filename . "~/org/migrations.org")
- (front-context-string . " WPL Migration d")
- (rear-context-string . "\n**** INPROGRESS")
- (position . 61521))
 ("az-photo"
  (filename . "~/org/migrations.org")
  (front-context-string . "bkmk\n    :LOGBOO")
