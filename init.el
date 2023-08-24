@@ -214,6 +214,10 @@
 (setq ruby-deep-indent-paren nil)
 (setq ruby-method-params-indent 0)
 
+(use-package rubocop
+  :config
+  (setq rubocop-autocorrect-on-save t))
+
 (use-package nhexl-mode)
 
 (require 'hideshow)
