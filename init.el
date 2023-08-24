@@ -306,13 +306,51 @@
 
 (setq bookmark-save-flag 1)
 
+(use-package adoc-mode
+  :mode (("\\.adoc\\'" . adoc-mode)
+	 ("\\.asciidoc\\'" . adoc-mode))
+  :config
+  (progn
+    (set-face-attribute  'adoc-meta-face
+			 nil
+			 :foreground "pink1"
+			 :height 100)
+
+    (set-face-attribute  adoc-meta-hide-face
+			 nil
+			 :foreground "gray40"
+			 :height 100)
+    )
+  )
+
+(use-package htmlize
+  )
+
+(when (equal (init-computer-context) 'work)
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+  (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+	 ("\\.md\\'" . markdown-mode)
+	 ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package auto-org-md)
+
 (use-package yasnippet
   :config
   (yas-reload-all)
+  (add-hook 'adoc-mode-hook #'yas-minor-mode)
+  (add-hook 'fundamental-mode #'yas-minor-mode)
   (add-hook 'org-mode-hook #'yas-minor-mode)
   (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
   (add-hook 'ruby-mode-hook #'yas-minor-mode)
   (add-hook 'ruby-ts-mode-hook #'yas-minor-mode))
+
+(setq yas-expand-only-for-last-commands (self-insert-command 1))
+(define-key yas-minor-mode-map (kbd "=") yas-maybe-expand)
 
 (require 'ibuffer)
 (load "ibuffer-human-readable")
@@ -421,39 +459,6 @@
 
 (use-package swiper
   :bind (("C-s" . swiper)))
-
-(use-package adoc-mode
-  :mode (("\\.adoc\\'" . adoc-mode)
-	 ("\\.asciidoc\\'" . adoc-mode))
-  :config
-  (progn
-    (set-face-attribute  'adoc-meta-face
-			 nil
-			 :foreground "pink1"
-			 :height 100)
-
-    (set-face-attribute  adoc-meta-hide-face
-			 nil
-			 :foreground "gray40"
-			 :height 100)
-    )
-  )
-
-(use-package htmlize
-  )
-
-(when (equal (init-computer-context) 'work)
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-  (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
-
-(use-package markdown-mode
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-	 ("\\.md\\'" . markdown-mode)
-	 ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
-
-(use-package auto-org-md)
 
 (fset 'noblame
       (kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))

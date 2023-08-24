@@ -763,24 +763,91 @@ automatically save bookmarks when it is killed.
   (setq bookmark-save-flag 1)
 #+end_src
 
+** Publishing
+*** AsciiDoc
+When I can't write in/publish from =org-mode=, AsciiDoc is my text markup language of choice. In some ways I even prefer it to =org-mode=! (Admonition blocks, ToCs rendered in github, includes!). [[https://asciidoctor.org/docs/what-is-asciidoc/][More on why it is great...]]
+
+[[https://asciidoctor.org/docs/asciidoc-writers-guide/][In-depth writer's guide]] -- [[https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/][Quick reference]]
+#+BEGIN_SRC emacs-lisp
+  (use-package adoc-mode
+    :mode (("\\.adoc\\'" . adoc-mode)
+	   ("\\.asciidoc\\'" . adoc-mode))
+    :config
+    (progn
+      (set-face-attribute  'adoc-meta-face
+			   nil
+			   :foreground "pink1"
+			   :height 100)
+
+      (set-face-attribute  adoc-meta-hide-face
+			   nil
+			   :foreground "gray40"
+			   :height 100)
+      )
+    )
+#+END_SRC
+
+*** HTML
+Required for =org-mode= HTML export:
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize
+    )
+#+END_SRC
+
+*** LaTeX
+
+Currently I only am using this at work.
+#+BEGIN_SRC emacs-lisp
+  (when (equal (init-computer-context) 'work)
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
+    (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
+#+END_SRC
+
+*** Markdown
+
+For editing Markdown text.
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+	   ("\\.md\\'" . markdown-mode)
+	   ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "multimarkdown"))
+#+END_SRC
+
+*** Org-mode export
+
+=auto-org-md= is a simple package that exports a markdown file automatically when you save an org file. [[https://github.com/jamcha-aa/auto-org-md][github]]
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-org-md)
+#+END_SRC
+
 ** Productivity
 
 *** Completion
 
-Use YASnippet, but only in the specified modes:
+Use YASnippet, but only in the specified modes.
+
+For collections of snippets, see: https://github.com/AndreaCrotti/yasnippet-snippets/tree/master/snippets
 #+begin_src emacs-lisp
-  (use-package yasnippet
-    :config
-    (yas-reload-all)
-    (add-hook 'org-mode-hook #'yas-minor-mode)
-    (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
-    (add-hook 'ruby-mode-hook #'yas-minor-mode)
-    (add-hook 'ruby-ts-mode-hook #'yas-minor-mode))
+    (use-package yasnippet
+      :config
+      (yas-reload-all)
+      (add-hook 'adoc-mode-hook #'yas-minor-mode)
+      (add-hook 'fundamental-mode #'yas-minor-mode)
+      (add-hook 'org-mode-hook #'yas-minor-mode)
+      (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
+      (add-hook 'ruby-mode-hook #'yas-minor-mode)
+      (add-hook 'ruby-ts-mode-hook #'yas-minor-mode))
 #+end_src
 
-**** Abbrevs
+Key-triggerable snippets must have keys ending with ~=~. This allows use of the same ~==~ trigger key set up in Alfred.
+#+begin_src emacs-lisp
+  (setq yas-expand-only-for-last-commands (self-insert-command 1))
+  (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand)
+#+end_src
 
-Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Abbrevs.html][in the Emacs manual]]. I still have not figured out the best way to use them, and invariably they become annoying.
+Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Abbrevs.html][in the Emacs manual]]. I still have not figured out the best way to use them, and invariably they become annoying, so they are turned off.
 #+BEGIN_SRC emacs-lisp :tangle no
   ;; turn on abbrev mode globally
   (setq-default abbrev-mode t)
@@ -980,65 +1047,6 @@ Now, you can search through Emacs using Swiper. When you run =C-s= the swiper se
 #+END_QUOTE
 
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
-
-** Publishing
-*** AsciiDoc
-When I can't write in/publish from =org-mode=, AsciiDoc is my text markup language of choice. In some ways I even prefer it to =org-mode=! (Admonition blocks, ToCs rendered in github, includes!). [[https://asciidoctor.org/docs/what-is-asciidoc/][More on why it is great...]]
-
-[[https://asciidoctor.org/docs/asciidoc-writers-guide/][In-depth writer's guide]] -- [[https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/][Quick reference]]
-#+BEGIN_SRC emacs-lisp
-  (use-package adoc-mode
-    :mode (("\\.adoc\\'" . adoc-mode)
-	   ("\\.asciidoc\\'" . adoc-mode))
-    :config
-    (progn
-      (set-face-attribute  'adoc-meta-face
-			   nil
-			   :foreground "pink1"
-			   :height 100)
-
-      (set-face-attribute  adoc-meta-hide-face
-			   nil
-			   :foreground "gray40"
-			   :height 100)
-      )
-    )
-#+END_SRC
-
-*** HTML
-Required for =org-mode= HTML export:
-#+BEGIN_SRC emacs-lisp
-  (use-package htmlize
-    )
-#+END_SRC
-
-*** LaTeX
-
-Currently I only am using this at work.
-#+BEGIN_SRC emacs-lisp
-  (when (equal (init-computer-context) 'work)
-    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2019/bin/x86_64-darwin"))
-    (add-to-list'exec-path "/usr/local/texlive/2019/bin/x86_64-darwin"))
-#+END_SRC
-
-*** Markdown
-
-For editing Markdown text.
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-    :commands (markdown-mode gfm-mode)
-    :mode (("README\\.md\\'" . gfm-mode)
-	   ("\\.md\\'" . markdown-mode)
-	   ("\\.markdown\\'" . markdown-mode))
-    :init (setq markdown-command "multimarkdown"))
-#+END_SRC
-
-*** Org-mode export
-
-=auto-org-md= is a simple package that exports a markdown file automatically when you save an org file. [[https://github.com/jamcha-aa/auto-org-md][github]]
-#+BEGIN_SRC emacs-lisp
-  (use-package auto-org-md)
-#+END_SRC
 
 ** Version control
 
