@@ -306,6 +306,14 @@
 
 (setq bookmark-save-flag 1)
 
+(use-package yasnippet
+  :config
+  (yas-reload-all)
+  (add-hook 'org-mode-hook #'yas-minor-mode)
+  (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
+  (add-hook 'ruby-mode-hook #'yas-minor-mode)
+  (add-hook 'ruby-ts-mode-hook #'yas-minor-mode))
+
 (require 'ibuffer)
 (load "ibuffer-human-readable")
 (keymap-global-set "C-x C-b" 'ibuffer)
@@ -388,10 +396,6 @@
 	 ("C-c q" . vr/query-replace)
 	 ("C-M-R" . vr/isearch-backward)
 	 ("C-M-S" . vr/isearch-forward))
-  )
-
-(use-package yasnippet
-  :config (yas-global-mode 1)
   )
 
 (eval-after-load 'grep

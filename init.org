@@ -764,7 +764,21 @@ automatically save bookmarks when it is killed.
 #+end_src
 
 ** Productivity
-*** Abbrevs
+
+*** Completion
+
+Use YASnippet, but only in the specified modes:
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :config
+    (yas-reload-all)
+    (add-hook 'org-mode-hook #'yas-minor-mode)
+    (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
+    (add-hook 'ruby-mode-hook #'yas-minor-mode)
+    (add-hook 'ruby-ts-mode-hook #'yas-minor-mode))
+#+end_src
+
+**** Abbrevs
 
 Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Abbrevs.html][in the Emacs manual]]. I still have not figured out the best way to use them, and invariably they become annoying.
 #+BEGIN_SRC emacs-lisp :tangle no
@@ -773,8 +787,8 @@ Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/ema
   (load "my_abbrevs")
   ;; stop asking whether to save newly added abbrev when quitting emacs
   (setq save-abbrevs nil)
-
 #+END_SRC
+
 *** Buffer management: trick out =ibuffer=
 
 I always have waaaay too many things open. =ibuffer= helps me navigate between them and keep track of them (and save, close, etc them in bulk quickly!)
@@ -912,10 +926,6 @@ The following allows you to select entered text with C-p/C-n:
 	   ("C-c q" . vr/query-replace)
 	   ("C-M-R" . vr/isearch-backward)
 	   ("C-M-S" . vr/isearch-forward))
-    )
-
-  (use-package yasnippet
-    :config (yas-global-mode 1)
     )
 #+END_SRC
 
