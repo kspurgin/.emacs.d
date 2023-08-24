@@ -1,0 +1,8 @@
+# key: nil
+# name: ke_add_fingerprint
+# --
+transform Fingerprint::Add,
+  target: :${1:fingerprint},
+  fields: ${2:%i[${3:b c}]}${4:,
+  delim: "${5:;;;}"}
+$0

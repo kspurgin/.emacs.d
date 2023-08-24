@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: ke_delete_fields
-# key: kedeletefields
 # --
 transform Delete::Fields,
-  fields: %i[$1]
+  fields: ${1:%i[${2:a b}]}
 $0

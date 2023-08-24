@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: ke_dest_special_opts
-# key: ke_dest_special_opts
+# key: dso=
 # --
 ,
-  dest_special_opts: {initial_headers: ${1:%i[${2:termdisplayname}]}}
-$0
+  dest_special_opts: {initial_headers: ${1:%i[${2:termdisplayname}]}}$0
