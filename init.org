@@ -24,6 +24,7 @@ config can load =Sacha.el= without loading Org first.
 My approach is going to be to put my whole current init file in one big code block, and then chip away at documenting it better.
 
 * Configuration
+
 ** System & personal info
 
 I set this up first, because:
@@ -71,6 +72,7 @@ Then, if applicable, fix the Mac keyboard:
     (setq mac-command-modifier 'meta)
     (setq mac-right-command-modifier 'super))
 #+END_SRC
+
 
 ** Package management
 
@@ -168,6 +170,7 @@ Load appropriate macro files, depending on device.
     (message "work-related macros loaded"))
 #+END_SRC
 
+
 ** Appearance/UI
 
 Stretch the cursor to show the size of the character under cursor. Useful for seeing tabs and other weird whitespace
@@ -214,6 +217,7 @@ Make the graphical client dark and pretty:
 	 (message "loaded theme")
 	 ))
 #+END_SRC
+
 
 ** General behavior
 
@@ -317,7 +321,6 @@ Here's a quick rundown of the settings:
 	version-control t)
 #+END_SRC
 
-
 *** Grep
 #+begin_src emacs-lisp
   (eval-after-load 'grep
@@ -350,6 +353,7 @@ Here's a quick rundown of the settings:
   (setq read-file-name-completion-ignore-case t)
   (setq read-buffer-completion-ignore-case t)
 #+END_SRC
+
 
 ** Coding
 *** General
