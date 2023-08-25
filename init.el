@@ -260,10 +260,11 @@
 
 (setq org-special-ctrl-a/e t)
 
-(defun kms/expand-elisp-src-block () (interactive)
+(with-eval-after-load 'org
+  (defun kms/expand-elisp-src-block () (interactive)
        (yas-expand-snippet (yas-lookup-snippet "org_source_block_emacs-lisp" 'org-mode)))
 
-(define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block)
+(define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block))
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)

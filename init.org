@@ -73,6 +73,16 @@ Then, if applicable, fix the Mac keyboard:
     (setq mac-right-command-modifier 'super))
 #+END_SRC
 
+The keys in the bottom-left corner of the keyboard on my Macbook are, from left-to-right: Fn, Ctrl
+
+On my Dell (secunit) laptop, they are: Ctrl, Fn.
+
+This is cognitive overload I don't need in my life. However, this may not be fixable within Emacs, ugh: https://stackoverflow.com/questions/27418756/is-it-possible-to-make-emacs-interpet-an-fn-key-as-a-modifier-key
+
+#+begin_src emacs-lisp :tangle no
+  (when (equal (system-name) 'secunit)
+    (define-key function-key-map (kbd "<XF86Launch3>") 'event-apply-control-modifier))
+#+end_src
 
 ** Package management
 
@@ -599,12 +609,16 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (defun kms/expand-elisp-src-block () (interactive)
-	 (yas-expand-snippet (yas-lookup-snippet "org_source_block_emacs-lisp" 'org-mode)))
+  (with-eval-after-load 'org
+    (defun kms/expand-elisp-src-block () (interactive)
+	   (insert "#+begin_src emacs-lisp\n")
+	   (insert "  \n")
+	   (insert "#+end_src\n")
+	   (previous-line 2)
+	   (end-of-line))
 
-  (define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block)
+    (define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block))
 #+END_SRC
-
 
 *** Keybindings - global
 #+begin_src emacs-lisp
@@ -1303,6 +1317,7 @@ NyanCat buffer progress
 Magit and other git stuff
 ** https://github.com/mwfogleman/.emacs.d/blob/master/michael.org
 ** https://writequit.org/org/
+
 #+BEGIN_QUOTE
 This file takes a page out of the book of Hardcore Freestyle Emacs, in which a single org-file can be tangled to create all the necessary dotfiles required for my everyday computer usage.
 #+END_QUOTE
