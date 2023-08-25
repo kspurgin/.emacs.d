@@ -598,6 +598,14 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
   (setq org-special-ctrl-a/e t)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (defun kms/expand-elisp-src-block () (interactive)
+	 (yas-expand-snippet (yas-lookup-snippet "org_source_block_emacs-lisp" 'org-mode)))
+
+  (define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block)
+#+END_SRC
+
+
 *** Keybindings - global
 #+begin_src emacs-lisp
   (global-set-key "\C-cl" 'org-store-link)
