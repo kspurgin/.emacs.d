@@ -260,6 +260,11 @@
 
 (setq org-special-ctrl-a/e t)
 
+(defun kms/expand-elisp-src-block () (interactive)
+       (yas-expand-snippet (yas-lookup-snippet "org_source_block_emacs-lisp" 'org-mode)))
+
+(define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block)
+
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
@@ -390,6 +395,7 @@
     (message "CALLED: kms-ibuffer/set-saved-filter-groups")
     (setq ibuffer-saved-filter-groups
 	  `(("filters"
+	     ("magit" (name .".*magit"))
 	     ("mig: wpl"
 	      (or (filename . "code/mig/wpl-collectionspace-migration")
 		  (filename . "data/wpl_westerville_public_library")
@@ -410,8 +416,9 @@
 	     ("emacs" (or (name . "\\*Messages\\*")
 			  (name . "\\*Compile-Log\\*")
 			  (name . "\\*Backtrace\\*")
+			  (name . "\\*Occur\\*")
+			  (name . "\\*Warnings\\*")
 			  (name . "\\*emacs\\*")))
-	     ("magit" (name .".*magit"))
 	     ("help" (name . "\\*Help\\*"))))))
 
   (defun kms-ibuffer/switch-ibuffer-group ()
