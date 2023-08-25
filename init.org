@@ -329,6 +329,13 @@ Here's a quick rundown of the settings:
        (add-to-list 'grep-find-ignored-directories "coverage")))
 #+end_src
 
+*** Movement
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-g 8")
+		  (lambda () (interactive) (move-to-column 80)))
+#+end_src
+
 *** TODO More to document/comment
 #+BEGIN_SRC emacs-lisp
 
