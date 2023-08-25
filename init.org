@@ -983,6 +983,73 @@ Nor do we want to see empty filter groups. No visual clutter!
     :bind (("M-x" . counsel-M-x))
     )
 #+END_SRC
+
+*** Dired
+
+Do not open a bajillion buffers to navigate file system:
+#+begin_src emacs-lisp
+  (require 'dired-single)
+
+  (defun my-dired-init ()
+    "Bunch of stuff to run for dired, either immediately or when it's
+       loaded."
+    ;; <add other stuff here>
+    (define-key dired-mode-map [return] 'joc-dired-single-buffer)
+    (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
+    (define-key dired-mode-map "^"
+		(function
+		 (lambda nil (interactive) (joc-dired-single-buffer "..")))))
+
+  ;; if dired's already loaded, then the keymap will be bound
+  (if (boundp 'dired-mode-map)
+      ;; we're good to go; just add our bindings
+      (my-dired-init)
+    ;; it's not loaded yet, so add our bindings to the load-hook
+    (add-hook 'dired-load-hook 'my-dired-init))
+#+end_src
+
+Show human readable file sizes
+from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
+#+begin_src emacs-lisp
+  (setq dired-listing-switches "-Alh")
+#+end_src
+
+Automatically revert Dired buffers on revisiting their directory:
+#+begin_src emacs-lisp
+  (setq dired-auto-revert-buffer t)
+#+end_src
+
+Non-nil means offer to kill buffers visiting files and dirs deleted in Dired:
+#+begin_src emacs-lisp
+  (setq dired-clean-up-buffers-too t)
+#+end_src
+
+I'm not sure what this does exactly, but try it if the above option nags you about whether to kill buffers:
+dired-clean-confirm-killing-deleted-buffers
+  User option: If nil, don't ask whether to kill buffers visiting
+               deleted files.
+  Value: t
+
+Whether Dired should create destination dirs when copying/removing files.
+If nil, don’t create them.
+If ‘always’, create them without asking.
+If ‘ask’, ask for user confirmation.
+#+begin_src emacs-lisp
+  (setq dired-create-destination-dirs "ask")
+#+end_src
+
+For example, if both ‘dired-create-destination-dirs’ and this
+option are non-nil, renaming a directory named ‘old_name’ to
+‘new_name/’ (note the trailing directory separator) where
+‘new_name’ does not exists already, it will be created and
+‘old_name’ be moved into it.  If only ‘new_name’ (without the
+trailing /) is given or this option or
+‘dired-create-destination-dirs’ is nil, ‘old_name’ will be
+renamed to ‘new_name’.
+#+begin_src emacs-lisp
+  (setq dired-create-destination-dirs-on-trailing-dirsep t)
+#+end_src
+
 *** Ivy
 
 =ivy= is a generic completion framework in the minibuffer. Replaces built-in =ido= functionality.
@@ -1114,33 +1181,6 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
 	 (setq tramp-default-method "ssh"))
 	((string-equal system-name 'windows-nt)
 	 (setq tramp-default-method "plink")))
-
-  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ;;; dired stuff
-  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ;; do not open a bajillion buffers to navigate file system
-  (require 'dired-single)
-
-  (defun my-dired-init ()
-    "Bunch of stuff to run for dired, either immediately or when it's
-     loaded."
-    ;; <add other stuff here>
-    (define-key dired-mode-map [return] 'joc-dired-single-buffer)
-    (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
-    (define-key dired-mode-map "^"
-		(function
-		 (lambda nil (interactive) (joc-dired-single-buffer "..")))))
-
-  ;; if dired's already loaded, then the keymap will be bound
-  (if (boundp 'dired-mode-map)
-      ;; we're good to go; just add our bindings
-      (my-dired-init)
-    ;; it's not loaded yet, so add our bindings to the load-hook
-    (add-hook 'dired-load-hook 'my-dired-init))
-
-  ;; human readable file sizes
-  ;; from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
-  (setq dired-listing-switches "-Alh")
 
   ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   ;;; MISCELLANEOUS TOOLS
