@@ -930,6 +930,16 @@ I figured out how to do this by digging around in =ibuffer-vc.el= and then by
 finding [[https://github.com/chrisbarrett/spacemacs-layers/blob/2df814a3c20618a6c4e6d8b424984e84a8714e3f/cb-ibuffer/packages.el#L23][Chris Barrett's spacemacs ibuffer config]] via Github code search.
 
 We keep =ibuffer= updated automagically, with my filter groups applied.
+
+Note: As of 2023-08-25, the VC generated groups do not auto-update in an open ibuffer. If you have files open in the git project =.emacs.d= when you call ibuffer, then the files under that group will upadate as you work. HOWEVER, if you have ibuffer open, and open files in a new VC project, you will not see the group for that project until you kill the ibuffer and open a new one.
+
+**Notes on order of groups**
+
+ - Magit has to be first, or any magit buffers spawned in defined groups will be grouped there, and we'll be unable to easily/quickly kill them.
+ - Ongoing client projects are manually defined after magit, so that their code, data, and notes are grouped together
+ - Then, auto-generated VC groups
+ - Then it sort of doesn't matter
+
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'ibuffer
     (defun kms-ibuffer/vc-filter-groups ()
@@ -941,6 +951,7 @@ We keep =ibuffer= updated automagically, with my filter groups applied.
       (message "CALLED: kms-ibuffer/set-saved-filter-groups")
       (setq ibuffer-saved-filter-groups
 	    `(("filters"
+	       ("magit" (name .".*magit"))
 	       ("mig: wpl"
 		(or (filename . "code/mig/wpl-collectionspace-migration")
 		    (filename . "data/wpl_westerville_public_library")
@@ -961,8 +972,9 @@ We keep =ibuffer= updated automagically, with my filter groups applied.
 	       ("emacs" (or (name . "\\*Messages\\*")
 			    (name . "\\*Compile-Log\\*")
 			    (name . "\\*Backtrace\\*")
+			    (name . "\\*Occur\\*")
+			    (name . "\\*Warnings\\*")
 			    (name . "\\*emacs\\*")))
-	       ("magit" (name .".*magit"))
 	       ("help" (name . "\\*Help\\*"))))))
 
     (defun kms-ibuffer/switch-ibuffer-group ()
