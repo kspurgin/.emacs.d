@@ -1,5 +1,7 @@
 ** Turn off font size changes via mouse - mwheel?
 
+** Change global-set-key to keymap-global-set
+
 ** Emacs can be built with built-in support for accessing SQLite databases.
 This uses the popular sqlite3 library, and can be disabled by using
 the '--without-sqlite3' option to the 'configure' script.
