@@ -1,8 +1,5 @@
 # -*- mode: snippet -*-
 # name: org_source_block_emacs-lisp
-# key: orgsrcel
-# binding: C-c s
 # --
 #+begin_src emacs-lisp
-  $1
 #+end_src
