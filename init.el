@@ -144,6 +144,9 @@
      (add-to-list 'grep-find-ignored-directories ".bundle")
      (add-to-list 'grep-find-ignored-directories "coverage")))
 
+(global-set-key (kbd "M-g 8")
+		(lambda () (interactive) (move-to-column 80)))
+
 ;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
 (setq next-line-add-newlines nil)
 
@@ -216,7 +219,10 @@
 
 (use-package rubocop
   :config
-  (setq rubocop-autocorrect-on-save t))
+  (setq rubocop-autocorrect-on-save t)
+  (add-hook 'ruby-mode-hook #'rubocop-mode)
+  (add-hook 'ruby-ts-mode-hook #'rubocop-mode)
+  (add-hook 'enh-ruby-mode-hook #'rubocop-mode))
 
 (use-package nhexl-mode)
 
@@ -423,6 +429,35 @@
   :bind (("M-x" . counsel-M-x))
   )
 
+(require 'dired-single)
+
+(defun my-dired-init ()
+  "Bunch of stuff to run for dired, either immediately or when it's
+     loaded."
+  ;; <add other stuff here>
+  (define-key dired-mode-map [return] 'joc-dired-single-buffer)
+  (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
+  (define-key dired-mode-map "^"
+	      (function
+	       (lambda nil (interactive) (joc-dired-single-buffer "..")))))
+
+;; if dired's already loaded, then the keymap will be bound
+(if (boundp 'dired-mode-map)
+    ;; we're good to go; just add our bindings
+    (my-dired-init)
+  ;; it's not loaded yet, so add our bindings to the load-hook
+  (add-hook 'dired-load-hook 'my-dired-init))
+
+(setq dired-listing-switches "-Alh")
+
+(setq dired-auto-revert-buffer t)
+
+(setq dired-clean-up-buffers-too t)
+
+(setq dired-create-destination-dirs "ask")
+
+(setq dired-create-destination-dirs-on-trailing-dirsep t)
+
 (use-package ivy
   :diminish ivy-mode
   :config
@@ -484,33 +519,6 @@
        (setq tramp-default-method "ssh"))
       ((string-equal system-name 'windows-nt)
        (setq tramp-default-method "plink")))
-
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;;; dired stuff
-;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;; do not open a bajillion buffers to navigate file system
-(require 'dired-single)
-
-(defun my-dired-init ()
-  "Bunch of stuff to run for dired, either immediately or when it's
-   loaded."
-  ;; <add other stuff here>
-  (define-key dired-mode-map [return] 'joc-dired-single-buffer)
-  (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
-  (define-key dired-mode-map "^"
-	      (function
-	       (lambda nil (interactive) (joc-dired-single-buffer "..")))))
-
-;; if dired's already loaded, then the keymap will be bound
-(if (boundp 'dired-mode-map)
-    ;; we're good to go; just add our bindings
-    (my-dired-init)
-  ;; it's not loaded yet, so add our bindings to the load-hook
-  (add-hook 'dired-load-hook 'my-dired-init))
-
-;; human readable file sizes
-;; from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
-(setq dired-listing-switches "-Alh")
 
 ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 ;;; MISCELLANEOUS TOOLS
