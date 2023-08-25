@@ -457,7 +457,10 @@ Install rubocop for emacs:
 #+begin_src emacs-lisp
   (use-package rubocop
     :config
-    (setq rubocop-autocorrect-on-save t))
+    (setq rubocop-autocorrect-on-save t)
+    (add-hook 'ruby-mode-hook #'rubocop-mode)
+    (add-hook 'ruby-ts-mode-hook #'rubocop-mode)
+    (add-hook 'enh-ruby-mode-hook #'rubocop-mode))
 #+end_src
 
 **** Deprecating
