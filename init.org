@@ -228,6 +228,10 @@ Make the graphical client dark and pretty:
 	 ))
 #+END_SRC
 
+Automatically turn on sytax highlighting in all buffers:
+#+begin_src emacs-lisp
+  (global-font-lock-mode 1)
+#+end_src
 
 ** General behavior
 
@@ -379,9 +383,6 @@ Here's a quick rundown of the settings:
   (setq blink-matching-paren nil)
   (setq show-paren-delay 0)
   (setq show-paren-style 'expression)
-
-  ;; automatically turn on sytax highlighting
-  (global-font-lock-mode 1)
 #+END_SRC
 
 Display line numbers in programming modes:
