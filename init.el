@@ -94,6 +94,8 @@
        (message "loaded theme")
        ))
 
+(global-font-lock-mode 1)
+
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -168,13 +170,10 @@
 (setq read-file-name-completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
 
+(add-hook 'prog-mode-hook 'show-paren-mode)
 (setq blink-matching-paren nil)
-(show-paren-mode t)
 (setq show-paren-delay 0)
 (setq show-paren-style 'expression)
-
-;; automatically turn on sytax highlighting
-(global-font-lock-mode 1)
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
