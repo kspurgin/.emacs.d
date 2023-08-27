@@ -566,6 +566,12 @@ visual lines, not logical lines.
     (add-hook 'org-mode-hook #'visual-line-mode))
 #+end_src
 
+Visually style text, but don't show formatting characters:
+#+begin_src emacs-lisp
+  (setq org-hide-emphasis-markers t)
+  (setq org-fontify-emphasized-text t)
+#+end_src
+
 Show leading stars!
 #+begin_src emacs-lisp
   (setq org-hide-leading-stars nil)

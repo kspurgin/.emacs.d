@@ -244,6 +244,9 @@
 (with-eval-after-load 'org
   (add-hook 'org-mode-hook #'visual-line-mode))
 
+(setq org-hide-emphasis-markers t)
+(setq org-fontify-emphasized-text t)
+
 (setq org-hide-leading-stars nil)
 
 (setq org-startup-indented nil)
