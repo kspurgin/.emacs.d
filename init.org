@@ -1329,6 +1329,7 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
       (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
 
 #+END_SRC
+
 * Other good configs
 ** https://jamiecollinson.com/blog/my-emacs-config/
 
@@ -1343,3 +1344,25 @@ Magit and other git stuff
 #+BEGIN_QUOTE
 This file takes a page out of the book of Hardcore Freestyle Emacs, in which a single org-file can be tangled to create all the necessary dotfiles required for my everyday computer usage.
 #+END_QUOTE
+
+
+* Improvements/changes
+
+** TODO Change [[help:global-set-key][global-set-key]] to keymap-global-set
+:LOGBOOK:
+- State "TODO"       from              [2023-08-27 Sun 13:27]
+:END:
+
+** TODO Figure out how to prevent font size change from mouse interaction
+:LOGBOOK:
+- State "TODO"       from              [2023-08-27 Sun 13:27]
+:END:
+
+** TODO ibuffer: get vc groups to get updated in auto mode
+:LOGBOOK:
+- State "TODO"       from              [2023-08-27 Sun 13:29]
+:END:
+
+See note under ibuffer config for the current issue.
+
+Maybe the vc groups [[https://www.reddit.com/r/emacs/comments/13qfepf/comment/jm3a6wj/][need to be a variable rather than a fuction]].
