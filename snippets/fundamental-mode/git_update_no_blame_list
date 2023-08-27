@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: git_update_no_blame_list
+# key: nbupdate=
+# --
+Add commits to .git-blame-ignore-revs
