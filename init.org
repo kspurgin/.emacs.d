@@ -375,8 +375,8 @@ Here's a quick rundown of the settings:
 ** Coding
 *** General
 #+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'show-paren-mode)
   (setq blink-matching-paren nil)
-  (show-paren-mode t)
   (setq show-paren-delay 0)
   (setq show-paren-style 'expression)
 
