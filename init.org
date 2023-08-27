@@ -874,15 +874,16 @@ Use YASnippet, but only in the specified modes.
 
 For collections of snippets, see: https://github.com/AndreaCrotti/yasnippet-snippets/tree/master/snippets
 #+begin_src emacs-lisp
-    (use-package yasnippet
-      :config
-      (yas-reload-all)
-      (add-hook 'adoc-mode-hook #'yas-minor-mode)
-      (add-hook 'fundamental-mode #'yas-minor-mode)
-      (add-hook 'org-mode-hook #'yas-minor-mode)
-      (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
-      (add-hook 'ruby-mode-hook #'yas-minor-mode)
-      (add-hook 'ruby-ts-mode-hook #'yas-minor-mode))
+  (use-package yasnippet
+    :config
+    (yas-reload-all)
+    (add-hook 'adoc-mode-hook #'yas-minor-mode)
+    (add-hook 'fundamental-mode #'yas-minor-mode)
+    (add-hook 'org-mode-hook #'yas-minor-mode)
+    (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
+    (add-hook 'ruby-mode-hook #'yas-minor-mode)
+    (add-hook 'ruby-ts-mode-hook #'yas-minor-mode)
+    (add-hook 'text-mode-hook #'yas-minor-mode))
 #+end_src
 
 Key-triggerable snippets must have keys ending with ~=~. This allows use of the same ~==~ trigger key set up in Alfred.

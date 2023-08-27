@@ -262,9 +262,13 @@
 
 (with-eval-after-load 'org
   (defun kms/expand-elisp-src-block () (interactive)
-       (yas-expand-snippet (yas-lookup-snippet "org_source_block_emacs-lisp" 'org-mode)))
+	 (insert "#+begin_src emacs-lisp\n")
+	 (insert "  \n")
+	 (insert "#+end_src\n")
+	 (previous-line 2)
+	 (end-of-line))
 
-(define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block))
+  (define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block))
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)
@@ -363,7 +367,8 @@
   (add-hook 'org-mode-hook #'yas-minor-mode)
   (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
   (add-hook 'ruby-mode-hook #'yas-minor-mode)
-  (add-hook 'ruby-ts-mode-hook #'yas-minor-mode))
+  (add-hook 'ruby-ts-mode-hook #'yas-minor-mode)
+  (add-hook 'text-mode-hook #'yas-minor-mode))
 
 (setq yas-expand-only-for-last-commands (self-insert-command 1))
 (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand)
