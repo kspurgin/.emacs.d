@@ -104,14 +104,24 @@
 
 (global-auto-revert-mode t)
 
-(setq standard-indent 2)
-
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
 (global-set-key (kbd "TAB") 'self-insert-command)
 
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
+
+(setq standard-indent 2)
+
+(setq next-line-add-newlines nil)
+
+(use-package move-text
+  :config
+  (move-text-default-bindings))
+
+(setq initial-major-mode 'text-mode)
+
+(setq set-mark-command-repeat-pop t)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -149,26 +159,10 @@
 (global-set-key (kbd "M-g 8")
 		(lambda () (interactive) (move-to-column 80)))
 
-;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
-(setq next-line-add-newlines nil)
-
-;; scratch should be in text mode
-;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
-(setq initial-major-mode 'text-mode)
-
-					; Move line or region up or down with M-up/down arrow
-(use-package move-text
-  :config
-  (move-text-default-bindings))
-
-;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
-;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
-(setq set-mark-command-repeat-pop t)
-
 ;; Make file and buffer name completion case insensitive
 ;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
-(setq read-file-name-completion-ignore-case t)
-(setq read-buffer-completion-ignore-case t)
+(setq read-file-name-completion-ignore-case nil)
+(setq read-buffer-completion-ignore-case nil)
 
 (add-hook 'prog-mode-hook 'show-paren-mode)
 (setq blink-matching-paren nil)
@@ -377,6 +371,19 @@
 (setq yas-expand-only-for-last-commands (self-insert-command 1))
 (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand)
 
+(use-package ivy
+  :diminish
+  :config
+  (ivy-mode t)
+  ;; disable default behavior of starting filters with =^
+  (setq ivy-initial-inputs-alist nil)
+  ;; select entered text with C-p/C-n
+  (setq ivy-use-selectable-prompt t))
+
+(use-package counsel
+  :bind (("M-x" . counsel-M-x))
+  )
+
 (require 'ibuffer)
 (load "ibuffer-human-readable")
 (keymap-global-set "C-x C-b" 'ibuffer)
@@ -442,10 +449,6 @@
 
 (setq ibuffer-show-empty-filter-groups nil)
 
-(use-package counsel
-  :bind (("M-x" . counsel-M-x))
-  )
-
 (require 'dired-single)
 
 (defun my-dired-init ()
@@ -474,15 +477,6 @@
 (setq dired-create-destination-dirs "ask")
 
 (setq dired-create-destination-dirs-on-trailing-dirsep t)
-
-(use-package ivy
-  :diminish ivy-mode
-  :config
-  (ivy-mode t)
-  (setq ivy-initial-inputs-alist nil)
-  )
-
-(setq ivy-use-selectable-prompt t)
 
 (use-package visual-regexp-steroids
   :ensure visual-regexp

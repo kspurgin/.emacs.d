@@ -122,7 +122,6 @@ To override this, do ~:ensure nil~ when setting up a package.
   (setq use-package-always-ensure t)
 #+end_src
 
-
 ** Set up package sources and load paths
 
 Needs to be called as soon as possible for native compilation in certain environments:
@@ -258,10 +257,6 @@ Fri May 22 19:32:12 EDT 2009
   (global-auto-revert-mode t)
 #+end_src
 
-Standard indent is 2 spaces
-#+BEGIN_SRC emacs-lisp
-  (setq standard-indent 2)
-#+END_SRC
 
 *** Global key bindings
 
@@ -279,6 +274,36 @@ Disable suspend-frame command key bindings because they are annoying AF:
 #+begin_src emacs-lisp
   (global-unset-key (kbd "C-z"))
   (global-unset-key (kbd "C-x C-z"))
+#+end_src
+
+*** Editing/entering info
+Standard indent is 2 spaces:
+#+begin_src emacs-lisp
+  (setq standard-indent 2)
+#+end_src
+
+Do not create new lines when you press the "arrow-down-key" at end of the buffer:
+#+begin_src emacs-lisp
+  (setq next-line-add-newlines nil)
+#+end_src
+
+Move line or region up or down with M-up/down arrow:
+#+begin_src emacs-lisp
+(use-package move-text
+  :config
+  (move-text-default-bindings))
+#+end_src
+
+=*scratch*= should be in text mode
+2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
+#+begin_src emacs-lisp
+  (setq initial-major-mode 'text-mode)
+#+end_src
+
+Pop the mark several times by typing C-u C-SPC C-SPC, instead of having to type C-u C-SPC C-u C-SPC.
+Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
+#+begin_src emacs-lisp
+  (setq set-mark-command-repeat-pop t)
 #+end_src
 
 *** Saving, persistence, backups
@@ -355,27 +380,10 @@ Here's a quick rundown of the settings:
 
 *** TODO More to document/comment
 #+BEGIN_SRC emacs-lisp
-
-  ;; will disallow creation of new lines when you press the "arrow-down-key" at end of the buffer.
-  (setq next-line-add-newlines nil)
-
-  ;; scratch should be in text mode
-  ;; 2014-03-13 - http://emacsworld.blogspot.com/2008/06/changing-default-mode-of-scratch-buffer.html
-  (setq initial-major-mode 'text-mode)
-
-					  ; Move line or region up or down with M-up/down arrow
-  (use-package move-text
-    :config
-    (move-text-default-bindings))
-
-  ;; Allows traversing the mark ring without hitting C-u C-SPC all the time.
-  ;; Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
-  (setq set-mark-command-repeat-pop t)
-
   ;; Make file and buffer name completion case insensitive
   ;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
-  (setq read-file-name-completion-ignore-case t)
-  (setq read-buffer-completion-ignore-case t)
+  (setq read-file-name-completion-ignore-case nil)
+  (setq read-buffer-completion-ignore-case nil)
 #+END_SRC
 
 
@@ -561,9 +569,7 @@ It has been included in Emacs by default since 22.1, but just in case...
 
 *** Org-mode appearance, formatting
 
-When Visual Line mode is enabled, ‘word-wrap’ is turned on in
-this buffer, and simple editing commands are redefined to act on
-visual lines, not logical lines.
+When Visual Line mode is enabled, ‘word-wrap’ is turned on in this buffer, and simple editing commands are redefined to act on visual lines, not logical lines.
 #+begin_src emacs-lisp
   (with-eval-after-load 'org
     (add-hook 'org-mode-hook #'visual-line-mode))
@@ -827,6 +833,7 @@ automatically save bookmarks when it is killed.
 When I can't write in/publish from =org-mode=, AsciiDoc is my text markup language of choice. In some ways I even prefer it to =org-mode=! (Admonition blocks, ToCs rendered in github, includes!). [[https://asciidoctor.org/docs/what-is-asciidoc/][More on why it is great...]]
 
 [[https://asciidoctor.org/docs/asciidoc-writers-guide/][In-depth writer's guide]] -- [[https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/][Quick reference]]
+
 #+BEGIN_SRC emacs-lisp
   (use-package adoc-mode
     :mode (("\\.adoc\\'" . adoc-mode)
@@ -883,11 +890,12 @@ For editing Markdown text.
 
 ** Productivity
 
-*** Completion
+*** Completion (in-buffer)
 
 Use YASnippet, but only in the specified modes.
 
 For collections of snippets, see: https://github.com/AndreaCrotti/yasnippet-snippets/tree/master/snippets
+
 #+begin_src emacs-lisp
   (use-package yasnippet
     :config
@@ -915,6 +923,35 @@ Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/ema
   ;; stop asking whether to save newly added abbrev when quitting emacs
   (setq save-abbrevs nil)
 #+END_SRC
+
+*** Completion (minibuffer)
+
+Currently using ivy/counsel
+
+=ivy= is a generic completion framework in the minibuffer, replacing built-in =ido= functionality.
+
+=counsel= is a collection of =ivy= enhanced versions of common Emacs commands.
+
+[[https://oremacs.com/swiper/][Ivy manual]]
+
+[[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
+
+#+begin_src emacs-lisp
+  (use-package ivy
+    :diminish
+    :config
+    (ivy-mode t)
+    ;; disable default behavior of starting filters with =^
+    (setq ivy-initial-inputs-alist nil)
+    ;; select entered text with C-p/C-n
+    (setq ivy-use-selectable-prompt t))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x))
+    )
+#+end_src
 
 *** Buffer management: trick out =ibuffer=
 
@@ -1025,15 +1062,6 @@ Nor do we want to see empty filter groups. No visual clutter!
   (setq ibuffer-show-empty-filter-groups nil)
 #+END_SRC
 
-*** Counsel
-
-=counsel= is a collection of =ivy= enhanced versions of common Emacs commands.
-#+BEGIN_SRC emacs-lisp
-  (use-package counsel
-    :bind (("M-x" . counsel-M-x))
-    )
-#+END_SRC
-
 *** Dired
 
 Do not open a bajillion buffers to navigate file system:
@@ -1100,30 +1128,6 @@ renamed to ‘new_name’.
   (setq dired-create-destination-dirs-on-trailing-dirsep t)
 #+end_src
 
-*** Ivy
-
-=ivy= is a generic completion framework in the minibuffer. Replaces built-in =ido= functionality.
-
-[[https://oremacs.com/swiper/][Ivy manual]]
-
-I'm trying this out, as of <2019-10-22 Tue>
-
-Setting =ivy-intial-inputs-alist= to nil turns off the default behavior of starting filters with =^=.
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :diminish ivy-mode
-    :config
-    (ivy-mode t)
-    (setq ivy-initial-inputs-alist nil)
-    )
-#+END_SRC
-
-The following allows you to select entered text with C-p/C-n:
-#+BEGIN_SRC emacs-lisp
-  (setq ivy-use-selectable-prompt t)
-#+END_SRC
-
-[[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
 *** Other
 #+BEGIN_SRC emacs-lisp
   (use-package visual-regexp-steroids
