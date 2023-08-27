@@ -412,6 +412,9 @@ whitespace-mode does this as well, but makes things too visually noisy.
 #+END_SRC
 
 **** Tree-sitter
+:PROPERTIES:
+:ID:       25b27c50-cef0-4efc-9be2-5ba0411a3656
+:END:
 
 As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 #+begin_src emacs-lisp
@@ -553,7 +556,7 @@ From: https://emacs.stackexchange.com/questions/2884/the-old-how-to-fold-xml-que
 #+END_SRC
 *** YAML
 
-See also Tree-sitter under general coding config
+See also [[id:25b27c50-cef0-4efc-9be2-5ba0411a3656][Tree-sitter under general coding config]]
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package yaml-mode
     :mode (("\\.yml\\'" . yaml-mode)
