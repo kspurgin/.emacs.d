@@ -25,6 +25,7 @@ My approach is going to be to put my whole current init file in one big code blo
 
 * Configuration
 
+
 ** System & personal info
 
 I set this up first, because:
@@ -83,6 +84,7 @@ This is cognitive overload I don't need in my life. However, this may not be fix
   (when (equal (system-name) 'secunit)
     (define-key function-key-map (kbd "<XF86Launch3>") 'event-apply-control-modifier))
 #+end_src
+
 
 ** Package management
 
@@ -232,6 +234,7 @@ Automatically turn on sytax highlighting in all buffers:
 #+begin_src emacs-lisp
   (global-font-lock-mode 1)
 #+end_src
+
 
 ** General behavior
 
