@@ -631,14 +631,7 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
-    (defun kms/expand-elisp-src-block () (interactive)
-	   (insert "#+begin_src emacs-lisp\n")
-	   (insert "  \n")
-	   (insert "#+end_src\n")
-	   (previous-line 2)
-	   (end-of-line))
-
-    (define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+END_SRC
 
 *** Keybindings - global

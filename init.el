@@ -259,14 +259,7 @@
 (setq org-special-ctrl-a/e t)
 
 (with-eval-after-load 'org
-  (defun kms/expand-elisp-src-block () (interactive)
-	 (insert "#+begin_src emacs-lisp\n")
-	 (insert "  \n")
-	 (insert "#+end_src\n")
-	 (previous-line 2)
-	 (end-of-line))
-
-  (define-key org-mode-map (kbd "C-& C-s") `kms/expand-elisp-src-block))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)
