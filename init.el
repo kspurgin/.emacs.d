@@ -96,6 +96,10 @@
 
 (global-font-lock-mode 1)
 
+(use-package diminish
+  :config
+  (diminish 'visual-line-mode))
+
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -182,6 +186,7 @@
 (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
 
 (use-package editorconfig
+  :diminish
   :config
   (editorconfig-mode 1))
 
@@ -346,6 +351,7 @@
 (use-package auto-org-md)
 
 (use-package yasnippet
+  :diminish yas-minor-mode
   :config
   (yas-reload-all)
   (add-hook 'adoc-mode-hook #'yas-minor-mode)
@@ -488,6 +494,7 @@
 (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
 
 (use-package projectile
+  :diminish
   :config
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)

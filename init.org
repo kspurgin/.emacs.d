@@ -234,6 +234,18 @@ Automatically turn on sytax highlighting in all buffers:
   (global-font-lock-mode 1)
 #+end_src
 
+*** Modeline
+
+A minor mode set as diminished will not have its name shown in the modeline.
+
+Minor modes added via =use-package=  have the =:diminish= keyword set in those invocations. The name of the minor mode to diminish only needs to be provided if is isn't the name of the package with "-mode" added to the end.
+
+Built-in modes to diminish are configured here:
+#+begin_src emacs-lisp
+  (use-package diminish
+    :config
+    (diminish 'visual-line-mode))
+#+end_src
 
 ** General behavior
 
@@ -421,6 +433,7 @@ As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 https://github.com/editorconfig/editorconfig-emacs#readme
 #+BEGIN_SRC emacs-lisp
   (use-package editorconfig
+    :diminish
     :config
     (editorconfig-mode 1))
 #+END_SRC
@@ -882,6 +895,7 @@ For collections of snippets, see: https://github.com/AndreaCrotti/yasnippet-snip
 
 #+begin_src emacs-lisp
   (use-package yasnippet
+    :diminish yas-minor-mode
     :config
     (yas-reload-all)
     (add-hook 'adoc-mode-hook #'yas-minor-mode)
@@ -1145,6 +1159,7 @@ Projectile is a project interaction library for Emacs. Its goal is to provide a 
 #+END_QUOTE
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
+    :diminish
     :config
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
