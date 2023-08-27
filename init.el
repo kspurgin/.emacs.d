@@ -176,6 +176,8 @@
 ;; automatically turn on sytax highlighting
 (global-font-lock-mode 1)
 
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
 (use-package column-enforce-mode)
 
 ;; (setq major-mode-remap-alist

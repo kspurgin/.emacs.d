@@ -384,6 +384,11 @@ Here's a quick rundown of the settings:
   (global-font-lock-mode 1)
 #+END_SRC
 
+Display line numbers in programming modes:
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+#+end_src
+
 Added 2022-09-23: [[https://github.com/jordonbiondo/column-enforce-mode][Highlight text that extends beyond a certain column:]]
 
 whitespace-mode does this as well, but makes things too visually noisy.
