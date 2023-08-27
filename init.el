@@ -159,11 +159,6 @@
 (global-set-key (kbd "M-g 8")
 		(lambda () (interactive) (move-to-column 80)))
 
-;; Make file and buffer name completion case insensitive
-;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
-(setq read-file-name-completion-ignore-case nil)
-(setq read-buffer-completion-ignore-case nil)
-
 (add-hook 'prog-mode-hook 'show-paren-mode)
 (setq blink-matching-paren nil)
 (setq show-paren-delay 0)

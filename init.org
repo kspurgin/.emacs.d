@@ -378,15 +378,6 @@ Here's a quick rundown of the settings:
 		  (lambda () (interactive) (move-to-column 80)))
 #+end_src
 
-*** TODO More to document/comment
-#+BEGIN_SRC emacs-lisp
-  ;; Make file and buffer name completion case insensitive
-  ;; From http://endlessparentheses.com/improving-emacs-file-name-completion.html
-  (setq read-file-name-completion-ignore-case nil)
-  (setq read-buffer-completion-ignore-case nil)
-#+END_SRC
-
-
 ** Coding
 *** General
 #+BEGIN_SRC emacs-lisp
