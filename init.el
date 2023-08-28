@@ -407,6 +407,13 @@
     (setq ibuffer-saved-filter-groups
 	  `(("filters"
 	     ("magit" (name .".*magit"))
+	     ("meta" (or
+		      (basename . "cspace.org")
+		      (basename . "islandora.org")
+		      (basename . "meetings.org")
+		      (basename . "migrations.org")
+		      (basename . "work.org")
+		      (name . "\\*scratch\\*")))
 	     ("mig: wpl"
 	      (or (filename . "code/mig/wpl-collectionspace-migration")
 		  (filename . "data/wpl_westerville_public_library")
@@ -418,19 +425,8 @@
 	      (or (filename . "code/mig/ksu_collectionspace_migration")
 		  (filename . "data/ksu")))
 	     ,@(kms-ibuffer/vc-filter-groups)
-	     ("meta" (or
-		      (basename . "cspace.org")
-		      (basename . "islandora.org")
-		      (basename . "meetings.org")
-		      (basename . "migrations.org")
-		      (basename . "work.org")))
-	     ("emacs" (or (name . "\\*Messages\\*")
-			  (name . "\\*Compile-Log\\*")
-			  (name . "\\*Backtrace\\*")
-			  (name . "\\*Occur\\*")
-			  (name . "\\*Warnings\\*")
-			  (name . "\\*emacs\\*")))
-	     ("help" (name . "\\*Help\\*"))))))
+	     ("help" (name . "\\*Help\\*"))
+	     ("emacs" (name . "^\\*.*\\*"))))))
 
   (defun kms-ibuffer/switch-ibuffer-group ()
     (kms-ibuffer/set-saved-filter-groups)
