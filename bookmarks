@@ -291,10 +291,10 @@
  (position . 35519))
 ("mw-metawork"
  (filename . "~/org/work.org")
- (front-context-string . "xbkmk\n\n   :LOGBO")
+ (front-context-string . "bkmk\n\n   :LOGBOO")
  (rear-context-string . "GOING Meta-work\n")
- (position . 88271)
- (last-modified 25829 10302 661659 0))
+ (position . 88934)
+ (last-modified 25836 63020 739104 0))
 ("communication"
  (filename . "~/org/work.org")
  (front-context-string . "bkmk\n   :LOGBOOK")
