@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ke_merge_constant_value
+# --
+transform Merge::ConstantValue,
+  target: :${1:species},
+  value: "${2:guinea fowl}"
+$0

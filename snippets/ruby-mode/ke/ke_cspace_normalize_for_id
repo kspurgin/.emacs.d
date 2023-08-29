@@ -4,4 +4,5 @@
 transform Cspace::NormalizeForID,
   source: :$1,
   target: :$2${3:,
-  delim: '${4:|}'}$0
+  delim: '${4:|}'}
+  $0

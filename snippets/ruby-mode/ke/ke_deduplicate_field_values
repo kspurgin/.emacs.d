@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ke_deduplicate_field_values
+# --
+transform Deduplicate::FieldValues,
+  fields: ${1:%i[${2:foo bar}]},
+  sep: "${3:|}"
+$0
