@@ -117,6 +117,8 @@
 
 (setq standard-indent 2)
 
+(setq indent-tabs-mode nil)
+
 (setq next-line-add-newlines nil)
 
 (use-package move-text
@@ -170,19 +172,14 @@
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-(use-package column-enforce-mode)
-
-;; (setq major-mode-remap-alist
-;;       '((enh-ruby-mode . ruby-ts-mode)
-;; 	(ruby-mode . ruby-ts-mode)
-;; 	(js2-mode . js-ts-mode)
-;; 	(python-mode . python-ts-mode)))
+(use-package column-enforce-mode
+  :diminish
+  :hook prog-mode)
 
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(bash_\\(profile\\|history\\|log\\(in\\|out\\)\\)\\|z?log\\(in\\|out\\)\\)\\'" . bash-ts-mode))
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(shrc\\|zshrc\\|m?kshrc\\|bashrc\\|t?cshrc\\|esrc\\)\\'" . bash-ts-mode))
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . bash-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
-(add-to-list 'auto-mode-alist '("\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . ruby-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
 
 (use-package editorconfig
@@ -197,27 +194,33 @@
   :interpreter "perl"
   :config (load "cperl-setup"))
 
-(add-hook 'ruby-ts-mode-hook 'column-enforce-mode)
+(use-package enh-ruby-mode
+  :mode "\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'"
+  :interpreter "ruby"
+  :custom-face
+  (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
+  (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
+  (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75")))))
+
+(use-package ruby-refactor
+  :diminish
+  :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . ruby-refactor-mode-launch))
+
+(setq ruby-deep-arglist nil)
+(setq ruby-deep-indent-paren nil)
+(setq ruby-method-params-indent 0)
 (setq ruby-after-operator-indent nil)
 (setq ruby-aligned-chain-calls nil)
 (setq ruby-align-to-stmt-keywords nil)
 (setq ruby-block-indent nil)
 (setq ruby-method-call-indent nil)
 
-(use-package ruby-refactor
-  :config
-  (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
-
-(setq ruby-deep-arglist nil)
-(setq ruby-deep-indent-paren nil)
-(setq ruby-method-params-indent 0)
-
 (use-package rubocop
+  :commands rubocop-mode
+  :diminish
+  :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . rubocop-mode)
   :config
-  (setq rubocop-autocorrect-on-save t)
-  (add-hook 'ruby-mode-hook #'rubocop-mode)
-  (add-hook 'ruby-ts-mode-hook #'rubocop-mode)
-  (add-hook 'enh-ruby-mode-hook #'rubocop-mode))
+  (setq rubocop-autocorrect-on-save t))
 
 (use-package nhexl-mode)
 
@@ -265,6 +268,8 @@
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+
+(global-set-key "\C-_" nil)
 
 (when (equal (init-computer-context) 'work)
   (setq org-agenda-files
@@ -352,18 +357,17 @@
 
 (use-package yasnippet
   :diminish yas-minor-mode
+  :hook ((adoc-mode
+         fundamental-mode
+         org-mode
+         enh-ruby-mode
+         ruby-mode
+         ruby-ts-mode
+         text-mode) . yas-minor-mode)
   :config
   (yas-reload-all)
-  (add-hook 'adoc-mode-hook #'yas-minor-mode)
-  (add-hook 'fundamental-mode #'yas-minor-mode)
-  (add-hook 'org-mode-hook #'yas-minor-mode)
-  (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
-  (add-hook 'ruby-mode-hook #'yas-minor-mode)
-  (add-hook 'ruby-ts-mode-hook #'yas-minor-mode)
-  (add-hook 'text-mode-hook #'yas-minor-mode))
-
-(setq yas-expand-only-for-last-commands (self-insert-command 1))
-(define-key yas-minor-mode-map (kbd "=") yas-maybe-expand)
+  (setq yas-expand-only-for-last-commands (self-insert-command 1))
+  (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand))
 
 (use-package ivy
   :diminish

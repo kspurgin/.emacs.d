@@ -294,6 +294,11 @@ Standard indent is 2 spaces:
   (setq standard-indent 2)
 #+end_src
 
+Indenting with spaces should /never/ insert TABs:
+#+begin_src emacs-lisp
+  (setq indent-tabs-mode nil)
+#+end_src
+
 Do not create new lines when you press the "arrow-down-key" at end of the buffer:
 #+begin_src emacs-lisp
   (setq next-line-add-newlines nil)
@@ -408,7 +413,9 @@ Added 2022-09-23: [[https://github.com/jordonbiondo/column-enforce-mode][Highlig
 
 whitespace-mode does this as well, but makes things too visually noisy.
 #+BEGIN_SRC emacs-lisp
-  (use-package column-enforce-mode)
+  (use-package column-enforce-mode
+    :diminish
+    :hook prog-mode)
 #+END_SRC
 
 **** Tree-sitter
@@ -418,17 +425,10 @@ whitespace-mode does this as well, but makes things too visually noisy.
 
 As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 #+begin_src emacs-lisp
-  ;; (setq major-mode-remap-alist
-  ;;       '((enh-ruby-mode . ruby-ts-mode)
-  ;; 	(ruby-mode . ruby-ts-mode)
-  ;; 	(js2-mode . js-ts-mode)
-  ;; 	(python-mode . python-ts-mode)))
-
   (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(bash_\\(profile\\|history\\|log\\(in\\|out\\)\\)\\|z?log\\(in\\|out\\)\\)\\'" . bash-ts-mode))
   (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\(shrc\\|zshrc\\|m?kshrc\\|bashrc\\|t?cshrc\\|esrc\\)\\'" . bash-ts-mode))
   (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . bash-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . ruby-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
 #+end_src
 
@@ -454,21 +454,29 @@ https://github.com/editorconfig/editorconfig-emacs#readme
     :interpreter "perl"
     :config (load "cperl-setup"))
 #+END_SRC
+
 *** Ruby
+
+Use enhanced ruby mode. As of [2023-08-29 Tue], tree-sitter mode for ruby doesn't add any killer features, AND it turns off block highlighting and navigating by sexp.
+
+Going back to using enh-ruby-mode.
+
+I've customized the color of the double/single quote string delimiters because the default was hard to see on a dark background.
 #+begin_src emacs-lisp
-  (add-hook 'ruby-ts-mode-hook 'column-enforce-mode)
-  (setq ruby-after-operator-indent nil)
-  (setq ruby-aligned-chain-calls nil)
-  (setq ruby-align-to-stmt-keywords nil)
-  (setq ruby-block-indent nil)
-  (setq ruby-method-call-indent nil)
+  (use-package enh-ruby-mode
+    :mode "\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'"
+    :interpreter "ruby"
+    :custom-face
+    (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
+    (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
+    (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75")))))
 #+end_src
 
 Added 2022-09-23:
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-refactor
-    :config
-    (add-hook 'ruby-ts-mode-hook 'ruby-refactor-mode-launch))
+    :diminish
+    :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . ruby-refactor-mode-launch))
 #+END_SRC
 **** Ruby style
 
@@ -484,48 +492,31 @@ Layout/AccessModifierIndentationLayout/ArgumentAlignment:
   (setq ruby-deep-arglist nil)
   (setq ruby-deep-indent-paren nil)
   (setq ruby-method-params-indent 0)
+  (setq ruby-after-operator-indent nil)
+  (setq ruby-aligned-chain-calls nil)
+  (setq ruby-align-to-stmt-keywords nil)
+  (setq ruby-block-indent nil)
+  (setq ruby-method-call-indent nil)
 #+end_src
 
-Install rubocop for emacs:
+Install rubocop for emacs. Setting to autocorrect on save will fix the indentation:
 
 #+begin_src emacs-lisp
   (use-package rubocop
+    :commands rubocop-mode
+    :diminish
+    :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . rubocop-mode)
     :config
-    (setq rubocop-autocorrect-on-save t)
-    (add-hook 'ruby-mode-hook #'rubocop-mode)
-    (add-hook 'ruby-ts-mode-hook #'rubocop-mode)
-    (add-hook 'enh-ruby-mode-hook #'rubocop-mode))
+    (setq rubocop-autocorrect-on-save t))
 #+end_src
 
 **** Deprecating
-Use enhanced ruby mode.
 
-I've customized the color of the double/single quote string delimiters because the default was hard to see on a dark background.
-#+BEGIN_SRC emacs-lisp :tangle no
-  (use-package enh-ruby-mode
-    :mode "\\.rb\\'"
-    :interpreter "ruby"
-    :custom-face
-    (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
-    (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
-    (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
-    )
-  :config
-  (setq indent-tabs-mode nil)
-  (add-hook 'enh-ruby-mode-hook 'ruby-refactor-mode-launch)
+***** Tree-sitter for ruby
 
-  (add-hook 'enh-ruby-mode-hook 'column-enforce-mode)
-#+END_SRC
-
-Use rubocopfmt
-https://github.com/jimeh/rubocopfmt.el
-I got errors when I tried to enable this on 2021-03-05
-#+BEGIN_SRC emacs-lisp :tangle no
-  (use-package rubocopfmt
-    :hook
-    (ruby-ts-mode . rubocopfmt-mode))
-#+END_SRC
-
+#+begin_src emacs-lisp :tangle no
+  ;; (add-to-list 'auto-mode-alist '("\\(?:\\.\\(?:rbw?\\|ru\\|rake\\|thor\\|jbuilder\\|rabl\\|gemspec\\|podspec\\)\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Puppet\\|Berks\\|Brew\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . ruby-ts-mode))
+#+end_src
 
 ** Data
 *** nhexl-mode
@@ -647,6 +638,11 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cb" 'org-iswitchb)
+#+end_src
+
+Turn off using =C-_= to access =undo=, to break muscle memory. Use =C-/= instead:
+#+begin_src emacs-lisp
+  (global-set-key "\C-_" nil)
 #+end_src
 
 *** Agenda
@@ -894,26 +890,24 @@ For editing Markdown text.
 
 Use YASnippet, but only in the specified modes.
 
+When you create a new key-triggerable snippet, the key must end with ~=~. This allows use of the same ~==~ trigger key set up in Alfred.
+
 For collections of snippets, see: https://github.com/AndreaCrotti/yasnippet-snippets/tree/master/snippets
 
 #+begin_src emacs-lisp
   (use-package yasnippet
     :diminish yas-minor-mode
+    :hook ((adoc-mode
+           fundamental-mode
+           org-mode
+           enh-ruby-mode
+           ruby-mode
+           ruby-ts-mode
+           text-mode) . yas-minor-mode)
     :config
     (yas-reload-all)
-    (add-hook 'adoc-mode-hook #'yas-minor-mode)
-    (add-hook 'fundamental-mode #'yas-minor-mode)
-    (add-hook 'org-mode-hook #'yas-minor-mode)
-    (add-hook 'enh-ruby-mode-hook #'yas-minor-mode)
-    (add-hook 'ruby-mode-hook #'yas-minor-mode)
-    (add-hook 'ruby-ts-mode-hook #'yas-minor-mode)
-    (add-hook 'text-mode-hook #'yas-minor-mode))
-#+end_src
-
-Key-triggerable snippets must have keys ending with ~=~. This allows use of the same ~==~ trigger key set up in Alfred.
-#+begin_src emacs-lisp
-  (setq yas-expand-only-for-last-commands (self-insert-command 1))
-  (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand)
+    (setq yas-expand-only-for-last-commands (self-insert-command 1))
+    (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand))
 #+end_src
 
 Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Abbrevs.html][in the Emacs manual]]. I still have not figured out the best way to use them, and invariably they become annoying, so they are turned off.
