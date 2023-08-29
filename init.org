@@ -247,6 +247,12 @@ Built-in modes to diminish are configured here:
     (diminish 'visual-line-mode))
 #+end_src
 
+Date/time display:
+
+#+begin_src emacs-lisp
+  (setq display-time-24hr-format t)
+#+end_src
+
 ** General behavior
 
 Do not "helpfully" disable things for me:

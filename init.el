@@ -100,6 +100,8 @@
   :config
   (diminish 'visual-line-mode))
 
+(setq display-time-24hr-format t)
+
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
