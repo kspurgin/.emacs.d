@@ -15,6 +15,9 @@ transient
 # Compiled
 *.elc
 
+# Tangled
+init.el
+
 # Packaging
 .cask
 
