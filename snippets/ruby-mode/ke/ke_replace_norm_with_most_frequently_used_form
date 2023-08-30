@@ -4,5 +4,6 @@
 # --
 transform Replace::NormWithMostFrequentlyUsedForm,
   normfield: :$1,
-  nonnormfield: :$2
+  nonnormfield: :$2${3:,
+  target: :${4:x}}
 $0

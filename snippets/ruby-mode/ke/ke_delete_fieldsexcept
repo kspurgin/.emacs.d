@@ -2,4 +2,5 @@
 # name: ke_delete_fieldsexcept
 # --
 transform Delete::FieldsExcept,
-  fields: ${1:%i[${2:x y}]}$0
+  fields: ${1:%i[${2:x y}]}
+$0
