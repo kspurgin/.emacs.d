@@ -1,0 +1,6 @@
+# key: nil
+# name: ke_clean_downcase_values
+# --
+transform Clean::DowncaseFieldValues,
+  fields: ${1:%i[${2:x y}]}
+$0

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_rename_fields
+# --
+transform Rename::Fields, fieldmap: {
+  ${1:x: :y,
+  a: :b}
+}
+$0
