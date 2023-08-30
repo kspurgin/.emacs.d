@@ -7,3 +7,6 @@
 
 (defalias 'optlist-messages
    (kmacro "C-f C-SPC C-e C-b C-b M-w C-f : SPC { <return> i d : SPC ' o p t i o n . d e p a r t m e n t s . C-y ' , <return> d e f a u l t M e s s a g e : SPC ' C-y ' , <return> } C-n C-a"))
+
+(defalias 'ke-outline-registry
+   (kmacro "C-s o C-g C-x ( M-s o \\ . n a m e s p a c e \\ | SPC + r e g i s t e r <return> C-x o"))
