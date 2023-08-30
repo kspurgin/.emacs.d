@@ -1286,11 +1286,11 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
     (interactive "*r")
     (save-excursion
       (let ((end (copy-marker end)))
-	(while
-	    (progn
-	      (goto-char start)
-	      (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
-	  (replace-match "\\1\n\\2")))))
+        (while
+            (progn
+              (goto-char start)
+              (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
+          (replace-match "\\1\n\\2")))))
 
   (defun uniquify-all-lines-buffer ()
     "Delete duplicate lines in buffer and keep first occurrence."
@@ -1303,7 +1303,7 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
     (save-excursion
       (goto-char beg)
       (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
-	(replace-match "\\1"))))
+        (replace-match "\\1"))))
 
   (defun uniquify-buffer-lines ()
     "Remove duplicate adjacent lines in the current buffer."
