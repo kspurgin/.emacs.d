@@ -1252,11 +1252,9 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
   ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   (require 'tramp)
   (cond ((string-equal system-type 'gnu/linux)
-	 (setq tramp-default-method "ssh"))
-	((string-equal system-type 'darwin)
-	 (setq tramp-default-method "ssh"))
-	((string-equal system-name 'windows-nt)
-	 (setq tramp-default-method "plink")))
+         (setq tramp-default-method "ssh"))
+        ((string-equal system-type 'darwin)
+         (setq tramp-default-method "ssh")))
 
   ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   ;;; MISCELLANEOUS TOOLS
