@@ -182,6 +182,23 @@ Load appropriate macro files, depending on device.
 #+END_SRC
 
 
+** Auto-tangle this file
+
+Will run =C-c C-v t= automatically when this file is saved. From [[https://github.com/SophieBosio/.emacs.d#tangling][SophieBosio's emacs.d]].
+
+#+begin_src emacs-lisp
+  (defun tangle-init ()
+    "If the current buffer is init.org the code-blocks are
+  tangled, and the tangled file is compiled."
+    (when (equal (buffer-file-name)
+                 (expand-file-name (concat user-emacs-directory "init.org")))
+      ;; Avoid running hooks when tangling.
+      (let ((prog-mode-hook nil))
+        (org-babel-tangle))))
+
+  (add-hook 'after-save-hook 'tangle-init)
+#+end_src
+
 ** Appearance/UI
 
 Stretch the cursor to show the size of the character under cursor. Useful for seeing tabs and other weird whitespace
