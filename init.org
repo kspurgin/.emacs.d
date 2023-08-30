@@ -411,6 +411,13 @@ Here's a quick rundown of the settings:
        (add-to-list 'grep-find-ignored-directories "coverage")))
 #+end_src
 
+*** Window management
+
+Turns on S-left, S-right, etc. to move between windows. Turns off shift-selection, which I never used:
+#+begin_src emacs-lisp
+  (windmove-default-keybindings)
+#+end_src
+
 *** Movement
 
 #+begin_src emacs-lisp
