@@ -2,7 +2,13 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("wpl-westerville"
+(("az-ccp-cspace-migration"
+ (filename . "~/org/mig/az_ccp_cs.org")
+ (front-context-string . "bkmk\n    :LOGBOO")
+ (rear-context-string . "ation - Staging\n")
+ (position . 490)
+ (last-modified 25839 41737 385058 0))
+("wpl-westerville"
  (filename . "~/org/mig/wpl_westerville_public_library_cs.org")
  (front-context-string . "bkmk\n    :LOGBOO")
  (rear-context-string . "L Migration dev\n")
@@ -168,12 +174,6 @@
  (rear-context-string . "** ONGOING unmc\n")
  (position . 44123)
  (last-modified 25827 37060 996927 0))
-("az-photo"
- (filename . "~/org/migrations.org")
- (front-context-string . "bkmk\n    :LOGBOO")
- (rear-context-string . "ation - Staging\n")
- (position . 41431)
- (last-modified 25827 37717 185581 0))
 ("dts-migration-ops"
  (filename . "~/org/meetings.org")
  (front-context-string . "\n** MTG DDD meet")
