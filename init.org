@@ -693,7 +693,7 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+END_SRC
 
-*** Keybindings - global
+*** Org-mode keybindings - global
 #+begin_src emacs-lisp
   (global-set-key "\C-cl" 'org-store-link)
   (global-set-key "\C-cc" 'org-capture)
@@ -706,7 +706,7 @@ Turn off using =C-_= to access =undo=, to break muscle memory. Use =C-/= instead
   (global-set-key "\C-_" nil)
 #+end_src
 
-*** Agenda
+*** Org-mode agenda
 
 Conditionally set up agenda files. Currently only using at work:
 #+BEGIN_SRC emacs-lisp
@@ -746,7 +746,7 @@ with a past scheduling dates are always turned off when the item is DONE.
   (setq org-agenda-skip-scheduled-if-done t)
 #+end_src
 
-*** Clocking time
+*** Org-mode clocking time
 
 By customizing the variable org-clock-idle-time to some integer, such as 10 or 15, Emacs can alert you when you get back to your computer after being idle for that many minutes80, and ask what you want to do with the idle time. There will be a question waiting for you when you get back, indicating how much idle time has passed constantly updated with the current amount, as well as a set of choices to correct the discrepancy ... What if you subtracted those away minutes from the current clock, and now want to apply them to a new clock? Simply clock in to any task immediately after the subtraction. Org will notice that you have subtracted time “on the books”, so to speak, and will ask if you want to apply those minutes to the next task you clock in on.
 
@@ -762,6 +762,12 @@ You can also check all the files visited by your Org agenda for dangling clocks 
 Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
 #+begin_src emacs-lisp
   (setq org-clock-out-remove-zero-time-clocks t)
+#+end_src
+
+Save buffer after clocking in or out:
+#+begin_src emacs-lisp
+  (add-hook 'org-clock-in-hook #'save-buffer)
+  (add-hook 'org-clock-out-hook #'save-buffer)
 #+end_src
 
 Whether or not a dialog opens every time you clock out, so you can enter a note.
@@ -780,7 +786,7 @@ Left nil because I don't often need to enter a note. This is the format that it 
   (setq org-duration-format 'h:mm)
 #+END_SRC
 
-*** Scheduling, reminders, etc.
+*** Org-mode scheduling, reminders, etc.
 
 Number of days before expiration during which a deadline becomes active.
 This variable governs the display in sparse trees and in the agenda.
@@ -790,7 +796,7 @@ even if a deadline has a different individual lead time specified.
   (setq org-deadline-warning-days 0)
 #+end_src
 
-*** Filing/refiling
+*** Org-mode filing/refiling
 
 The following setting creates a unique task ID for the heading in the PROPERTY drawer when I use C-c l. This allows me to move the task around arbitrarily in my org files and the link to it still works.
 
@@ -835,7 +841,7 @@ Occasionally you may want to refile something into another file or heading and p
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
 
-*** Todos
+*** Org-mode todos
 
 The codes after the state keywords are documented [[https://orgmode.org/manual/Tracking-TODO-state-changes.html#Tracking-TODO-state-changes][here]].
 
