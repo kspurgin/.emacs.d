@@ -235,7 +235,15 @@ Stretch the cursor to show the size of the character under cursor. Useful for se
 
 *** Theme, colors, faces
 Make the graphical client dark and pretty:
-#+BEGIN_SRC emacs-lisp
+
+#+begin_src emacs-lisp
+  (use-package nordic-night-theme
+    :config
+    ;; (load-theme 'nordic-midnight t) ;; darker
+    (load-theme 'nordic-night t)) ;; lighter dark
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
   (cond ((display-graphic-p)
 	 (use-package darktooth-theme
 	   :config
@@ -244,7 +252,7 @@ Make the graphical client dark and pretty:
 	   )
 	 (message "loaded theme")
 	 ))
-#+END_SRC
+#+end_src
 
 Automatically turn on sytax highlighting in all buffers:
 #+begin_src emacs-lisp
