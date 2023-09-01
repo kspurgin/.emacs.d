@@ -540,6 +540,30 @@ Install rubocop for emacs. Setting to autocorrect on save will fix the indentati
     (setq rubocop-autocorrect-on-save t))
 #+end_src
 
+**** Functions and macros
+
+***** =kms-ruby-unnest-module-namespace=
+
+Given the ruby code:
+
+#+begin_src ruby :tangle no
+  module A
+    module B
+      module C
+#+end_src
+
+Place point on the =C= on the 3rd line and run this macro three times to produce:
+
+#+begin_src ruby :tangle no
+  module A::B::C
+#+end_src
+
+#+begin_src emacs-lisp
+  (defalias 'kms-ruby-unnest-module-namespace
+     (kmacro "M-0 C-k <backspace> : : C-b M-b"))
+#+end_src
+
+
 **** Deprecating
 
 ***** Tree-sitter for ruby
