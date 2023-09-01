@@ -404,6 +404,13 @@ Here's a quick rundown of the settings:
 #+END_SRC
 
 *** Grep
+
+  #+begin_src emacs-lisp
+    (when (equal (init-computer-os) 'mac)
+      (setq-default xref-search-program 'ugrep)
+      (setq-default grep-template "ugrep --color=always -0Iinr -e <R>"))
+  #+end_src
+
 #+begin_src emacs-lisp
   (eval-after-load 'grep
     '(progn
