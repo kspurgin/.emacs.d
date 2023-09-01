@@ -2,7 +2,13 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("az-ccp-cspace-migration"
+(("cspace-etl"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "bkmk\n:LOGBOOK:\nC")
+ (rear-context-string . "\nend\nend\n\n* ETL\n")
+ (position . 123153)
+ (last-modified 25840 46043 765899 0))
+("az-ccp-cspace-migration"
  (filename . "~/org/mig/az_ccp_cs.org")
  (front-context-string . "bkmk\n    :LOGBOO")
  (rear-context-string . "ation - Staging\n")
@@ -191,11 +197,6 @@
  (rear-context-string . "D:\n* Activities\n")
  (position . 125467)
  (last-modified 25827 37524 517157 0))
-("cspace-etl"
- (filename . "~/org/cspace.org")
- (front-context-string . "\n  :LOGBOOK:\n  C")
- (rear-context-string . "d\n    end\n\n* ETL")
- (position . 93264))
 ("i7-support-osl"
  (filename . "~/org/islandora.org")
  (front-context-string . "    :LOGBOOK:\n  ")
