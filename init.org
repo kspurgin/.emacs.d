@@ -428,6 +428,12 @@ Here's a quick rundown of the settings:
 
 *** Window management
 
+Burly "provides tools to save and restore frame and window configurations in Emacs, including buffers that may not be live anymore. In this way, it’s like a lightweight “workspace” manager, allowing you to easily restore one or more frames, including their windows, the windows’ layout, and their buffers." --[[https://github.com/alphapapa/burly.el][github]]
+
+#+begin_src emacs-lisp
+  (use-package burly)
+#+end_src
+
 Turns on S-left, S-right, etc. to move between windows. Turns off shift-selection, which I never used:
 #+begin_src emacs-lisp
   (windmove-default-keybindings)
