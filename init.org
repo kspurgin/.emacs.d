@@ -54,18 +54,6 @@ Then, if applicable, fix the Mac keyboard:
     (setq mac-right-command-modifier 'super))
 #+END_SRC
 
-The keys in the bottom-left corner of the keyboard on my Macbook are, from left-to-right: Fn, Ctrl
-
-On my Dell (secunit) laptop, they are: Ctrl, Fn.
-
-This is cognitive overload I don't need in my life. However, this may not be fixable within Emacs, ugh: https://stackoverflow.com/questions/27418756/is-it-possible-to-make-emacs-interpet-an-fn-key-as-a-modifier-key
-
-#+begin_src emacs-lisp :tangle no
-  (when (equal (system-name) 'secunit)
-    (define-key function-key-map (kbd "<XF86Launch3>") 'event-apply-control-modifier))
-#+end_src
-
-
 ** Package management
 
 use-package was added to Emacs 29.1.
@@ -1376,3 +1364,19 @@ This file takes a page out of the book of Hardcore Freestyle Emacs, in which a s
 See note under ibuffer config for the current issue.
 
 Maybe the vc groups [[https://www.reddit.com/r/emacs/comments/13qfepf/comment/jm3a6wj/][need to be a variable rather than a fuction]].
+
+** TODO Figure out how to make fn key on secunit act like Ctrl
+:LOGBOOK:
+- State "TODO"       from              [2023-09-03 Sun 17:01]
+:END:
+
+The keys in the bottom-left corner of the keyboard on my Macbook are, from left-to-right: Fn, Ctrl
+
+On my Dell (secunit) laptop, they are: Ctrl, Fn.
+
+This is cognitive overload I don't need in my life. However, this may not be fixable within Emacs, ugh: https://stackoverflow.com/questions/27418756/is-it-possible-to-make-emacs-interpet-an-fn-key-as-a-modifier-key
+
+#+begin_src emacs-lisp :tangle no
+  (when (equal (system-name) 'secunit)
+    (define-key function-key-map (kbd "<XF86Launch3>") 'event-apply-control-modifier))
+#+end_src
