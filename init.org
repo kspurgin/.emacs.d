@@ -580,6 +580,17 @@ Given the ruby code:
 Place point on the =C= on the 3rd line and run this macro three times to produce:
 
 #+begin_src ruby :tangle no
+*** Tramp
+
+#+begin_src emacs-lisp
+  (require 'tramp)
+  (cond ((string-equal system-type 'gnu/linux)
+	 (setq tramp-default-method "ssh"))
+	((string-equal system-type 'darwin)
+	 (setq tramp-default-method "ssh")))
+#+end_src
+
+
   module A::B::C
 #+end_src
 
@@ -1306,21 +1317,6 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
 
 ** Big Config Blob
 #+BEGIN_SRC emacs-lisp
-  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ;;; tramp
-  ;;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  (require 'tramp)
-  (cond ((string-equal system-type 'gnu/linux)
-         (setq tramp-default-method "ssh"))
-        ((string-equal system-type 'darwin)
-         (setq tramp-default-method "ssh")))
-
-  ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  ;;; MISCELLANEOUS TOOLS
-  ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-
-
   ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   ;; do an incremental search on a regexp and hide lines that match the regexp.
   ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
