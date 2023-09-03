@@ -3,26 +3,6 @@
 #+STARTUP: overview
 #+PROPERTY: header-args:emacs-lisp   :tangle "~/.emacs.d/init.el"
 
-My personal Emacs config, taking a single file literate approach, inspired by [[https://raw.githubusercontent.com/sachac/.emacs.d/gh-pages/Sacha.org][Sacha Chua]].
-
-The following are directly from her config, to remind me how to work with this until I get used to it:
-
-#+BEGIN_QUOTE
-If you're viewing the Org file, you can open source code blocks (those
-are the ones in begin_src) in a separate buffer by moving your point
-inside them and typing C-c ' (=org-edit-special=). This opens another
-buffer in =emacs-lisp-mode=, so you can use =M-x eval-buffer= to load
-the changes. If you want to explore how functions work, use =M-x
-edebug-defun= to set up debugging for that function, and then call it.
-You can learn more about edebug in the [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Edebug.html][Emacs Lisp]] manual.
-
-My =~/.emacs.d/init.el= is now a symlink to =Sacha.el=, which is what
-=M-x org-babel-tangle= (=C-c C-v t=) produces. [...] Since I create =Sacha.el= via =org-babel-tangle=, my Emacs
-config can load =Sacha.el= without loading Org first.
-#+END_QUOTE
-
-My approach is going to be to put my whole current init file in one big code block, and then chip away at documenting it better.
-
 * Configuration
 
 
@@ -1356,27 +1336,6 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
   ;; (global-set-key (kbd "C-c C-s") 'hidesearch)
   ;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
 
-  ;; (custom-set-variables
-  ;;  ;; custom-set-variables was added by Custom.
-  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;;  ;; Your init file should contain only one such instance.
-  ;;  ;; If there is more than one, they won't work right.
-  ;;  '(ansi-color-names-vector
-  ;;    ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
-  ;;  '(custom-safe-themes
-  ;;    (quote
-  ;;     ("c1709b576b0bdf885e380f8f787c2063ea3fb55be6c92400d4361014430b4efa" "272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" default)))
-  ;;  '(package-selected-packages
-  ;;    (quote
-  ;;     (visual-regexp-steroids yasnippet markdown-mode flymd yaml-mode auto-org-md use-package php-mode org move-text darktooth-theme auto-compile)))
-  ;;  '(pos-tip-background-color "#36473A")
-  ;;  '(pos-tip-foreground-color "#FFFFC8"))
-  ;; (custom-set-faces
-  ;;  ;; custom-set-faces was added by Custom.
-  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;;  ;; Your init file should contain only one such instance.
-  ;;  ;; If there is more than one, they won't work right.
-  ;;  '(default ((t (:family "Courier New" :foundry "outline" :slant normal :weight bold :height 98 :size 13 :width normal)))))
   (custom-set-variables
    ;; custom-set-variables was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
