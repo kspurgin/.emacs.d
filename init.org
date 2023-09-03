@@ -686,6 +686,13 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+END_SRC
 
+*** Org-mode navigation
+
+The maximum level for Imenu access to Org headlines:
+#+begin_src emacs-lisp
+  (setq org-imenu-depth 5)
+#+end_src
+
 *** Org-mode keybindings - global
 #+begin_src emacs-lisp
   (global-set-key "\C-cl" 'org-store-link)
