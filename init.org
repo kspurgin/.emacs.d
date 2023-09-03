@@ -289,6 +289,18 @@ Fri May 22 19:32:12 EDT 2009
 #+end_src
 
 
+Copy (i.e. add to kill ring) the full path of file in buffer
+Added 20150916 from [[http://stackoverflow.com/questions/3669511/the-function-to-show-current-files-full-path-in-mini-buffer][here]], modified to suit personal preference:
+  #+begin_src emacs-lisp
+  (defun copy-buffer-file-path ()
+    "Show the full path file name in the minibuffer."
+    (interactive)
+    (message (buffer-file-name))
+    (kill-new (file-truename buffer-file-name))
+    )
+  (global-set-key "\C-cz" 'copy-buffer-file-path)
+  #+end_src
+
 *** Global key bindings
 
 General/self-explanatory:
@@ -1308,18 +1320,6 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
   ;;;-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-  ;; copy full path of buffer
-  ;; Added 20150916 from:
-  ;;  http://stackoverflow.com/questions/3669511/the-function-to-show-current-files-full-path-in-mini-buffer
-  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-  (defun show-file-name ()
-    "Show the full path file name in the minibuffer."
-    (interactive)
-    (message (buffer-file-name))
-    (kill-new (file-truename buffer-file-name))
-    )
-  (global-set-key "\C-cz" 'show-file-name)
 
   ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   ;; do an incremental search on a regexp and hide lines that match the regexp.
