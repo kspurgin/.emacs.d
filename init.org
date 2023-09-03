@@ -642,7 +642,27 @@ renamed to ‘new_name’.
   (setq dired-create-destination-dirs-on-trailing-dirsep t)
 #+end_src
 
-*** Grep
+*** Projectile
+#+BEGIN_QUOTE
+Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies (when feasible). --[[https://projectile.readthedocs.io/en/latest/][Projectile docs]]
+#+END_QUOTE
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :diminish
+    :config
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (projectile-mode +1)
+    (setq projectile-completion-system 'ivy)
+    (setq projectile-create-missing-test-files "t"))
+#+END_SRC
+**** TODO Read up on Projectile and configure
+:LOGBOOK:
+- State "TODO"       from              [2019-10-22 Tue 22:27]
+:END:
+https://projectile.readthedocs.io/en/latest/usage/
+*** Search, find, replace
+**** Grep: Search things not open in emacs
 
 #+begin_src emacs-lisp
   (when (equal (init-computer-os) 'mac)
@@ -667,26 +687,7 @@ Control which directories are excluded by grep:
   (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
 #+END_SRC
 
-*** Projectile
-#+BEGIN_QUOTE
-Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies (when feasible). --[[https://projectile.readthedocs.io/en/latest/][Projectile docs]]
-#+END_QUOTE
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :diminish
-    :config
-    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-    (projectile-mode +1)
-    (setq projectile-completion-system 'ivy)
-    (setq projectile-create-missing-test-files "t"))
-#+END_SRC
-**** TODO Read up on Projectile and configure
-:LOGBOOK:
-- State "TODO"       from              [2019-10-22 Tue 22:27]
-:END:
-https://projectile.readthedocs.io/en/latest/usage/
-*** Swiper
+**** Swiper: Search things in emacs
 
 The quotes are from [[https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/][here]].
 
@@ -704,6 +705,18 @@ Now, you can search through Emacs using Swiper. When you run =C-s= the swiper se
 #+end_quote
 
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
+
+**** Visual regex on steroids
+
+#+begin_src emacs-lisp
+  (use-package visual-regexp-steroids
+    :ensure visual-regexp
+    :bind (("C-c r" . vr/replace)
+	   ("C-c q" . vr/query-replace)
+	   ("C-M-R" . vr/isearch-backward)
+	   ("C-M-S" . vr/isearch-forward))
+    )
+#+end_src
 
 *** Tramp
 
@@ -1265,20 +1278,6 @@ For editing Markdown text.
 #+BEGIN_SRC emacs-lisp
   (use-package auto-org-md)
 #+END_SRC
-
-** Productivity
-
-*** Other
-#+BEGIN_SRC emacs-lisp
-  (use-package visual-regexp-steroids
-    :ensure visual-regexp
-    :bind (("C-c r" . vr/replace)
-	   ("C-c q" . vr/query-replace)
-	   ("C-M-R" . vr/isearch-backward)
-	   ("C-M-S" . vr/isearch-forward))
-    )
-#+END_SRC
-
 
 ** Version control
 
