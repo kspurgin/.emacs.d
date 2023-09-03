@@ -411,20 +411,310 @@ Here's a quick rundown of the settings:
 	version-control t)
 #+END_SRC
 
-*** Grep
 
-  #+begin_src emacs-lisp
-    (when (equal (init-computer-os) 'mac)
-      (setq-default xref-search-program 'ugrep)
-      (setq-default grep-template "ugrep --color=always -0Iinr -e <R>"))
-  #+end_src
+
+*** Buffer management: trick out =ibuffer=
+
+I always have waaaay too many things open. =ibuffer= helps me navigate between them and keep track of them (and save, close, etc them in bulk quickly!)
+
+I got my start configuring =ibuffer= with [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][this blog post]].
+
+=ibuffer= is so useful that there's no need for the old static buffer list.
+
+Load functions to support human readable filesize in =ibuffer=.
+We need to require =ibuffer= first because otherwise definition of the new, inline size column will fail.
+#+begin_src emacs-lisp
+  (require 'ibuffer)
+  (load "ibuffer-human-readable")
+  (keymap-global-set "C-x C-b" 'ibuffer)
+#+end_src
+
+Set up =ibuffer-vc= to "group ibuffer's list by VC project, or show VC status". Here we also define our columns, including VC status and human-readable size:
+#+BEGIN_SRC emacs-lisp
+  (use-package ibuffer-vc)
+#+END_SRC
+
+Set up my default columns view, using VC and human readable size columns:
+#+begin_src emacs-lisp
+  (setq ibuffer-formats
+	'((mark modified read-only vc-status-mini " "
+		(name 18 18 :left :elide)
+		" "
+		(size-h 9 -1 :right)
+		" "
+		(mode 16 16 :left :elide)
+		" "
+		(vc-status 16 16 :left)
+		" "
+		vc-relative-file)))
+#+end_src
+
+I set up my default filter groups below. The repository-based groups produced by
+=ibuffer-vc= are interpolated after manually set up groups for projects that span
+github repos and data directories.
+
+I figured out how to do this by digging around in =ibuffer-vc.el= and then by
+finding [[https://github.com/chrisbarrett/spacemacs-layers/blob/2df814a3c20618a6c4e6d8b424984e84a8714e3f/cb-ibuffer/packages.el#L23][Chris Barrett's spacemacs ibuffer config]] via Github code search.
+
+We keep =ibuffer= updated automagically, with my filter groups applied.
+
+Note: As of 2023-08-25, the VC generated groups do not auto-update in an open ibuffer. If you have files open in the git project =.emacs.d= when you call ibuffer, then the files under that group will upadate as you work. HOWEVER, if you have ibuffer open, and open files in a new VC project, you will not see the group for that project until you kill the ibuffer and open a new one.
+
+**Notes on order of groups**
+
+ - Magit has to be first, or any magit buffers spawned in defined groups will be grouped there, and we'll be unable to easily/quickly kill them.
+ - Ongoing client projects are manually defined after magit, so that their code, data, and notes are grouped together
+ - Then, auto-generated VC groups
+ - Then it sort of doesn't matter
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'ibuffer
+    (defun kms-ibuffer/vc-filter-groups ()
+      (message "CALLED: kms-ibuffer/vc-filter-groups")
+      (ibuffer-vc-generate-filter-groups-by-vc-root))
+
+
+    (defun kms-ibuffer/set-saved-filter-groups ()
+      (message "CALLED: kms-ibuffer/set-saved-filter-groups")
+      (setq ibuffer-saved-filter-groups
+	    `(("filters"
+	       ("magit" (name .".*magit"))
+	       ("meta" (or
+			(basename . "cspace.org")
+			(basename . "islandora.org")
+			(basename . "meetings.org")
+			(basename . "migrations.org")
+			(basename . "work.org")
+			(name . "\\*scratch\\*")))
+	       ("mig: wpl"
+		(or (filename . "code/mig/wpl-collectionspace-migration")
+		    (filename . "data/wpl_westerville_public_library")
+		    (filename . "org/mig/wpl_westerville_public_library_cs.org")))
+	       ("mig: az-ccp"
+		(or (filename . "code/mig/az_ccp_cspace_migration")
+		    (filename . "data/az_ccp")))
+	       ("mig: ksu"
+		(or (filename . "code/mig/ksu_collectionspace_migration")
+		    (filename . "data/ksu")))
+	       ,@(kms-ibuffer/vc-filter-groups)
+	       ("help" (name . "\\*Help\\*"))
+	       ("emacs" (name . "^\\*.*\\*"))))))
+
+    (defun kms-ibuffer/switch-ibuffer-group ()
+      (kms-ibuffer/set-saved-filter-groups)
+      (ibuffer-switch-to-saved-filter-groups "filters"))
+
+    (add-hook 'ibuffer-mode-hook 'kms-ibuffer/switch-ibuffer-group)
+    (add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode))
+#+END_SRC
+
+Killing unmodified buffers is not a thing we need to be prompted about. You will still be prompted if you try to kill a modified buffer.
+#+BEGIN_SRC emacs-lisp
+  (setq ibuffer-expert t)
+#+END_SRC
+
+Nor do we want to see empty filter groups. No visual clutter!
+#+BEGIN_SRC emacs-lisp
+  (setq ibuffer-show-empty-filter-groups nil)
+#+END_SRC
+
+*** Completion (in-buffer)
+
+Use YASnippet, but only in the specified modes.
+
+When you create a new key-triggerable snippet, the key must end with ~=~. This allows use of the same ~==~ trigger key set up in Alfred.
+
+For collections of snippets, see: https://github.com/AndreaCrotti/yasnippet-snippets/tree/master/snippets
 
 #+begin_src emacs-lisp
+  (use-package yasnippet
+    :diminish yas-minor-mode
+    :hook ((adoc-mode
+           fundamental-mode
+           org-mode
+           enh-ruby-mode
+           ruby-mode
+           ruby-ts-mode
+           text-mode) . yas-minor-mode)
+    :config
+    (yas-reload-all)
+    (setq yas-expand-only-for-last-commands (self-insert-command 1))
+    (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand))
+#+end_src
+
+Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Abbrevs.html][in the Emacs manual]]. I still have not figured out the best way to use them, and invariably they become annoying, so they are turned off.
+#+BEGIN_SRC emacs-lisp :tangle no
+  ;; turn on abbrev mode globally
+  (setq-default abbrev-mode t)
+  (load "my_abbrevs")
+  ;; stop asking whether to save newly added abbrev when quitting emacs
+  (setq save-abbrevs nil)
+#+END_SRC
+
+*** Completion (minibuffer)
+
+**** Ivy/Counsel
+Currently using ivy/counsel
+
+=ivy= is a generic completion framework in the minibuffer, replacing built-in =ido= functionality.
+
+=counsel= is a collection of =ivy= enhanced versions of common Emacs commands.
+
+[[https://oremacs.com/swiper/][Ivy manual]]
+
+[[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
+
+#+begin_src emacs-lisp
+  (use-package ivy
+    :diminish
+    :config
+    (ivy-mode t)
+    ;; disable default behavior of starting filters with =^
+    (setq ivy-initial-inputs-alist nil)
+    ;; select entered text with C-p/C-n
+    (setq ivy-use-selectable-prompt t))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x))
+    )
+#+end_src
+
+*** Dired
+
+Do not open a bajillion buffers to navigate file system:
+#+begin_src emacs-lisp
+  (require 'dired-single)
+
+  (with-eval-after-load
+      (defun my-dired-init ()
+        "Bunch of stuff to run for dired, either immediately or when it's
+       loaded."
+        ;; <add other stuff here>
+        (define-key dired-mode-map [return] 'joc-dired-single-buffer)
+        (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
+        (define-key dired-mode-map "^"
+                    (function
+                     (lambda nil (interactive) (joc-dired-single-buffer "..")))))
+    (my-dired-init))
+#+end_src
+
+Show human readable file sizes
+from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
+#+begin_src emacs-lisp
+  (setq dired-listing-switches "-Alh")
+#+end_src
+
+Automatically revert Dired buffers on revisiting their directory:
+#+begin_src emacs-lisp
+  (setq dired-auto-revert-buffer t)
+#+end_src
+
+Non-nil means offer to kill buffers visiting files and dirs deleted in Dired:
+#+begin_src emacs-lisp
+  (setq dired-clean-up-buffers-too t)
+#+end_src
+
+I'm not sure what this does exactly, but try it if the above option nags you about whether to kill buffers:
+dired-clean-confirm-killing-deleted-buffers
+  User option: If nil, don't ask whether to kill buffers visiting
+               deleted files.
+  Value: t
+
+Whether Dired should create destination dirs when copying/removing files.
+If nil, don’t create them.
+If ‘always’, create them without asking.
+If ‘ask’, ask for user confirmation.
+#+begin_src emacs-lisp
+  (setq dired-create-destination-dirs "ask")
+#+end_src
+
+For example, if both ‘dired-create-destination-dirs’ and this
+option are non-nil, renaming a directory named ‘old_name’ to
+‘new_name/’ (note the trailing directory separator) where
+‘new_name’ does not exists already, it will be created and
+‘old_name’ be moved into it.  If only ‘new_name’ (without the
+trailing /) is given or this option or
+‘dired-create-destination-dirs’ is nil, ‘old_name’ will be
+renamed to ‘new_name’.
+#+begin_src emacs-lisp
+  (setq dired-create-destination-dirs-on-trailing-dirsep t)
+#+end_src
+
+*** Grep
+
+#+begin_src emacs-lisp
+  (when (equal (init-computer-os) 'mac)
+    (setq-default xref-search-program 'ugrep)
+    (setq-default grep-template "ugrep --color=always -0Iinr -e <R>"))
+#+end_src
+
+Control which directories are excluded by grep:
+#+BEGIN_SRC emacs-lisp
   (eval-after-load 'grep
     '(progn
+       (add-to-list 'grep-find-ignored-directories "auto")
+       (add-to-list 'grep-find-ignored-directories "bundle")
        (add-to-list 'grep-find-ignored-directories ".bundle")
-       (add-to-list 'grep-find-ignored-directories "coverage")))
+       (add-to-list 'grep-find-ignored-directories "coverage")
+       (add-to-list 'grep-find-ignored-directories "elpa")
+       (add-to-list 'grep-find-ignored-directories "node_modules")
+       (add-to-list 'grep-find-ignored-directories "packs")
+       (add-to-list 'grep-find-ignored-directories "spring")
+       (add-to-list 'grep-find-ignored-directories "storage")
+       (add-to-list 'grep-find-ignored-directories "tmp")))
+  (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
+#+END_SRC
+
+*** Projectile
+#+BEGIN_QUOTE
+Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies (when feasible). --[[https://projectile.readthedocs.io/en/latest/][Projectile docs]]
+#+END_QUOTE
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :diminish
+    :config
+    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (projectile-mode +1)
+    (setq projectile-completion-system 'ivy)
+    (setq projectile-create-missing-test-files "t"))
+#+END_SRC
+**** TODO Read up on Projectile and configure
+:LOGBOOK:
+- State "TODO"       from              [2019-10-22 Tue 22:27]
+:END:
+https://projectile.readthedocs.io/en/latest/usage/
+*** Swiper
+
+The quotes are from [[https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/][here]].
+
+#+begin_quote
+Swiper helps you search through emacs, and shows you text around the matching terms. It turns out Ivy is actually required for Swiper to work. If you install Swiper, Ivy gets installed as a dependency.
+#+end_quote
+
+#+begin_src emacs-lisp
+  (use-package swiper
+    :bind (("C-s" . swiper)))
 #+end_src
+
+#+begin_quote
+Now, you can search through Emacs using Swiper. When you run =C-s= the swiper search will be used instead of isearch. When you search you can use the same regular expression Ivy has to find a specific result you’re looking for.
+#+end_quote
+
+[[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
+
+*** Tramp
+
+#+begin_src emacs-lisp
+  (require 'tramp)
+  (cond ((string-equal system-type 'gnu/linux)
+	 (setq tramp-default-method "ssh"))
+	((string-equal system-type 'darwin)
+	 (setq tramp-default-method "ssh")))
+#+end_src
+
 
 *** Window management
 
@@ -580,17 +870,6 @@ Given the ruby code:
 Place point on the =C= on the 3rd line and run this macro three times to produce:
 
 #+begin_src ruby :tangle no
-*** Tramp
-
-#+begin_src emacs-lisp
-  (require 'tramp)
-  (cond ((string-equal system-type 'gnu/linux)
-	 (setq tramp-default-method "ssh"))
-	((string-equal system-type 'darwin)
-	 (setq tramp-default-method "ssh")))
-#+end_src
-
-
   module A::B::C
 #+end_src
 
@@ -989,235 +1268,6 @@ For editing Markdown text.
 
 ** Productivity
 
-*** Completion (in-buffer)
-
-Use YASnippet, but only in the specified modes.
-
-When you create a new key-triggerable snippet, the key must end with ~=~. This allows use of the same ~==~ trigger key set up in Alfred.
-
-For collections of snippets, see: https://github.com/AndreaCrotti/yasnippet-snippets/tree/master/snippets
-
-#+begin_src emacs-lisp
-  (use-package yasnippet
-    :diminish yas-minor-mode
-    :hook ((adoc-mode
-           fundamental-mode
-           org-mode
-           enh-ruby-mode
-           ruby-mode
-           ruby-ts-mode
-           text-mode) . yas-minor-mode)
-    :config
-    (yas-reload-all)
-    (setq yas-expand-only-for-last-commands (self-insert-command 1))
-    (define-key yas-minor-mode-map (kbd "=") yas-maybe-expand))
-#+end_src
-
-Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Abbrevs.html][in the Emacs manual]]. I still have not figured out the best way to use them, and invariably they become annoying, so they are turned off.
-#+BEGIN_SRC emacs-lisp :tangle no
-  ;; turn on abbrev mode globally
-  (setq-default abbrev-mode t)
-  (load "my_abbrevs")
-  ;; stop asking whether to save newly added abbrev when quitting emacs
-  (setq save-abbrevs nil)
-#+END_SRC
-
-*** Completion (minibuffer)
-
-**** Ivy/Counsel
-Currently using ivy/counsel
-
-=ivy= is a generic completion framework in the minibuffer, replacing built-in =ido= functionality.
-
-=counsel= is a collection of =ivy= enhanced versions of common Emacs commands.
-
-[[https://oremacs.com/swiper/][Ivy manual]]
-
-[[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
-
-#+begin_src emacs-lisp
-  (use-package ivy
-    :diminish
-    :config
-    (ivy-mode t)
-    ;; disable default behavior of starting filters with =^
-    (setq ivy-initial-inputs-alist nil)
-    ;; select entered text with C-p/C-n
-    (setq ivy-use-selectable-prompt t))
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package counsel
-    :bind (("M-x" . counsel-M-x))
-    )
-#+end_src
-
-*** Buffer management: trick out =ibuffer=
-
-I always have waaaay too many things open. =ibuffer= helps me navigate between them and keep track of them (and save, close, etc them in bulk quickly!)
-
-I got my start configuring =ibuffer= with [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][this blog post]].
-
-=ibuffer= is so useful that there's no need for the old static buffer list.
-
-Load functions to support human readable filesize in =ibuffer=.
-We need to require =ibuffer= first because otherwise definition of the new, inline size column will fail.
-#+begin_src emacs-lisp
-  (require 'ibuffer)
-  (load "ibuffer-human-readable")
-  (keymap-global-set "C-x C-b" 'ibuffer)
-#+end_src
-
-Set up =ibuffer-vc= to "group ibuffer's list by VC project, or show VC status". Here we also define our columns, including VC status and human-readable size:
-#+BEGIN_SRC emacs-lisp
-  (use-package ibuffer-vc)
-#+END_SRC
-
-Set up my default columns view, using VC and human readable size columns:
-#+begin_src emacs-lisp
-  (setq ibuffer-formats
-	'((mark modified read-only vc-status-mini " "
-		(name 18 18 :left :elide)
-		" "
-		(size-h 9 -1 :right)
-		" "
-		(mode 16 16 :left :elide)
-		" "
-		(vc-status 16 16 :left)
-		" "
-		vc-relative-file)))
-#+end_src
-
-I set up my default filter groups below. The repository-based groups produced by
-=ibuffer-vc= are interpolated after manually set up groups for projects that span
-github repos and data directories.
-
-I figured out how to do this by digging around in =ibuffer-vc.el= and then by
-finding [[https://github.com/chrisbarrett/spacemacs-layers/blob/2df814a3c20618a6c4e6d8b424984e84a8714e3f/cb-ibuffer/packages.el#L23][Chris Barrett's spacemacs ibuffer config]] via Github code search.
-
-We keep =ibuffer= updated automagically, with my filter groups applied.
-
-Note: As of 2023-08-25, the VC generated groups do not auto-update in an open ibuffer. If you have files open in the git project =.emacs.d= when you call ibuffer, then the files under that group will upadate as you work. HOWEVER, if you have ibuffer open, and open files in a new VC project, you will not see the group for that project until you kill the ibuffer and open a new one.
-
-**Notes on order of groups**
-
- - Magit has to be first, or any magit buffers spawned in defined groups will be grouped there, and we'll be unable to easily/quickly kill them.
- - Ongoing client projects are manually defined after magit, so that their code, data, and notes are grouped together
- - Then, auto-generated VC groups
- - Then it sort of doesn't matter
-
-#+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'ibuffer
-    (defun kms-ibuffer/vc-filter-groups ()
-      (message "CALLED: kms-ibuffer/vc-filter-groups")
-      (ibuffer-vc-generate-filter-groups-by-vc-root))
-
-
-    (defun kms-ibuffer/set-saved-filter-groups ()
-      (message "CALLED: kms-ibuffer/set-saved-filter-groups")
-      (setq ibuffer-saved-filter-groups
-	    `(("filters"
-	       ("magit" (name .".*magit"))
-	       ("meta" (or
-			(basename . "cspace.org")
-			(basename . "islandora.org")
-			(basename . "meetings.org")
-			(basename . "migrations.org")
-			(basename . "work.org")
-			(name . "\\*scratch\\*")))
-	       ("mig: wpl"
-		(or (filename . "code/mig/wpl-collectionspace-migration")
-		    (filename . "data/wpl_westerville_public_library")
-		    (filename . "org/mig/wpl_westerville_public_library_cs.org")))
-	       ("mig: az-ccp"
-		(or (filename . "code/mig/az_ccp_cspace_migration")
-		    (filename . "data/az_ccp")))
-	       ("mig: ksu"
-		(or (filename . "code/mig/ksu_collectionspace_migration")
-		    (filename . "data/ksu")))
-	       ,@(kms-ibuffer/vc-filter-groups)
-	       ("help" (name . "\\*Help\\*"))
-	       ("emacs" (name . "^\\*.*\\*"))))))
-
-    (defun kms-ibuffer/switch-ibuffer-group ()
-      (kms-ibuffer/set-saved-filter-groups)
-      (ibuffer-switch-to-saved-filter-groups "filters"))
-
-    (add-hook 'ibuffer-mode-hook 'kms-ibuffer/switch-ibuffer-group)
-    (add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode))
-#+END_SRC
-
-Killing unmodified buffers is not a thing we need to be prompted about. You will still be prompted if you try to kill a modified buffer.
-#+BEGIN_SRC emacs-lisp
-  (setq ibuffer-expert t)
-#+END_SRC
-
-Nor do we want to see empty filter groups. No visual clutter!
-#+BEGIN_SRC emacs-lisp
-  (setq ibuffer-show-empty-filter-groups nil)
-#+END_SRC
-
-*** Dired
-
-Do not open a bajillion buffers to navigate file system:
-#+begin_src emacs-lisp
-  (require 'dired-single)
-
-  (with-eval-after-load
-      (defun my-dired-init ()
-        "Bunch of stuff to run for dired, either immediately or when it's
-       loaded."
-        ;; <add other stuff here>
-        (define-key dired-mode-map [return] 'joc-dired-single-buffer)
-        (define-key dired-mode-map [mouse-1] 'joc-dired-single-buffer-mouse)
-        (define-key dired-mode-map "^"
-                    (function
-                     (lambda nil (interactive) (joc-dired-single-buffer "..")))))
-    (my-dired-init))
-#+end_src
-
-Show human readable file sizes
-from http://pragmaticemacs.com/emacs/dired-human-readable-sizes-and-sort-by-size/
-#+begin_src emacs-lisp
-  (setq dired-listing-switches "-Alh")
-#+end_src
-
-Automatically revert Dired buffers on revisiting their directory:
-#+begin_src emacs-lisp
-  (setq dired-auto-revert-buffer t)
-#+end_src
-
-Non-nil means offer to kill buffers visiting files and dirs deleted in Dired:
-#+begin_src emacs-lisp
-  (setq dired-clean-up-buffers-too t)
-#+end_src
-
-I'm not sure what this does exactly, but try it if the above option nags you about whether to kill buffers:
-dired-clean-confirm-killing-deleted-buffers
-  User option: If nil, don't ask whether to kill buffers visiting
-               deleted files.
-  Value: t
-
-Whether Dired should create destination dirs when copying/removing files.
-If nil, don’t create them.
-If ‘always’, create them without asking.
-If ‘ask’, ask for user confirmation.
-#+begin_src emacs-lisp
-  (setq dired-create-destination-dirs "ask")
-#+end_src
-
-For example, if both ‘dired-create-destination-dirs’ and this
-option are non-nil, renaming a directory named ‘old_name’ to
-‘new_name/’ (note the trailing directory separator) where
-‘new_name’ does not exists already, it will be created and
-‘old_name’ be moved into it.  If only ‘new_name’ (without the
-trailing /) is given or this option or
-‘dired-create-destination-dirs’ is nil, ‘old_name’ will be
-renamed to ‘new_name’.
-#+begin_src emacs-lisp
-  (setq dired-create-destination-dirs-on-trailing-dirsep t)
-#+end_src
-
 *** Other
 #+BEGIN_SRC emacs-lisp
   (use-package visual-regexp-steroids
@@ -1229,59 +1279,6 @@ renamed to ‘new_name’.
     )
 #+END_SRC
 
-Control which directories are excluded by grep:
-#+BEGIN_SRC emacs-lisp
-  (eval-after-load 'grep
-    '(progn
-       (add-to-list 'grep-find-ignored-directories "tmp")
-       (add-to-list 'grep-find-ignored-directories "bundle")
-       (add-to-list 'grep-find-ignored-directories "spring")
-       (add-to-list 'grep-find-ignored-directories "storage")
-       (add-to-list 'grep-find-ignored-directories "packs")
-       (add-to-list 'grep-find-ignored-directories "node_modules")
-       (add-to-list 'grep-find-ignored-directories ".bundle")
-       (add-to-list 'grep-find-ignored-directories "auto")
-       (add-to-list 'grep-find-ignored-directories "elpa")))
-  (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
-#+END_SRC
-
-*** Projectile
-#+BEGIN_QUOTE
-Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies (when feasible). --[[https://projectile.readthedocs.io/en/latest/][Projectile docs]]
-#+END_QUOTE
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :diminish
-    :config
-    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-    (projectile-mode +1)
-    (setq projectile-completion-system 'ivy)
-    (setq projectile-create-missing-test-files "t"))
-#+END_SRC
-**** TODO Read up on Projectile and configure
-:LOGBOOK:
-- State "TODO"       from              [2019-10-22 Tue 22:27]
-:END:
-https://projectile.readthedocs.io/en/latest/usage/
-*** Swiper
-
-The quotes are from [[https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/][here]].
-
-#+begin_quote
-Swiper helps you search through emacs, and shows you text around the matching terms. It turns out Ivy is actually required for Swiper to work. If you install Swiper, Ivy gets installed as a dependency.
-#+end_quote
-
-#+begin_src emacs-lisp
-  (use-package swiper
-    :bind (("C-s" . swiper)))
-#+end_src
-
-#+begin_quote
-Now, you can search through Emacs using Swiper. When you run =C-s= the swiper search will be used instead of isearch. When you search you can use the same regular expression Ivy has to find a specific result you’re looking for.
-#+end_quote
-
-[[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
 
 ** Version control
 
