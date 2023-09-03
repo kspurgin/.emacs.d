@@ -288,7 +288,6 @@ Fri May 22 19:32:12 EDT 2009
   (global-auto-revert-mode t)
 #+end_src
 
-
 Copy (i.e. add to kill ring) the full path of file in buffer
 Added 20150916 from [[http://stackoverflow.com/questions/3669511/the-function-to-show-current-files-full-path-in-mini-buffer][here]], modified to suit personal preference:
   #+begin_src emacs-lisp
@@ -553,8 +552,11 @@ Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/ema
 
 *** Completion (minibuffer)
 
-**** Ivy/Counsel
-Currently using ivy/counsel
+**** Ivy
+:PROPERTIES:
+:ID:       e0e1e675-8b04-4759-b7a5-4c4c1bbf15d9
+:END:
+Currently using ivy/counsel. See also [[id:342db027-a04f-4494-addf-50752387b15e][Swiper]].
 
 =ivy= is a generic completion framework in the minibuffer, replacing built-in =ido= functionality.
 
@@ -575,6 +577,10 @@ Currently using ivy/counsel
     (setq ivy-use-selectable-prompt t))
 #+end_src
 
+**** Counsel
+:PROPERTIES:
+:ID:       32ebdbec-9130-4612-810d-1714eeabe100
+:END:
 #+begin_src emacs-lisp
   (use-package counsel
     :bind (("M-x" . counsel-M-x))
@@ -688,8 +694,13 @@ Control which directories are excluded by grep:
 #+END_SRC
 
 **** Swiper: Search things in emacs
+:PROPERTIES:
+:ID:       342db027-a04f-4494-addf-50752387b15e
+:END:
 
-The quotes are from [[https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/][here]].
+See also:
+  - [[id:e0e1e675-8b04-4759-b7a5-4c4c1bbf15d9][Ivy config]]
+  - [[id:32ebdbec-9130-4612-810d-1714eeabe100][Counsel config]]
 
 #+begin_quote
 Swiper helps you search through emacs, and shows you text around the matching terms. It turns out Ivy is actually required for Swiper to work. If you install Swiper, Ivy gets installed as a dependency.
@@ -716,6 +727,15 @@ Now, you can search through Emacs using Swiper. When you run =C-s= the swiper se
 	   ("C-M-R" . vr/isearch-backward)
 	   ("C-M-S" . vr/isearch-forward))
     )
+#+end_src
+
+**** Hide matching lines
+
+Do an incremental search on a regexp and hide lines that match the regexp.
+
+#+begin_src emacs-lisp
+  (require 'hide-lines)
+  (require 'hidesearch)
 #+end_src
 
 *** Tramp
@@ -1312,15 +1332,7 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
 #+END_SRC
 
 ** Big Config Blob
-#+BEGIN_SRC emacs-lisp
-  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-  ;; do an incremental search on a regexp and hide lines that match the regexp.
-  ;; -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-  (require 'hide-lines)
-  (require 'hidesearch)
-  ;; (global-set-key (kbd "C-c C-s") 'hidesearch)
-  ;; (global-set-key (kbd "C-c C-a") 'show-all-invisible)
-
+#+begin_src emacs-lisp
   (custom-set-variables
    ;; custom-set-variables was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1329,8 +1341,7 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
    '(package-selected-packages
      (quote
       (yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile))))
-
-#+END_SRC
+#+end_src
 
 * Other good configs
 ** https://jamiecollinson.com/blog/my-emacs-config/
