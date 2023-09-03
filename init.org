@@ -976,6 +976,7 @@ Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/ema
 
 *** Completion (minibuffer)
 
+**** Ivy/Counsel
 Currently using ivy/counsel
 
 =ivy= is a generic completion framework in the minibuffer, replacing built-in =ido= functionality.
@@ -1219,17 +1220,18 @@ https://projectile.readthedocs.io/en/latest/usage/
 
 The quotes are from [[https://truthseekers.io/lessons/how-to-use-ivy-swiper-counsel-in-emacs-for-noobs/][here]].
 
-#+BEGIN_QUOTE
+#+begin_quote
 Swiper helps you search through emacs, and shows you text around the matching terms. It turns out Ivy is actually required for Swiper to work. If you install Swiper, Ivy gets installed as a dependency.
-#+END_QUOTE
-#+BEGIN_SRC emacs-lisp
+#+end_quote
+
+#+begin_src emacs-lisp
   (use-package swiper
     :bind (("C-s" . swiper)))
-#+END_SRC
+#+end_src
 
-#+BEGIN_QUOTE
+#+begin_quote
 Now, you can search through Emacs using Swiper. When you run =C-s= the swiper search will be used instead of isearch. When you search you can use the same regular expression Ivy has to find a specific result you’re looking for.
-#+END_QUOTE
+#+end_quote
 
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
 
