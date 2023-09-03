@@ -443,6 +443,11 @@ whitespace-mode does this as well, but makes things too visually noisy.
     :hook prog-mode)
 #+END_SRC
 
+Show visual indication of where max column is, before you get to it:
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+#+end_src
+
 **** Tree-sitter
 :PROPERTIES:
 :ID:       25b27c50-cef0-4efc-9be2-5ba0411a3656
