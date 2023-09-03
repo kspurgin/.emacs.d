@@ -234,6 +234,14 @@ Make the graphical client dark and pretty:
 	 ))
 #+end_src
 
+#+begin_src emacs-lisp
+  (custom-set-faces
+   ;; make outline around buttons darker
+   '(button ((t (:background "#2e3440" :foreground "#88c0d0" :box (:line-width (2 . 2) :color "#555555" :style sunken-button)))))
+   ;; done headlines are gray
+   '(org-headline-done ((t (:foreground "gray50")))))
+#+end_src
+
 Automatically turn on sytax highlighting in all buffers:
 #+begin_src emacs-lisp
   (global-font-lock-mode 1)
