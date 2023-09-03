@@ -413,6 +413,11 @@ Turns on S-left, S-right, etc. to move between windows. Turns off shift-selectio
   (windmove-default-keybindings)
 #+end_src
 
+Select help/info/apropos buffer when you open it:
+#+begin_src emacs-lisp
+  (setq help-window-select t)
+#+end_src
+
 *** Movement
 
 #+begin_src emacs-lisp
