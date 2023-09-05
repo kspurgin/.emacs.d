@@ -472,28 +472,29 @@ Note: As of 2023-08-25, the VC generated groups do not auto-update in an open ib
     (defun kms-ibuffer/set-saved-filter-groups ()
       (message "CALLED: kms-ibuffer/set-saved-filter-groups")
       (setq ibuffer-saved-filter-groups
-	    `(("filters"
-	       ("magit" (name .".*magit"))
-	       ("meta" (or
-			(basename . "cspace.org")
-			(basename . "islandora.org")
-			(basename . "meetings.org")
-			(basename . "migrations.org")
-			(basename . "work.org")
-			(name . "\\*scratch\\*")))
-	       ("mig: wpl"
-		(or (filename . "code/mig/wpl-collectionspace-migration")
-		    (filename . "data/wpl_westerville_public_library")
-		    (filename . "org/mig/wpl_westerville_public_library_cs.org")))
-	       ("mig: az-ccp"
-		(or (filename . "code/mig/az_ccp_cspace_migration")
-		    (filename . "data/az_ccp")))
-	       ("mig: ksu"
-		(or (filename . "code/mig/ksu_collectionspace_migration")
-		    (filename . "data/ksu")))
-	       ,@(kms-ibuffer/vc-filter-groups)
-	       ("help" (name . "\\*Help\\*"))
-	       ("emacs" (name . "^\\*.*\\*"))))))
+            `(("filters"
+               ("magit" (name .".*magit"))
+               ("meta" (or
+                        (basename . "cspace.org")
+                        (basename . "islandora.org")
+                        (basename . "meetings.org")
+                        (basename . "migrations.org")
+                        (basename . "work.org")
+                        (name . "\\*scratch\\*")))
+               ("mig: wpl"
+                (or (filename . "code/mig/wpl-collectionspace-migration")
+                    (filename . "data/wpl_westerville_public_library")
+                    (filename . "org/mig/wpl_westerville_public_library_cs.org")))
+               ("mig: az-ccp"
+                (or (filename . "code/mig/az_ccp_cspace_migration")
+                    (filename . "data/az_ccp")
+                    (filename . "org/mig/az_ccp_cs.org")))
+               ("mig: ksu"
+                (or (filename . "code/mig/ksu_collectionspace_migration")
+                    (filename . "data/ksu")))
+               ,@(kms-ibuffer/vc-filter-groups)
+               ("help" (name . "\\*Help\\*"))
+               ("emacs" (name . "^\\*.*\\*"))))))
 
     (defun kms-ibuffer/switch-ibuffer-group ()
       (kms-ibuffer/set-saved-filter-groups)
