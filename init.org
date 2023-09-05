@@ -1294,6 +1294,18 @@ For editing Markdown text.
     :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 
+*** Mermaid
+
+To compile graphs in emacs, you'll need mermaid cli tools installed:
+
+#+begin_src bash
+  npm install -g @mermaid-js/mermaid-cli
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package mermaid-mode)
+#+end_src
+
 *** Org-mode export
 
 =auto-org-md= is a simple package that exports a markdown file automatically when you save an org file. [[https://github.com/jamcha-aa/auto-org-md][github]]
