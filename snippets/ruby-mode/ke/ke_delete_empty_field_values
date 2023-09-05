@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_delete_empty_field_values
+# --
+transform Delete::EmptyFieldValues,
+  fields: ${1:%i[${2:a b}]}${3:,
+  delim: ${4:'${5:;}'}}${6:,
+  usenull: true}
+$0

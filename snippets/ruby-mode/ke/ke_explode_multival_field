@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ke_explode_multival_field
+# --
+transform Explode::RowsFromMultivalField,
+  field: :${1:r1}${2:,
+  delim: ${3:"${4:^^}"}}
+$0
