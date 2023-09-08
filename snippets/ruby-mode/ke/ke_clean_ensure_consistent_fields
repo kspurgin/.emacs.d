@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ke_clean_ensure_consistent_fields
+# --
+transform Clean::EnsureConsistentFields
+$0
