@@ -785,6 +785,7 @@ Display line numbers in programming modes:
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+end_src
 
+
 Added 2022-09-23: [[https://github.com/jordonbiondo/column-enforce-mode][Highlight text that extends beyond a certain column:]]
 
 whitespace-mode does this as well, but makes things too visually noisy.
@@ -794,9 +795,10 @@ whitespace-mode does this as well, but makes things too visually noisy.
     :hook prog-mode)
 #+END_SRC
 
-Show visual indication of where max column is, before you get to it:
+Show visual indication of where max column is, before you get to it. Appears to break other stuff.
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+  (add-hook 'prog-mode-hook (lambda () (setq display-fill-column-indicator-column 80)))
 #+end_src
 
 **** Tree-sitter
@@ -1099,7 +1101,7 @@ with a past scheduling dates are always turned off when the item is DONE.
 
 *** Org-mode clocking time
 
-By customizing the variable org-clock-idle-time to some integer, such as 10 or 15, Emacs can alert you when you get back to your computer after being idle for that many minutes80, and ask what you want to do with the idle time. There will be a question waiting for you when you get back, indicating how much idle time has passed constantly updated with the current amount, as well as a set of choices to correct the discrepancy ... What if you subtracted those away minutes from the current clock, and now want to apply them to a new clock? Simply clock in to any task immediately after the subtraction. Org will notice that you have subtracted time “on the books”, so to speak, and will ask if you want to apply those minutes to the next task you clock in on.
+By customizing the variable org-clock-idle-time to some integer, such as 10 or 15, Emacs can alert you when you get back to your computer after being idle for that many minutes, and ask what you want to do with the idle time. There will be a question waiting for you when you get back, indicating how much idle time has passed constantly updated with the current amount, as well as a set of choices to correct the discrepancy ... What if you subtracted those away minutes from the current clock, and now want to apply them to a new clock? Simply clock in to any task immediately after the subtraction. Org will notice that you have subtracted time “on the books”, so to speak, and will ask if you want to apply those minutes to the next task you clock in on.
 
 There is one other instance when this clock resolution magic occurs. Say you were clocked in and hacking away, and suddenly your cat chased a mouse who scared a hamster that crashed into your UPS’s power button! You suddenly lose all your buffers, but thanks to auto-save you still have your recent Org mode changes, including your last clock in.
 
