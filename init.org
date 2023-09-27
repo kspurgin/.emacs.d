@@ -681,12 +681,14 @@ Control which directories are excluded by grep:
        (add-to-list 'grep-find-ignored-directories "bundle")
        (add-to-list 'grep-find-ignored-directories ".bundle")
        (add-to-list 'grep-find-ignored-directories "coverage")
+       (add-to-list 'grep-find-ignored-directories "docs")
        (add-to-list 'grep-find-ignored-directories "elpa")
        (add-to-list 'grep-find-ignored-directories "node_modules")
        (add-to-list 'grep-find-ignored-directories "packs")
        (add-to-list 'grep-find-ignored-directories "spring")
        (add-to-list 'grep-find-ignored-directories "storage")
-       (add-to-list 'grep-find-ignored-directories "tmp")))
+       (add-to-list 'grep-find-ignored-directories "tmp")
+       (add-to-list 'grep-find-ignored-directories ".yardoc")))
   (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
 #+END_SRC
 
