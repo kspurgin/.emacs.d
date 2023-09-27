@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: lookups_method
+# key: lookups=
+# --
+def lookups
+  base = []
+  $0
+  base.select { |job| Kiba::Extend::Job.output?(job) }
+end

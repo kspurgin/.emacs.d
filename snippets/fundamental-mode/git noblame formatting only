@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: git noblame formatting only
-# key: nbformat=
+# key: nbf=
 # --
 noblame: Whitespace and/or formatting changes only
