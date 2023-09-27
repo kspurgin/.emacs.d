@@ -854,7 +854,9 @@ I've customized the color of the double/single quote string delimiters because t
     :custom-face
     (enh-ruby-string-delimiter-face ((t (:foreground "wheat1"))))
     (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
-    (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75")))))
+    (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
+    (erm-syn-errline ((t (:foreground "#bf616a" :underline nil))))
+    (erm-syn-warnline ((t (:foreground "DarkOrange1" :underline nil)))))
 #+end_src
 
 Added 2022-09-23:
