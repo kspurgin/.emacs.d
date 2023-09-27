@@ -1255,20 +1255,11 @@ When I can't write in/publish from =org-mode=, AsciiDoc is my text markup langua
 #+BEGIN_SRC emacs-lisp
   (use-package adoc-mode
     :mode (("\\.adoc\\'" . adoc-mode)
-	   ("\\.asciidoc\\'" . adoc-mode))
-    :config
-    (progn
-      (set-face-attribute  'adoc-meta-face
-			   nil
-			   :foreground "pink1"
-			   :height 100)
-
-      (set-face-attribute  adoc-meta-hide-face
-			   nil
-			   :foreground "gray40"
-			   :height 100)
-      )
-    )
+           ("\\.asciidoc\\'" . adoc-mode))
+    :custom-face
+    (adoc-reference-face ((t (:foreground "CadetBlue2"))))
+    (adoc-meta-face ((t (:foreground "pink1" :height 100))))
+    (adoc-meta-hide-face ((t (:foreground "gray40" :height 100)))))
 #+END_SRC
 
 *** HTML
