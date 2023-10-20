@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ke_filter_rows_with_lambda
+# --
+transform FilterRows::WithLambda,
+  action: :${1:keep},
+  lambda: ->(row)${2:{ ${3:codehere} }}

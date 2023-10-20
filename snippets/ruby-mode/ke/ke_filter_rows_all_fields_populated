@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ke_filter_rows_all_fields_populated
+# --
+transform FilterRows::AllFieldsPopulated,
+  action: :${1:keep},
+  fields: ${2:%i[${3:a b}]}
+$0
