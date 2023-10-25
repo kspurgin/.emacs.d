@@ -4,8 +4,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   '("/Users/kristina/org/mig/wpl_westerville_public_library_cs.org" "/Users/kristina/org/mig/lafayette_college_collectionspace.org" "/Users/kristina/org/mig/az_ccp_cs.org" "/Users/kristina/org/mig/omca_authority_swap.org" "/Users/kristina/org/cspace.org" "/Users/kristina/org/islandora.org" "/Users/kristina/org/meetings.org" "/Users/kristina/org/migrations.org" "/Users/kristina/org/work.org"))
  '(package-selected-packages
    '(yaml-mode nxml-mode enh-ruby-mode yafolding adoc-mode php-mode yasnippet visual-regexp-steroids use-package move-text markdown-mode darktooth-theme auto-org-md auto-compile)))
 (custom-set-faces

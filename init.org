@@ -1069,15 +1069,18 @@ Conditionally set up agenda files. Currently only using at work:
 #+BEGIN_SRC emacs-lisp
   (when (equal (init-computer-context) 'work)
     (setq org-agenda-files
-	  (delq nil
-		(mapcar (lambda (x) (and (file-exists-p x) x))
-			'("~/org/cspace.org"
-			  "~/org/islandora.org"
-			  "~/org/meetings.org"
-			  "~/org/migrations.org"
-			  "~/org/notes.org"
-			  "~/org/work.org"
-			  "~/org/mig/wpl_westerville_public_library_cs.org")))))
+          (delq nil
+                (mapcar (lambda (x) (and (file-exists-p x) x))
+                        '("~/org/cspace.org"
+                          "~/org/islandora.org"
+                          "~/org/meetings.org"
+                          "~/org/migrations.org"
+                          "~/org/notes.org"
+                          "~/org/work.org"
+                          "~/org/mig/wpl_westerville_public_library_cs.org"
+                          "~/org/mig/lafayette_college_collectionspace.org"
+                          "~/org/mig/az_ccp_cs.org"
+                          "~/org/mig/omca_authority_swap.org")))))
 #+END_SRC
 
 Non-nil means ‘org-agenda’ shows every day in the selected range.
