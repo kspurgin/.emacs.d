@@ -590,7 +590,7 @@ Do not open a bajillion buffers to navigate file system:
 #+begin_src emacs-lisp
   (require 'dired-single)
 
-  (with-eval-after-load
+  (with-eval-after-load 'dired-single
       (defun my-dired-init ()
         "Bunch of stuff to run for dired, either immediately or when it's
        loaded."
