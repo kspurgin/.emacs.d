@@ -472,29 +472,30 @@ Note: As of 2023-08-25, the VC generated groups do not auto-update in an open ib
     (defun kms-ibuffer/set-saved-filter-groups ()
       (message "CALLED: kms-ibuffer/set-saved-filter-groups")
       (setq ibuffer-saved-filter-groups
-            `(("filters"
-               ("magit" (name .".*magit"))
-               ("meta" (or
-                        (basename . "cspace.org")
-                        (basename . "islandora.org")
-                        (basename . "meetings.org")
-                        (basename . "migrations.org")
-                        (basename . "work.org")
-                        (name . "\\*scratch\\*")))
-               ("mig: wpl"
-                (or (filename . "code/mig/wpl-collectionspace-migration")
-                    (filename . "data/wpl_westerville_public_library")
-                    (filename . "org/mig/wpl_westerville_public_library_cs.org")))
-               ("mig: az-ccp"
-                (or (filename . "code/mig/az_ccp_cspace_migration")
-                    (filename . "data/az_ccp")
-                    (filename . "org/mig/az_ccp_cs.org")))
-               ("mig: ksu"
-                (or (filename . "code/mig/ksu_collectionspace_migration")
-                    (filename . "data/ksu")))
-               ,@(kms-ibuffer/vc-filter-groups)
-               ("help" (name . "\\*Help\\*"))
-               ("emacs" (name . "^\\*.*\\*"))))))
+	    `(("filters"
+	       ("magit" (name .".*magit"))
+	       ("meta" (or
+			(basename . "cspace.org")
+			(basename . "islandora.org")
+			(basename . "meetings.org")
+			(basename . "migrations.org")
+			(basename . "work.org")
+			(name . "\\*scratch\\*")))
+	       ("mig: wpl"
+		(or (filename . "code/mig/wpl-collectionspace-migration")
+		    (filename . "data/wpl_westerville_public_library")
+		    (filename . "org/mig/wpl_westerville_public_library_cs.org")))
+	       ("mig: az-ccp"
+		(or (filename . "code/mig/az_ccp_cspace_migration")
+		    (filename . "data/az_ccp")
+		    (filename . "org/mig/az_ccp_cs.org")))
+	       ("mig: ksu"
+		(or (filename . "code/mig/ksu_collectionspace_migration")
+		    (filename . "data/ksu")
+		    (filename . "org/mig/kennesaw_collectionspace.org")))
+	       ,@(kms-ibuffer/vc-filter-groups)
+	       ("help" (name . "\\*Help\\*"))
+	       ("emacs" (name . "^\\*.*\\*"))))))
 
     (defun kms-ibuffer/switch-ibuffer-group ()
       (kms-ibuffer/set-saved-filter-groups)
@@ -1069,18 +1070,18 @@ Conditionally set up agenda files. Currently only using at work:
 #+BEGIN_SRC emacs-lisp
   (when (equal (init-computer-context) 'work)
     (setq org-agenda-files
-          (delq nil
-                (mapcar (lambda (x) (and (file-exists-p x) x))
-                        '("~/org/cspace.org"
-                          "~/org/islandora.org"
-                          "~/org/meetings.org"
-                          "~/org/migrations.org"
-                          "~/org/notes.org"
-                          "~/org/work.org"
-                          "~/org/mig/wpl_westerville_public_library_cs.org"
-                          "~/org/mig/lafayette_college_collectionspace.org"
-                          "~/org/mig/az_ccp_cs.org"
-                          "~/org/mig/omca_authority_swap.org")))))
+	  (delq nil
+		(mapcar (lambda (x) (and (file-exists-p x) x))
+			'("~/org/cspace.org"
+			  "~/org/islandora.org"
+			  "~/org/meetings.org"
+			  "~/org/migrations.org"
+			  "~/org/notes.org"
+			  "~/org/work.org"
+			  "~/org/mig/wpl_westerville_public_library_cs.org"
+			  "~/org/mig/lafayette_college_collectionspace.org"
+			  "~/org/mig/az_ccp_cs.org"
+			  "~/org/mig/kennesaw_collectionspace.org")))))
 #+END_SRC
 
 Non-nil means ‘org-agenda’ shows every day in the selected range.
