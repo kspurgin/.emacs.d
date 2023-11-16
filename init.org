@@ -296,6 +296,11 @@ Added 20150916 from [[http://stackoverflow.com/questions/3669511/the-function-to
   (global-set-key "\C-cz" 'copy-buffer-file-path)
   #+end_src
 
+Suppress default mouse (or trackpad) behaviors:
+#+begin_src emacs-lisp
+  (use-package disable-mouse)
+#+end_src
+
 *** Global key bindings
 
 General/self-explanatory:
