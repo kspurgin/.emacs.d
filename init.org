@@ -254,14 +254,6 @@ Date/time display:
   (setq display-time-24hr-format t)
 #+end_src
 
-** Auto customizations
-
-Customization tool in Emacs should persist stuff in a separate file:
-#+begin_src emacs-lisp
-(setq custom-file "~/.emacs.d/auto-customize.el")
-(load custom-file)
-#+end_src
-
 ** General behavior
 
 Do not "helpfully" disable things for me:
@@ -1353,6 +1345,13 @@ Sentences end with ONE space (from http://pages.sachachua.com/.emacs.d/Sacha.htm
   (setq sentence-end-double-space nil)
 #+END_SRC
 
+** Auto customizations
+
+Customization tool in Emacs should persist stuff in a separate file:
+#+begin_src emacs-lisp
+  ;;(setq custom-file "~/.emacs.d/auto-customize.el")
+  ;;(load custom-file)
+#+end_src
 
 * Other good configs
 ** https://jamiecollinson.com/blog/my-emacs-config/
