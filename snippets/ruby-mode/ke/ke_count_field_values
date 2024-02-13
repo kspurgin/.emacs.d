@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: ke_count_field_values
+# --
+transform Count::FieldValues,
+  field: :${1:fieldname},
+  target: :${2:targetfieldname}${3:,
+  delim: "${4:string}"}${5:,
+  placeholder: "${6:%NULLVALUE%}"}${7:,
+  count_empty: true}
+$0

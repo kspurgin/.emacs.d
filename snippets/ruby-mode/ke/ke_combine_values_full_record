@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: ke_combine_values_full_record
+# key: nil
+# --
+transform CombineValues::FullRecord${1:,
+  prepend_source_field_name: true}${2:,
+  delim: "${3:--}"}${4:,
+  delete_sources: true}${5:,
+  target: :${6:notindex}}
+  $0

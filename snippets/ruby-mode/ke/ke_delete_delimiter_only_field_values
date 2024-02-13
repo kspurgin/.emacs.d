@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_delete_delimiter_only_field_values
+# --
+transform Delete::DelimiterOnlyFieldValues${1:${2:,
+  fields: %i[${3:one two}]}${4:,
+  treat_as_null: "${5:%NULLVALUE%}"}${6:,
+  delim: ${7:"${8: - }"}}}
+$0
