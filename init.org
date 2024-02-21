@@ -192,6 +192,13 @@ Stretch the cursor to show the size of the character under cursor. Useful for se
   (setq initial-scratch-message nil)
 #+end_src
 
+Don't show Async Shell Command buffers
+#+begin_src emacs-lisp
+  (add-to-list 'display-buffer-alist
+	       '("\\*Async Shell Command*"
+		 (display-buffer-no-window)))
+#+end_src
+
 *** Show some stuff
 
 - Show column number in mode line
