@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_merge_constant_value_conditional
+# --
+transform Merge::ConstantValueConditional,
+  fieldmap: ${1:\{${2:targetfield: "constantvalue"}\}},
+  condition: ->(row) do
+    $0
+  end

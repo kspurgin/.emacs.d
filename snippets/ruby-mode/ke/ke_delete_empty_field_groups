@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ke_delete_empty_field_groups
+# --
+transform Delete::EmptyFieldGroups,
+  groups: [${1:%i[aa ab], %i[bb bc bd]}]${2:,
+  delim: ${3:"${4:notprojectdelim}"}}${5:,
+  treat_as_null: ${6:"nil, String, Array(String)"}}
+$0

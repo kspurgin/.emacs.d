@@ -2,7 +2,7 @@
 # name: ke_delete_delimiter_only_field_values
 # --
 transform Delete::DelimiterOnlyFieldValues${1:${2:,
-  fields: %i[${3:one two}]}${4:,
-  treat_as_null: "${5:%NULLVALUE%}"}${6:,
-  delim: ${7:"${8: - }"}}}
+  fields: ${3:%i[${4:all symbol arrayofsymbols}]}}${5:,
+  delim: ${6:"${7:notprojectdelim}"}}${8:,
+  treat_as_null: ${9:[${10:"default is nil", "string", "array of strings"}]}}}
 $0

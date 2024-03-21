@@ -1,0 +1,7 @@
+# key: nil
+# name: ke_delete_field_value_matching_regexp
+# --
+transform Delete::FieldValueMatchingRegexp,
+  fields: ${1:%i[${2a b}]},
+  match: '${3:{xx+}'
+$0

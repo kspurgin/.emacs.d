@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ke_append_to_field_value
+# --
+transform Append::ToFieldValue,
+  field: :${1:name},
+  value: ${2:"${3:aka: }"}
+$0

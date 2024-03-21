@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: ke_prepend_to_field_value
+# key: ke
+# --
+transform Prepend::ToFieldValue,
+  field: :${1:name},
+  value: ${2:"${3:aka: }"}${4:,
+  multival: ${5:true}}${6:,
+  delim: ${7:"${8:not|}"}}

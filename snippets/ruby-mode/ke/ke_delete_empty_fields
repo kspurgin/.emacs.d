@@ -1,0 +1,7 @@
+# key: nil
+# name: ke_delete_empty_fields
+# --
+transform Delete::EmptyFields${1:${2:,
+  usenull: ${3:true}}${4:,
+  consider_blank: \{${5:b: 'false', c: 'nope'}\}}}
+$0

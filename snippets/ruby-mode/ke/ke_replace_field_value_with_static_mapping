@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ke_replace_field_value_with_static_mapping
+# --
+transform Replace::FieldValueWithStaticMapping,
+  source: ${1::${2:field}},
+  mapping: ${3:mappinghash}
+$0
