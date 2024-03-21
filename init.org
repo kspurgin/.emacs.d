@@ -1075,7 +1075,8 @@ Conditionally set up agenda files. Currently only using at work:
     (setq org-agenda-files
 	  (delq nil
 		(mapcar (lambda (x) (and (file-exists-p x) x))
-			'("~/org/cspace.org"
+			'("~/org/archivesspace.org"
+			  "~/org/cspace.org"
 			  "~/org/islandora.org"
 			  "~/org/meetings.org"
 			  "~/org/migrations.org"
