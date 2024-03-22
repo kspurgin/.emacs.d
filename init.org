@@ -1503,3 +1503,12 @@ This is cognitive overload I don't need in my life. However, this may not be fix
   (when (equal (system-name) 'secunit)
     (define-key function-key-map (kbd "<XF86Launch3>") 'event-apply-control-modifier))
 #+end_src
+
+** TODO Investigate consult for mark ring
+:LOGBOOK:
+- State "TODO"       from              [2024-03-22 Fri 11:10]
+:END:
+
+(use-package consult
+  :ensure t)
+It will provide you with the command consult-mark which you can use to browse all the positions in the mark rink — not only the last one in a LIFO fashion — and to have a real-time preview of the content you would jump to.
