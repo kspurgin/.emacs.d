@@ -4,9 +4,7 @@
 #+PROPERTY: header-args:emacs-lisp   :tangle "~/.emacs.d/init.el"
 
 * Configuration
-
-
-** System & personal info
+* System & personal info
 
 I set this up first, because:
 
@@ -159,12 +157,13 @@ Will run =C-c C-v t= automatically when this file is saved. From [[https://githu
     "If the current buffer is init.org the code-blocks are
   tangled, and the tangled file is compiled."
     (when (equal (buffer-file-name)
-                 (expand-file-name (concat user-emacs-directory "init.org")))
+		 (expand-file-name (concat user-emacs-directory "init.org")))
       ;; Avoid running hooks when tangling.
       (let ((prog-mode-hook nil))
-        (org-babel-tangle))))
+	(org-babel-tangle))))
 
   (add-hook 'after-save-hook 'tangle-init)
+  (message "Auto-tangling set up")
 #+end_src
 
 ** Appearance/UI
@@ -215,7 +214,9 @@ Make the graphical client dark and pretty:
   (use-package nordic-night-theme
     :config
     ;; (load-theme 'nordic-midnight t) ;; darker
-    (load-theme 'nordic-night t)) ;; lighter dark
+    (load-theme 'nordic-night t)
+    (message "nordic-night theme loaded")) ;; lighter dark
+
 #+end_src
 
 #+begin_src emacs-lisp :tangle no
@@ -235,6 +236,7 @@ Make the graphical client dark and pretty:
    '(button ((t (:background "#2e3440" :foreground "#88c0d0" :box (:line-width (2 . 2) :color "#555555" :style sunken-button)))))
    ;; done headlines are gray
    '(org-headline-done ((t (:foreground "gray50")))))
+  (message "custom faces set")
 #+end_src
 
 Automatically turn on sytax highlighting in all buffers:
@@ -252,13 +254,15 @@ Built-in modes to diminish are configured here:
 #+begin_src emacs-lisp
   (use-package diminish
     :config
-    (diminish 'visual-line-mode))
+    (diminish 'visual-line-mode)
+    (message "built-in modes diminished"))
 #+end_src
 
 Date/time display:
 
 #+begin_src emacs-lisp
   (setq display-time-24hr-format t)
+  (message "date/time display set")
 #+end_src
 
 ** General behavior
@@ -581,7 +585,8 @@ Currently using ivy/counsel. See also [[id:342db027-a04f-4494-addf-50752387b15e]
     ;; disable default behavior of starting filters with =^
     (setq ivy-initial-inputs-alist nil)
     ;; select entered text with C-p/C-n
-    (setq ivy-use-selectable-prompt t))
+    (setq ivy-use-selectable-prompt t)
+    (message "ivy configured"))
 #+end_src
 
 **** Counsel
@@ -591,7 +596,8 @@ Currently using ivy/counsel. See also [[id:342db027-a04f-4494-addf-50752387b15e]
 #+begin_src emacs-lisp
   (use-package counsel
     :bind (("M-x" . counsel-M-x))
-    )
+    :config
+    (message "counsel configured"))
 #+end_src
 
 *** Dired
@@ -653,12 +659,14 @@ trailing /) is given or this option or
 renamed to ‘new_name’.
 #+begin_src emacs-lisp
   (setq dired-create-destination-dirs-on-trailing-dirsep t)
+  (message "dired customizations loaded")
 #+end_src
 
 *** Projectile
 #+BEGIN_QUOTE
 Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies (when feasible). --[[https://projectile.readthedocs.io/en/latest/][Projectile docs]]
 #+END_QUOTE
+
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :diminish
@@ -667,7 +675,8 @@ Projectile is a project interaction library for Emacs. Its goal is to provide a 
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (projectile-mode +1)
     (setq projectile-completion-system 'ivy)
-    (setq projectile-create-missing-test-files "t"))
+    (setq projectile-create-missing-test-files "t")
+    (message "projectile configured"))
 #+END_SRC
 **** TODO Read up on Projectile and configure
 :LOGBOOK:
@@ -680,7 +689,8 @@ https://projectile.readthedocs.io/en/latest/usage/
 #+begin_src emacs-lisp
   (when (equal (init-computer-os) 'mac)
     (setq-default xref-search-program 'ugrep)
-    (setq-default grep-template "ugrep --color=always -0Iinr -e <R>"))
+    (setq-default grep-template "ugrep --color=always -0Iinr -e <R>")
+    (message "using ugrep"))
 #+end_src
 
 Control which directories are excluded by grep:
@@ -700,6 +710,7 @@ Control which directories are excluded by grep:
        (add-to-list 'grep-find-ignored-directories "tmp")
        (add-to-list 'grep-find-ignored-directories ".yardoc")))
   (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
+  (message "grep customizations loaded")
 #+END_SRC
 
 **** Swiper: Search things in emacs
@@ -717,7 +728,9 @@ Swiper helps you search through emacs, and shows you text around the matching te
 
 #+begin_src emacs-lisp
   (use-package swiper
-    :bind (("C-s" . swiper)))
+    :bind (("C-s" . swiper))
+    :config
+    (message "swiper configured"))
 #+end_src
 
 #+begin_quote
@@ -735,7 +748,8 @@ Now, you can search through Emacs using Swiper. When you run =C-s= the swiper se
 	   ("C-c q" . vr/query-replace)
 	   ("C-M-R" . vr/isearch-backward)
 	   ("C-M-S" . vr/isearch-forward))
-    )
+    :config
+    (message "visual-regexp-steroids configured"))
 #+end_src
 
 **** Hide matching lines
@@ -744,7 +758,9 @@ Do an incremental search on a regexp and hide lines that match the regexp.
 
 #+begin_src emacs-lisp
   (require 'hide-lines)
+  (message "hide-lines loaded")
   (require 'hidesearch)
+  (message "hidesearch loaded")
 #+end_src
 
 *** Tramp
@@ -755,6 +771,7 @@ Do an incremental search on a regexp and hide lines that match the regexp.
 	 (setq tramp-default-method "ssh"))
 	((string-equal system-type 'darwin)
 	 (setq tramp-default-method "ssh")))
+  (message "tramp configured")
 #+end_src
 
 
@@ -762,7 +779,7 @@ Do an incremental search on a regexp and hide lines that match the regexp.
 
 Burly "provides tools to save and restore frame and window configurations in Emacs, including buffers that may not be live anymore. In this way, it’s like a lightweight “workspace” manager, allowing you to easily restore one or more frames, including their windows, the windows’ layout, and their buffers." --[[https://github.com/alphapapa/burly.el][github]]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package burly)
 #+end_src
 
@@ -797,14 +814,20 @@ Added 2022-09-23: [[https://github.com/jordonbiondo/column-enforce-mode][Highlig
 whitespace-mode does this as well, but makes things too visually noisy.
 #+BEGIN_SRC emacs-lisp
   (use-package column-enforce-mode
+    :after (yaml-ts-mode)
+    :hook (prog-mode yaml-ts-mode)
     :diminish
-    :hook prog-mode)
+    :config
+      (message "column-enforce-mode configured"))
 #+END_SRC
 
 Show visual indication of where max column is, before you get to it. Appears to break other stuff.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
-  (add-hook 'prog-mode-hook (lambda () (setq display-fill-column-indicator-column 80)))
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook (lambda () (setq display-fill-column-indicator-column 80)))
 #+end_src
 
 **** Tree-sitter
@@ -819,6 +842,7 @@ As per: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
   (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . bash-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.\\(e?ya?\\|ra\\)ml\\'" . yaml-ts-mode))
+  (message "treesitter auto-mode-alist configured")
 #+end_src
 
 **** Setup editorconfig
@@ -827,12 +851,14 @@ https://github.com/editorconfig/editorconfig-emacs#readme
   (use-package editorconfig
     :diminish
     :config
-    (editorconfig-mode 1))
+    (editorconfig-mode 1)
+    (message "editorconfig configured"))
 #+END_SRC
 
 *** Javascript
 #+BEGIN_SRC emacs-lisp
   (add-hook 'js-mode-hook (lambda () (electric-indent-local-mode -1)))
+  (message "javascript customizations loaded")
 #+END_SRC
 *** Perl
 
@@ -841,7 +867,9 @@ https://github.com/editorconfig/editorconfig-emacs#readme
   (use-package cperl-mode
     :mode "\\.p[lm]\\'"
     :interpreter "perl"
-    :config (load "cperl-setup"))
+    :config
+    (load "cperl-setup")
+    (message "cperl-mode configured"))
 #+END_SRC
 
 *** Ruby
@@ -860,14 +888,18 @@ I've customized the color of the double/single quote string delimiters because t
     (enh-ruby-heredoc-delimiter-face ((t (:foreground "gray75"))))
     (enh-ruby-regexp-delimiter-face ((t (:foreground "gray75"))))
     (erm-syn-errline ((t (:foreground "#bf616a" :underline nil))))
-    (erm-syn-warnline ((t (:foreground "DarkOrange1" :underline nil)))))
+    (erm-syn-warnline ((t (:foreground "DarkOrange1" :underline nil))))
+    :config
+    (message "enh-ruby-mode configured"))
 #+end_src
 
 Added 2022-09-23:
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-refactor
     :diminish
-    :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . ruby-refactor-mode-launch))
+    :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . ruby-refactor-mode-launch)
+    :config
+    (message "ruby-refactor configured"))
 #+END_SRC
 **** Ruby style
 
@@ -888,6 +920,7 @@ Layout/AccessModifierIndentationLayout/ArgumentAlignment:
   (setq ruby-align-to-stmt-keywords nil)
   (setq ruby-block-indent nil)
   (setq ruby-method-call-indent nil)
+  (message "ruby style customizations loaded")
 #+end_src
 
 Install rubocop for emacs. Setting to autocorrect on save will fix the indentation:
@@ -898,7 +931,8 @@ Install rubocop for emacs. Setting to autocorrect on save will fix the indentati
     :diminish
     :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . rubocop-mode)
     :config
-    (setq rubocop-autocorrect-on-save t))
+    (setq rubocop-autocorrect-on-save t)
+    (message "rubocop-mode configured"))
 #+end_src
 
 **** Functions and macros
@@ -936,7 +970,9 @@ Place point on the =C= on the 3rd line and run this macro three times to produce
 ** Data
 *** nhexl-mode
 #+BEGIN_SRC emacs-lisp
-  (use-package nhexl-mode)
+  (use-package nhexl-mode
+    :config
+    (message "nhexl-mode configured"))
 #+END_SRC
 
 *** XML
@@ -958,7 +994,7 @@ From: https://emacs.stackexchange.com/questions/2884/the-old-how-to-fold-xml-que
 		 nil))
   (add-hook 'nxml-mode-hook 'hs-minor-mode)
   (define-key nxml-mode-map (kbd "C-c h") 'hs-toggle-hiding)
-
+  (message "sgml/nxml mode customizations loaded")
 #+END_SRC
 *** YAML
 
@@ -967,7 +1003,8 @@ See also [[id:25b27c50-cef0-4efc-9be2-5ba0411a3656][Tree-sitter under general co
   (use-package yaml-mode
     :mode (("\\.yml\\'" . yaml-mode)
 	   ("\\.yaml\\'" . yaml-mode))
-    )
+    :config
+    (message "yaml-mode configured"))
 #+END_SRC
 
 ** Org-mode
@@ -990,13 +1027,15 @@ When Visual Line mode is enabled, ‘word-wrap’ is turned on in this buffer, a
 
 Visually style text, but don't show formatting characters:
 #+begin_src emacs-lisp
-  (setq org-hide-emphasis-markers t)
-  (setq org-fontify-emphasized-text t)
+  (with-eval-after-load 'org
+    (setq org-hide-emphasis-markers t)
+    (setq org-fontify-emphasized-text t))
 #+end_src
 
 Show leading stars!
 #+begin_src emacs-lisp
-  (setq org-hide-leading-stars nil)
+  (with-eval-after-load 'org
+    (setq org-hide-leading-stars nil))
 #+end_src
 
 Non-nil means turn on ‘org-indent-mode’ on startup.
@@ -1006,40 +1045,51 @@ the following lines anywhere in the buffer:
 ,#+STARTUP: indent
 ,#+STARTUP: noindent
 #+end_example
+
 #+begin_src emacs-lisp
-  (setq org-startup-indented nil)
+  (with-eval-after-load 'org
+    (setq org-startup-indented nil))
 #+end_src
 
 Insert blank lines before headings but not new list items:
 #+begin_src emacs-lisp
-  (setf org-blank-before-new-entry '((heading . t) (plain-list-item . auto)))
+  (with-eval-after-load 'org
+    (setf org-blank-before-new-entry '((heading . t) (plain-list-item . auto))))
 #+end_src
 
 Format DONE headings:
 #+begin_src emacs-lisp
-  (custom-set-faces
-   '(org-headline-done ((t (:foreground "gray50")))))
-  (setq org-fontify-done-headline t)
+  (with-eval-after-load 'org
+    (custom-set-faces
+     '(org-headline-done ((t (:foreground "gray50")))))
+    (setq org-fontify-done-headline t))
 #+end_src
 
 Store clock data, state changes, and state notes are in the LOGBOOK drawer:
 #+begin_src emacs-lisp
-  (setq org-clock-into-drawer t)
-  (setq org-log-into-drawer t)
+  (with-eval-after-load 'org
+    (setq org-clock-into-drawer t)
+    (setq org-log-into-drawer t))
 #+end_src
 
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "org-mode appearance customizations loaded"))
+#+end_src
 *** Org-mode editing
 
 Check if in invisible region before inserting or deleting a character.
 #+begin_src emacs-lisp
-  (setq org-fold-catch-invisible-edits "smart")
+  (with-eval-after-load 'org
+    (setq org-fold-catch-invisible-edits "smart"))
 #+end_src
 
 C-a moves to beginning of heading (after asterisks and todo states, etc).
 C-e moves to end of heading (before tags).
 https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-heading-smartly-in-org-mode
 #+BEGIN_SRC emacs-lisp
-  (setq org-special-ctrl-a/e t)
+  (with-eval-after-load 'org
+    (setq org-special-ctrl-a/e t))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -1047,31 +1097,50 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "org-mode editing behavior customizations loaded"))
+#+end_src
+
 *** Org-mode navigation
 
 The maximum level for Imenu access to Org headlines:
 #+begin_src emacs-lisp
-  (setq org-imenu-depth 5)
+  (with-eval-after-load 'org
+    (setq org-imenu-depth 5))
+#+end_src
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "org-mode navigation customizations loaded"))
 #+end_src
 
 *** Org-mode keybindings - global
 #+begin_src emacs-lisp
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cb" 'org-iswitchb)
+  (with-eval-after-load 'org
+    (global-set-key "\C-cl" 'org-store-link)
+    (global-set-key "\C-cc" 'org-capture)
+    (global-set-key "\C-ca" 'org-agenda)
+    (global-set-key "\C-cb" 'org-iswitchb))
 #+end_src
 
 Turn off using =C-_= to access =undo=, to break muscle memory. Use =C-/= instead:
 #+begin_src emacs-lisp
-  (global-set-key "\C-_" nil)
+  (with-eval-after-load 'org
+    (global-set-key "\C-_" nil))
+#+end_src
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "org-mode key bindings loaded"))
 #+end_src
 
 *** Org-mode agenda
 
 Conditionally set up agenda files. Currently only using at work:
 #+BEGIN_SRC emacs-lisp
-  (when (equal (init-computer-context) 'work)
+  (with-eval-after-load 'org
+    (when (equal (init-computer-context) 'work)
     (setq org-agenda-files
 	  (delq nil
 		(mapcar (lambda (x) (and (file-exists-p x) x))
@@ -1085,13 +1154,14 @@ Conditionally set up agenda files. Currently only using at work:
 			  "~/org/mig/wpl_westerville_public_library_cs.org"
 			  "~/org/mig/lafayette_college_collectionspace.org"
 			  "~/org/mig/az_ccp_cs.org"
-			  "~/org/mig/kennesaw_collectionspace.org")))))
+			  "~/org/mig/kennesaw_collectionspace.org"))))))
 #+END_SRC
 
 Non-nil means ‘org-agenda’ shows every day in the selected range.
 When nil, only the days which actually have entries are shown.
 #+begin_src emacs-lisp
-  (setq org-agenda-show-all-dates t)
+  (with-eval-after-load 'org
+    (setq org-agenda-show-all-dates t))
 #+end_src
 
 Non-nil means don’t show deadlines when the corresponding item is done.
@@ -1100,7 +1170,8 @@ This is relevant for the daily/weekly agenda.  It applies only to the
 actual date of the deadline.  Warnings about approaching and past-due
 deadlines are always turned off when the item is DONE.
 #+begin_src emacs-lisp
-  (setq org-agenda-skip-deadline-if-done t)
+  (with-eval-after-load 'org
+    (setq org-agenda-skip-deadline-if-done t))
 #+end_src
 
 Non-nil means don’t show scheduled items in agenda when they are done.
@@ -1108,7 +1179,13 @@ This is relevant for the daily/weekly agenda, not for the TODO list.  It
 applies only to the actual date of the scheduling.  Warnings about an item
 with a past scheduling dates are always turned off when the item is DONE.
 #+begin_src emacs-lisp
-  (setq org-agenda-skip-scheduled-if-done t)
+  (with-eval-after-load 'org
+    (setq org-agenda-skip-scheduled-if-done t))
+#+end_src
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "org-mode agenda customizations loaded"))
 #+end_src
 
 *** Org-mode clocking time
@@ -1121,18 +1198,22 @@ If you restart Emacs and clock into any task, Org will notice that you have a da
 
 You can also check all the files visited by your Org agenda for dangling clocks at any time using M-x org-resolve-clocks RET (or C-c C-x C-z). ([[https://orgmode.org/manual/Resolving-idle-time.html#index-org_002dclock_002didle_002dtime][src]])
 #+begin_src emacs-lisp
-  (setq org-clock-idle-time 5)
+  (with-eval-after-load 'org
+    (setq org-clock-idle-time 5)
+    (message "org-clock-idle-time set"))
 #+end_src
 
 Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
 #+begin_src emacs-lisp
-  (setq org-clock-out-remove-zero-time-clocks t)
+  (with-eval-after-load 'org
+    (setq org-clock-out-remove-zero-time-clocks t))
 #+end_src
 
 Save buffer after clocking in or out:
 #+begin_src emacs-lisp
-  (add-hook 'org-clock-in-hook #'save-buffer)
-  (add-hook 'org-clock-out-hook #'save-buffer)
+  (with-eval-after-load 'org
+    (add-hook 'org-clock-in-hook #'save-buffer)
+  (add-hook 'org-clock-out-hook #'save-buffer))
 #+end_src
 
 Whether or not a dialog opens every time you clock out, so you can enter a note.
@@ -1144,12 +1225,21 @@ Left nil because I don't often need to enter a note. This is the format that it 
    CLOCK: [2023-08-22 Tue 12:20]--[2023-08-22 Tue 12:21] =>  0:01
    - testing note
 #+end_example
+
 #+begin_src emacs-lisp
-  (setq org-log-note-clock-out nil)
+  (with-eval-after-load 'org
+    (setq org-log-note-clock-out nil))
 #+end_src
-#+BEGIN_SRC emacs-lisp
-  (setq org-duration-format 'h:mm)
-#+END_SRC
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (setq org-duration-format 'h:mm))
+#+end_src
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "org-mode agenda customizations loaded"))
+#+end_src
 
 *** Org-mode scheduling, reminders, etc.
 
