@@ -4,7 +4,7 @@
 #+PROPERTY: header-args:emacs-lisp   :tangle "~/.emacs.d/init.el"
 
 * Configuration
-* System & personal info
+** System & personal info
 
 I set this up first, because:
 
@@ -52,10 +52,10 @@ Then, if applicable, fix the Mac keyboard:
     (setq mac-right-command-modifier 'super))
 #+END_SRC
 
-** Package management
+*** Package management
 
 use-package was added to Emacs 29.1.
-*** If we are not on 29.1 yet
+**** If we are not on 29.1 yet
 
 The following will set it up the old way in case we are using this on an older version.
 #+BEGIN_SRC emacs-lisp
@@ -69,7 +69,7 @@ The following will set it up the old way in case we are using this on an older v
     (message "use-package is set up for Emacs <29.1"))
 #+END_SRC
 
-*** If we are on 29.1 or newer...
+**** If we are on 29.1 or newer...
 
 The following allows us to use ~package-install~ to upgrade ~use-package~ to newer versions released on GNU ELPA ([[https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/NEWS?h=emacs-29][src]]):
 #+begin_src emacs-lisp
@@ -78,7 +78,7 @@ The following allows us to use ~package-install~ to upgrade ~use-package~ to new
     (setq package-install-upgrade-built-in t))
 #+end_src
 
-*** Regardless of version:
+**** Regardless of version:
 
 Always ensure packages. This means they will be installed if they aren't yet present on the system.
 
@@ -88,7 +88,7 @@ To override this, do ~:ensure nil~ when setting up a package.
   (setq use-package-always-ensure t)
 #+end_src
 
-** Set up package sources and load paths
+*** Set up package sources and load paths
 
 Needs to be called as soon as possible for native compilation in certain environments:
 #+BEGIN_SRC emacs-lisp
@@ -148,7 +148,7 @@ Load appropriate macro files, depending on device.
 #+END_SRC
 
 
-** Auto-tangle this file
+*** Auto-tangle this file
 
 Will run =C-c C-v t= automatically when this file is saved. From [[https://github.com/SophieBosio/.emacs.d#tangling][SophieBosio's emacs.d]].
 
@@ -265,7 +265,7 @@ Date/time display:
   (message "date/time display set")
 #+end_src
 
-** General behavior
+*** General behavior
 
 Do not "helpfully" disable things for me:
 #+begin_src emacs-lisp
@@ -309,7 +309,7 @@ Suppress default mouse (or trackpad) behaviors:
   (use-package disable-mouse)
 #+end_src
 
-*** Global key bindings
+**** Global key bindings
 
 General/self-explanatory:
 #+begin_src emacs-lisp
@@ -327,7 +327,7 @@ Disable suspend-frame command key bindings because they are annoying AF:
   (global-unset-key (kbd "C-x C-z"))
 #+end_src
 
-*** Editing/entering info
+**** Editing/entering info
 Standard indent is 2 spaces:
 #+begin_src emacs-lisp
   (setq standard-indent 2)
@@ -362,7 +362,7 @@ Found at http://endlessparentheses.com/faster-pop-to-mark-command.html
   (setq set-mark-command-repeat-pop t)
 #+end_src
 
-*** Saving, persistence, backups
+**** Saving, persistence, backups
 
 Kill trailing whitespace on save:
 #+begin_src emacs-lisp
@@ -421,7 +421,7 @@ Here's a quick rundown of the settings:
 
 
 
-*** Buffer management: trick out =ibuffer=
+**** Buffer management: trick out =ibuffer=
 
 I always have waaaay too many things open. =ibuffer= helps me navigate between them and keep track of them (and save, close, etc them in bulk quickly!)
 
@@ -528,7 +528,7 @@ Nor do we want to see empty filter groups. No visual clutter!
   (setq ibuffer-show-empty-filter-groups nil)
 #+END_SRC
 
-*** Completion (in-buffer)
+**** Completion (in-buffer)
 
 Use YASnippet, but only in the specified modes.
 
@@ -561,9 +561,9 @@ Abbrevs are documented [[https://www.gnu.org/software/emacs/manual/html_node/ema
   (setq save-abbrevs nil)
 #+END_SRC
 
-*** Completion (minibuffer)
+**** Completion (minibuffer)
 
-**** Ivy
+***** Ivy
 :PROPERTIES:
 :ID:       e0e1e675-8b04-4759-b7a5-4c4c1bbf15d9
 :END:
@@ -589,7 +589,7 @@ Currently using ivy/counsel. See also [[id:342db027-a04f-4494-addf-50752387b15e]
     (message "ivy configured"))
 #+end_src
 
-**** Counsel
+***** Counsel
 :PROPERTIES:
 :ID:       32ebdbec-9130-4612-810d-1714eeabe100
 :END:
@@ -600,7 +600,7 @@ Currently using ivy/counsel. See also [[id:342db027-a04f-4494-addf-50752387b15e]
     (message "counsel configured"))
 #+end_src
 
-*** Dired
+**** Dired
 
 Do not open a bajillion buffers to navigate file system:
 #+begin_src emacs-lisp
@@ -662,11 +662,12 @@ renamed to ‘new_name’.
   (message "dired customizations loaded")
 #+end_src
 
-*** Projectile
+**** Projectile
 #+BEGIN_QUOTE
 Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies (when feasible). --[[https://projectile.readthedocs.io/en/latest/][Projectile docs]]
 #+END_QUOTE
 
+Use native indexing method so that git-ignored data directories/files are seen as part of project.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :diminish
@@ -676,15 +677,16 @@ Projectile is a project interaction library for Emacs. Its goal is to provide a 
     (projectile-mode +1)
     (setq projectile-completion-system 'ivy)
     (setq projectile-create-missing-test-files "t")
+    (setq projectile-indexing-method 'native)
     (message "projectile configured"))
 #+END_SRC
-**** TODO Read up on Projectile and configure
+***** TODO Read up on Projectile and configure
 :LOGBOOK:
 - State "TODO"       from              [2019-10-22 Tue 22:27]
 :END:
 https://projectile.readthedocs.io/en/latest/usage/
-*** Search, find, replace
-**** Grep: Search things not open in emacs
+**** Search, find, replace
+***** Grep: Search things not open in emacs
 
 #+begin_src emacs-lisp
   (when (equal (init-computer-os) 'mac)
@@ -713,7 +715,7 @@ Control which directories are excluded by grep:
   (message "grep customizations loaded")
 #+END_SRC
 
-**** Swiper: Search things in emacs
+***** Swiper: Search things in emacs
 :PROPERTIES:
 :ID:       342db027-a04f-4494-addf-50752387b15e
 :END:
@@ -739,7 +741,7 @@ Now, you can search through Emacs using Swiper. When you run =C-s= the swiper se
 
 [[https://github.com/abo-abo/swiper/wiki][Ivy/Swiper wiki]] hosts "cool code snippets that you can use once you’re experienced with Elisp and ivy."
 
-**** Visual regex on steroids
+***** Visual regex on steroids
 
 #+begin_src emacs-lisp
   (use-package visual-regexp-steroids
@@ -752,7 +754,7 @@ Now, you can search through Emacs using Swiper. When you run =C-s= the swiper se
     (message "visual-regexp-steroids configured"))
 #+end_src
 
-**** Hide matching lines
+***** Hide matching lines
 
 Do an incremental search on a regexp and hide lines that match the regexp.
 
@@ -763,7 +765,7 @@ Do an incremental search on a regexp and hide lines that match the regexp.
   (message "hidesearch loaded")
 #+end_src
 
-*** Tramp
+**** Tramp
 
 #+begin_src emacs-lisp
   (require 'tramp)
@@ -775,7 +777,7 @@ Do an incremental search on a regexp and hide lines that match the regexp.
 #+end_src
 
 
-*** Window management
+**** Window management
 
 Burly "provides tools to save and restore frame and window configurations in Emacs, including buffers that may not be live anymore. In this way, it’s like a lightweight “workspace” manager, allowing you to easily restore one or more frames, including their windows, the windows’ layout, and their buffers." --[[https://github.com/alphapapa/burly.el][github]]
 
@@ -793,7 +795,7 @@ Select help/info/apropos buffer when you open it:
   (setq help-window-select t)
 #+end_src
 
-*** Movement
+**** Movement
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-g 8")
