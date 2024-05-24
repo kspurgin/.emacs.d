@@ -1346,6 +1346,12 @@ automatically save bookmarks when it is killed.
   (setq bookmark-save-flag 1)
 #+end_src
 
+"Bookmark position values are saved with surrounding context, so that bookmark-jump can find the proper position even if the file is modified slightly. The variable bookmark-search-size says how many characters of context to record on each side of the bookmark’s position."
+
+#+begin_src emacs-lisp
+  (setq bookmark-search-size 30)
+#+end_src
+
 ** Publishing
 *** AsciiDoc
 When I can't write in/publish from =org-mode=, AsciiDoc is my text markup language of choice. In some ways I even prefer it to =org-mode=! (Admonition blocks, ToCs rendered in github, includes!). [[https://asciidoctor.org/docs/what-is-asciidoc/][More on why it is great...]]
