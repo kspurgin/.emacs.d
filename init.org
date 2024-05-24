@@ -1410,10 +1410,24 @@ To compile graphs in emacs, you'll need mermaid cli tools installed:
   (use-package mermaid-mode)
 #+end_src
 
-*** Org-mode export
+*** COMMENT Org-mode export
+
+#+begin_src emacs-lisp
+  (use-package ox-pandoc)
+#+end_src
+#+begin_src emacs-lisp
+  (setq org-export-initial-scope "subtree")
+#+end_src
+
+If you set this variable to the symbol ‘{}’, the braces are *required*
+in order to trigger interpretations as sub/superscript. This can be
+helpful in documents that need "_" frequently in plain text.
+#+begin_src emacs-lisp
+  (setq org-export-with-sub-superscripts '{})
+#+end_src
 
 =auto-org-md= is a simple package that exports a markdown file automatically when you save an org file. [[https://github.com/jamcha-aa/auto-org-md][github]]
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package auto-org-md)
 #+END_SRC
 
