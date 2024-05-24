@@ -4,7 +4,7 @@
 # --
 transform Clean::RegexpFindReplaceFieldVals,
   fields: ${1:%i[${2:x y}]},
-  find: '$3',
+  find: /$3/,
   replace: '$4'${5:,
   casesensitive: false}${6:,
   multival: true}${7:,
