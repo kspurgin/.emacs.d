@@ -1116,7 +1116,7 @@ happening since turning on display of line numbers (?)
 The maximum level for Imenu access to Org headlines:
 #+begin_src emacs-lisp
   (with-eval-after-load 'org
-    (setq org-imenu-depth 5))
+    (setq org-imenu-depth 7))
 #+end_src
 
 #+begin_src emacs-lisp
