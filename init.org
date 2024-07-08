@@ -1160,8 +1160,7 @@ Conditionally set up agenda files. Currently only using at work:
 			  "~/org/migrations.org"
 			  "~/org/notes.org"
 			  "~/org/work.org"
-			  "~/org/mig/wpl_westerville_public_library_cs.org"
-			  "~/org/mig/lafayette_college_collectionspace.org"
+			  "~/org/mig/akron_archivesspace.org"
 			  "~/org/mig/az_ccp_cs.org"
 			  "~/org/mig/kennesaw_collectionspace.org"))))))
 #+END_SRC
