@@ -1106,6 +1106,13 @@ https://emacs.stackexchange.com/questions/26287/move-to-the-beginning-of-a-headi
 
 *** Org-mode navigation
 
+Hopefully this is a workaround for headings not expanding with TAB, which might be
+happening since turning on display of line numbers (?)
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (setq org-fold-core-style 'overlays))
+#+end_src
+
 The maximum level for Imenu access to Org headlines:
 #+begin_src emacs-lisp
   (with-eval-after-load 'org
