@@ -2,7 +2,73 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("cs-project-duplicate-vocab-terms"
+(("cal-state-univ-chico-cspace-ongoing-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b cal-state-univ-chico-cspace-")
+ (rear-context-string . "-chico-cspace-ongoing-support ")
+ (position . 48009)
+ (last-modified 26310 19567 670604 0))
+("cal-state-univ-chico-cspace-migration-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b cal-state-univ-chico-cspace-")
+ (rear-context-string . "hico-cspace-migration-support ")
+ (position . 47850)
+ (last-modified 26310 19517 573836 0))
+("philadelphia-osteo-med-as-quote"
+ (filename . "~/org/archivesspace.org")
+ (front-context-string . "b philadelphia-osteo-med-as-qu")
+ (rear-context-string . "iladelphia-osteo-med-as-quote ")
+ (position . 3721)
+ (last-modified 26294 17230 38978 0))
+("mariners-museum-as-quote"
+ (filename . "~/org/archivesspace.org")
+ (front-context-string . "b mariners-museum-as-quote\n:LO")
+ (rear-context-string . "ote:\nmariners-museum-as-quote ")
+ (position . 3505)
+ (last-modified 26294 17158 138135 0))
+("francis-marion-aspace-mig-quote"
+ (filename . "~/org/archivesspace.org")
+ (front-context-string . "b francis-marion-aspace-mig-qu")
+ (rear-context-string . "ancis-marion-aspace-mig-quote ")
+ (position . 4235)
+ (last-modified 26290 50891 156297 0))
+("cspace-support-wpl-westerville"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b cspace-support-wpl-westervil")
+ (rear-context-string . "space-support-wpl-westerville ")
+ (position . 97146)
+ (last-modified 26256 12476 196016 0))
+("cspace-support-nist"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b cspace-support-nist\n:LOGBOOK")
+ (rear-context-string . "echnology\ncspace-support-nist ")
+ (position . 55134)
+ (last-modified 26248 6035 928452 0))
+("cspace-standup-meeting"
+ (filename . "~/org/meetings.org")
+ (front-context-string . "b cspace-standup-meeting\n:LOGB")
+ (rear-context-string . "eeting\ncspace-standup-meeting ")
+ (position . 7236)
+ (last-modified 26244 15959 297285 0))
+("aspace-documentation"
+ (filename . "~/org/archivesspace.org")
+ (front-context-string . "b aspace-documentation\n:LOGBOO")
+ (rear-context-string . "entation\naspace-documentation ")
+ (position . 1641)
+ (last-modified 26228 20554 455539 0))
+("aspace-bugs"
+ (filename . "~/org/archivesspace.org")
+ (front-context-string . "b aspace-bugs\n:LOGBOOK:\nCLOCK:")
+ (rear-context-string . "]\n\n\n* Issues/bugs\naspace-bugs ")
+ (position . 1631)
+ (last-modified 26225 48360 244897 0))
+("cspace-support-ccp"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b cspace-support-ccp\n:LOGBOOK:")
+ (rear-context-string . "f Arizona)\ncspace-support-ccp ")
+ (position . 50027)
+ (last-modified 26192 59291 398499 0))
+("cs-project-duplicate-vocab-terms"
  (filename . "~/org/cspace.org")
  (front-context-string . "b cs-project-duplicate-vocab-t")
  (rear-context-string . "project-duplicate-vocab-terms ")
@@ -34,10 +100,10 @@
  (last-modified 26191 60251 16627 0))
 ("ohc-7-2-migration-project"
  (filename . "~/org/cspace.org")
- (front-context-string . "\n:LOGBOOK:\nCLOCK")
- (rear-context-string . "ion project\nbkmk")
- (position . 50231)
- (last-modified 26126 50787 437035 0))
+ (front-context-string . "b ohc-7-2-migration-project\n\n:")
+ (rear-context-string . "ect\nohc-7-2-migration-project ")
+ (position . 66314)
+ (last-modified 26199 42815 352264 0))
 ("cspace-support-mcgill"
  (filename . "~/org/cspace.org")
  (front-context-string . "b cspace-support-mcgill\n:LOGBO")
@@ -69,11 +135,11 @@
  (position . 151)
  (last-modified 26050 26214 527894 0))
 ("cs-templates-lhmc"
- (filename . "~/code/cs/untangler-cspace-config/data/templates/community_profiles/release_7_2/lhmc/")
- (front-context-string . ".~lock.lhmc_6-0-")
- (rear-context-string . "1B Jan  2 17:40 ")
+ (filename . "~/code/cs/untangler-cspace-config/data/templates/community_profiles/release_8_0/lhmc/")
+ (front-context-string . "lhmc_7-0-0_acquisition-templat")
+ (rear-context-string . "na  staff   2.5K May 20 11:53 ")
  (position . 155)
- (last-modified 26004 45973 200306 0))
+ (last-modified 26210 13749 250604 0))
 ("cs-dev-tickets-weekly-meeting"
  (filename . "~/org/meetings.org")
  (front-context-string . "Bkmk\n   :LOGBOOK")
@@ -86,30 +152,12 @@
  (rear-context-string . "nesaw Phase 1/2\n")
  (position . 36)
  (last-modified 25938 16374 109787 0))
-("lafayette-college-cspace"
- (filename . "~/org/mig/lafayette_college_collectionspace.org")
- (front-context-string . "\n:LOGBOOK:\nCLOCK")
- (rear-context-string . "Data review\nbkmk")
- (position . 19)
- (last-modified 25886 56751 810917 0))
 ("cspace-etl"
  (filename . "~/org/cspace.org")
  (front-context-string . "b cspace-etl\n :LOGBOOK:\n CLOCK")
  (rear-context-string . " filename\n\n\n* ETL\n\ncspace-etl ")
  (position . 151892)
  (last-modified 26191 60383 698303 0))
-("az-ccp-cspace-migration"
- (filename . "~/org/mig/az_ccp_cs.org")
- (front-context-string . "bkmk\n    :LOGBOO")
- (rear-context-string . "ation - Staging\n")
- (position . 519)
- (last-modified 25925 217 683523 0))
-("wpl-westerville"
- (filename . "~/org/mig/wpl_westerville_public_library_cs.org")
- (front-context-string . "bkmk\n:LOGBOOK:\nC")
- (rear-context-string . "ing objects fix\n")
- (position . 613)
- (last-modified 26154 31640 313633 0))
 ("org-config"
  (filename . "~/.emacs.d/init.org")
  (front-context-string . "\nEverything woul")
@@ -158,9 +206,10 @@
  (position . 93943))
 ("cspace-dev-work"
  (filename . "~/org/cspace.org")
- (front-context-string . "** General dev s")
- (rear-context-string . "on list\n\n* Dev\n\n")
- (position . 6220))
+ (front-context-string . "b cspace-dev-work\n:LOGBOOK:\nCL")
+ (rear-context-string . "bucket\n\n* Dev\ncspace-dev-work ")
+ (position . 22908)
+ (last-modified 26262 47153 395525 0))
 ("cs-support-uminn-arboretum"
  (filename . "~/org/cspace.org")
  (front-context-string . "b cs-support-uminn-arboretum\n ")
@@ -169,9 +218,10 @@
  (last-modified 26191 60662 528035 0))
 ("cspace-qa"
  (filename . "~/org/cspace.org")
- (front-context-string . "QA\n   :LOGBOOK:\n")
- (rear-context-string . ":48\n   :END:\n** ")
- (position . 7255))
+ (front-context-string . "b cspace-qa\n:LOGBOOK:\nCLOCK: [")
+ (rear-context-string . " assessment?\n\n** QA\ncspace-qa ")
+ (position . 31746)
+ (last-modified 26208 34743 318062 0))
 ("tms-migration-dev"
  (filename . "~/org/migrations.org")
  (front-context-string . "*** TMS migratio")
@@ -260,19 +310,15 @@
  (last-modified 26191 60954 911681 0))
 ("cspace-bugs"
  (filename . "~/org/cspace.org")
- (front-context-string . "OOK:\n  CLOCK: [2")
- (rear-context-string . "problems\n  :LOGB")
- (position . 11012))
+ (front-context-string . "b cspace-bugs\n :LOGBOOK:\n CLOC")
+ (rear-context-string . "ts/JIRA wrangling\ncspace-bugs ")
+ (position . 96072)
+ (last-modified 26237 35029 81286 0))
 ("cspace-figuring-out-stuff"
  (filename . "~/org/cspace.org")
  (front-context-string . "* ONGOING Genera")
  (rear-context-string . "  0:19\n  :END:\n\n")
  (position . 14974))
-("meeting-one-on-one-raili"
- (filename . "~/org/meetings.org")
- (front-context-string . " :LOGBOOK:\n   CL")
- (rear-context-string . "\n** MTG Raili\n  ")
- (position . 83))
 ("cspace-support-ohc"
  (filename . "~/org/cspace.org")
  (front-context-string . "b cspace-support-ohc\n:LOGBOOK:")
