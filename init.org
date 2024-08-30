@@ -922,6 +922,14 @@ I've customized the color of the double/single quote string delimiters because t
     (message "enh-ruby-mode configured"))
 #+end_src
 
+#+BEGIN_SRC emacs-lisp
+  (use-package yard-mode
+    :diminish
+    :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . yard-mode)
+    :config
+    (message "yard-mode configured"))
+#+END_SRC
+
 Added 2022-09-23:
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-refactor
