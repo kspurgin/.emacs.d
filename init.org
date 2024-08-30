@@ -267,6 +267,31 @@ Date/time display:
   (message "date/time display set")
 #+end_src
 
+*** Navigation
+
+Use Avy: "With Avy, you can move point to any position in Emacs – even
+in a different window – using very few keystrokes. For this, you look
+at the position where you want point to be, invoke Avy, and then enter
+the sequence of characters displayed at that position."
+
+#+begin_src emacs-lisp
+  (use-package avy
+    :diminish
+    :config
+    (avy-setup-default)
+    (global-set-key (kbd "C-c C-j") 'avy-resume)
+    (message "avy configured"))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package casual-avy
+    :diminish
+    :config
+    (require 'casual-avy)
+    (keymap-global-set "M-g" #'casual-avy-tmenu)
+    (message "casual-avy configured"))
+#+end_src
+
 *** General behavior
 
 Do not "helpfully" disable things for me:
