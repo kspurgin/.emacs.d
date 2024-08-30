@@ -2,7 +2,31 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("cal-state-univ-chico-cspace-ongoing-support"
+(("msu-miss-capace-ongoing-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b msu-miss-capace-ongoing-supp")
+ (rear-context-string . "u-miss-capace-ongoing-support ")
+ (position . 51117)
+ (last-modified 26320 36639 955610 0))
+("msu-miss-cspace-migration-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b msu-miss-cspace-migration-su")
+ (rear-context-string . "miss-cspace-migration-support ")
+ (position . 50995)
+ (last-modified 26320 36624 872403 0))
+("uva-capace-ongoing-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b uva-capace-ongoing-support\n*")
+ (rear-context-string . "rt\nuva-capace-ongoing-support ")
+ (position . 92735)
+ (last-modified 26319 48946 257905 0))
+("uva-cspace-migration-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b uva-cspace-migration-support")
+ (rear-context-string . "\nuva-cspace-migration-support ")
+ (position . 92581)
+ (last-modified 26319 48880 668837 0))
+("cal-state-univ-chico-cspace-ongoing-support"
  (filename . "~/org/cspace.org")
  (front-context-string . "b cal-state-univ-chico-cspace-")
  (rear-context-string . "-chico-cspace-ongoing-support ")
@@ -351,10 +375,10 @@
  (last-modified 26191 61013 412765 0))
 ("mw-metawork"
  (filename . "~/org/work.org")
- (front-context-string . "bkmk\n\n   :LOGBOO")
- (rear-context-string . "GOING Meta-work\n")
- (position . 88934)
- (last-modified 25836 63020 739104 0))
+ (front-context-string . "b mw-metawork\n\n\nTracking: http")
+ (rear-context-string . "NGOING Meta-work\n\nmw-metawork ")
+ (position . 110700)
+ (last-modified 26319 50791 736889 0))
 ("communication"
  (filename . "~/org/work.org")
  (front-context-string . "bkmk\n   :LOGBOOK")
