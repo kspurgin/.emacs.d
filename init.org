@@ -1478,7 +1478,8 @@ Try =magit= again. Manual is [[https://magit.vc/manual/magit/index.html#Top][her
   (use-package magit
     :bind (("C-x g" . magit-status))
     :config
-    (setq git-commit-style-convention-checks nil))
+    (setq git-commit-style-convention-checks nil)
+    (setq magit-section-show-context-menu-for-emacs<28 t))
 #+END_SRC
 
 ~git-commit-style-convention-checks~ doesn't nag you about super short commit messages.
