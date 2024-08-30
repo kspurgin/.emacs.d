@@ -168,7 +168,9 @@ Will run =C-c C-v t= automatically when this file is saved. From [[https://githu
 
 ** Appearance/UI
 
-Stretch the cursor to show the size of the character under cursor. Useful for seeing tabs and other weird whitespace
+Stretch the cursor to show the size of the character under cursor.
+Useful for seeing tabs and other weird whitespace
+
 #+begin_src emacs-lisp
   (setq x-stretch-cursor t)
 #+end_src
