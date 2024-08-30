@@ -1473,12 +1473,6 @@ helpful in documents that need "_" frequently in plain text.
 
 ** Version control
 
-Macro to format copied ~git log~ output for .git-blame-ignore-revs:
-#+begin_src emacs-lisp
-  (fset 'noblame
-	(kmacro-lambda-form [?\S-\C-\M-s ?  return backspace ?\C-  ?\C-e ?\C-w ?\C-a ?# ?  ?\C-y return ?\C-e return ?\C-n] 0 "%d"))
-#+end_src
-
 Try =magit= again. Manual is [[https://magit.vc/manual/magit/index.html#Top][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package magit
