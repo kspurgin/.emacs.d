@@ -5,8 +5,19 @@
 (fset 'upcase-fieldname
    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([167772179 32 62 32 91 97 45 122 93 return 67108896 2 24 21] 0 "%d")) arg)))
 
+;;; Expected data:
+;;;   - name of optionlist on first line OF FILE (use scratch)
+;;;   - list of values immediately below, one per line
+;;;   - no blank space between optionlist name and value list
+;;;   - plain value list - not wrapped in quotes and commas
+;;; Start with cursor at beginning of first line of file
 (defalias 'optlist-messages
-   (kmacro "C-f C-SPC C-e C-b C-b M-w C-f : SPC { <return> i d : SPC ' o p t i o n . d e p a r t m e n t s . C-y ' , <return> d e f a u l t M e s s a g e : SPC ' C-y ' , <return> } C-n C-a"))
+   (kmacro "C-n C-SPC C-e M-w M-> \" C-y \" : SPC { <return> SPC SPC i d : SPC \" o p t i o n . M-< C-SPC C-e M-w M-> C-y . M-< C-n C-SPC C-e M-w M-> C-y \" , <return> d e f a u l t M e s s a g e : SPC \" C-y \" , <return> <backspace> <backspace> } , <return> M-< C-n C-k C-k M-<"))
+
+;;; Start with list of values, one per line.
+;;; Cursor should be at beginning of first line in list
+(defalias 'optlist-values
+   (kmacro "\" C-e \" , C-n C-a"))
 
 (defalias 'ke-outline-registry
    (kmacro "C-s o C-g C-x ( M-s o \\ . n a m e s p a c e \\ | SPC + r e g i s t e r <return> C-x o"))
