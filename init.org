@@ -1051,7 +1051,14 @@ Everything would be worse than it is if there were no =org-mode=. Use it, USE IT
 It has been included in Emacs by default since 22.1, but just in case...
 #+BEGIN_SRC emacs-lisp :tangle no
   (when (<= emacs-major-version 22)
-    (use-package org))
+    (use-package org
+      :config
+      (setq org-confirm-babel-evaluate nil)
+
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+	 (ruby . t)))))
 #+END_SRC
 
 *** Org-mode appearance, formatting
