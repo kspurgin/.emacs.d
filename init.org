@@ -968,7 +968,7 @@ Install rubocop for emacs. Setting to autocorrect on save will fix the indentati
     :diminish
     :hook ((enh-ruby-mode ruby-mode ruby-ts-mode) . rubocop-mode)
     :config
-    (setq rubocop-autocorrect-on-save t)
+    (setq rubocop-autocorrect-on-save nil)
     (message "rubocop-mode configured"))
 #+end_src
 
