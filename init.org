@@ -1361,9 +1361,8 @@ MTG is so I can clock time in meetings.
 ONGOING is so I can clock time in non-meeting activities that aren't tasks or projects, like email/communication and meta-work.
 #+BEGIN_SRC emacs-lisp
   (setq org-todo-keywords
-	'((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(a@/!)" "WAITING(w@/!)" "|" "DONE(d!)" )
-	  (sequence "|" "CANCELED(c@)" )
-	  (sequence "ASK(s!)" "|" "ANSWERED(n@/!)" )
+	'((sequence "TODO(t!)" "INPROGRESS(p!)" "DELEGATED(l@/!)" "WAITING(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")
+	  (sequence "ASK(a!)" "|" "ANSWERED(n@/!)" )
 	  (sequence "MTG(m)" "|" )
 	  (sequence "ONGOING(o)" "|" )))
 #+END_SRC
