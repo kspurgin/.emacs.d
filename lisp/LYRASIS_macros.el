@@ -10,6 +10,7 @@
 ;;;   - list of values immediately below, one per line
 ;;;   - no blank space between optionlist name and value list
 ;;;   - plain value list - not wrapped in quotes and commas
+;;;   - add line break after last value in list!
 ;;; Start with cursor at beginning of first line of file
 (defalias 'optlist-messages
    (kmacro "C-n C-SPC C-e M-w M-> \" C-y \" : SPC { <return> SPC SPC i d : SPC \" o p t i o n . M-< C-SPC C-e M-w M-> C-y . M-< C-n C-SPC C-e M-w M-> C-y \" , <return> d e f a u l t M e s s a g e : SPC \" C-y \" , <return> <backspace> <backspace> } , <return> M-< C-n C-k C-k M-<"))
