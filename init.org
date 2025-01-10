@@ -1435,6 +1435,10 @@ Currently I only am using this at work.
 #+END_SRC
 
 *** Markdown
+Enable export from org-mode
+#+begin_src emacs-lisp
+  (require 'ox-md)
+#+end_src
 
 For editing Markdown text.
 #+BEGIN_SRC emacs-lisp
