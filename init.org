@@ -149,6 +149,13 @@ Load appropriate macro files, depending on device.
     (message "work-related macros loaded"))
 #+END_SRC
 
+*** Native compilation
+
+[2025-10-21 Tue] Log asynchronous native compilation warnings without popping up the *Warnings* buffer:
+
+#+begin_src emacs-lisp
+  (setq native-comp-async-report-warnings-errors 'silent)
+#+end_src
 
 *** Auto-tangle this file
 
