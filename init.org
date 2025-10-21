@@ -52,6 +52,10 @@ Then, if applicable, fix the Mac keyboard:
     (setq mac-right-command-modifier 'super))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (set-default-coding-systems 'utf-8)
+#+end_src
+
 *** Package management
 
 use-package was added to Emacs 29.1.
