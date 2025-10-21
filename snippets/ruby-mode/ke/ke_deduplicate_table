@@ -2,4 +2,6 @@
 # --
 transform Deduplicate::Table,
   field: :$1${2:,
-  delete_field: true}$0
+  delete_field: true}${3:,
+  example_source_field: $4}${5:,
+  max_examples: $6}$0
