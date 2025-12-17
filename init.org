@@ -1563,7 +1563,14 @@ This file takes a page out of the book of Hardcore Freestyle Emacs, in which a s
 
 * Improvements/changes
 
+** TODO Base Mac key settings on system-type == darwin instead of system-name
+:LOGBOOK:
+- State "TODO"       from              [2025-11-13 Thu 15:29]
+:END:
+
 ** TODO Change [[help:global-set-key][global-set-key]] to keymap-global-set
+
+**
 :LOGBOOK:
 - State "TODO"       from              [2023-08-27 Sun 13:27]
 :END:
