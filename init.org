@@ -841,6 +841,18 @@ Custom key binding to jump to column 80
 		  (lambda () (interactive) (move-to-column 80)))
 #+end_src
 
+[2025-10-24 Fri] Minimize auto-scrolling. Keeps things in other windows from drastically changing when Avy is invoked.
+
+#+begin_quote
+If the value is greater than 100, redisplay will never recenter point,
+but will always scroll just enough text to bring point into view, even
+if you move far away.
+#+end_quote
+
+#+begin_src emacs-lisp
+  (setq scroll-conservatively 101)
+#+end_src
+
 ** Coding
 *** General
 #+BEGIN_SRC emacs-lisp
