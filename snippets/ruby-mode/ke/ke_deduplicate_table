@@ -3,5 +3,10 @@
 transform Deduplicate::Table,
   field: :$1${2:,
   delete_field: true}${3:,
-  example_source_field: $4}${5:,
-  max_examples: $6}$0
+  example_source_field: :$4}${5:,
+  max_examples: $6}${7:,
+  example_target_field: :${8:not_examples}}${9:,
+  include_occs: true}${10:,
+  occs_target_field: :${11:not_occurrences}}${12:,
+  compile_uniq_fieldvals: true}${13:,
+  compile_delim: ${14:"${15:not default delim}"}}$0

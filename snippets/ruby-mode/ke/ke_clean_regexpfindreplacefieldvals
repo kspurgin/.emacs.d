@@ -7,7 +7,6 @@ transform Clean::RegexpFindReplaceFieldVals,
   find: /$3/,
   replace: "$4"${5:,
   casesensitive: false}${6:,
-  multival: true}${7:,
-  sep: "${8:|}"}${9:,
+  delim: "${7:|}"}${8:,
   debug: true}
 $0

@@ -8,8 +8,8 @@ transform Merge::MultiRowLookup,
   fieldmap: {$3}${4:,
   constantmap: {${5:hash}\}}${6:,
   conditions: ->(_r, rows) do
-    ${7:lambdadef}}
-  end${8:,
+    ${7:lambdadef}
+  end}${8:,
   null_placeholder: "${9:%NULLVALUE%}"}${10:,
   delim: "${11:;}"}${12:,
   sorter: Lookup::RowSorter.new(

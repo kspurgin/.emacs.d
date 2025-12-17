@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ArchivesSpacePry
+# key: asbp=
+# --
+require 'pry-debugger-jruby'; binding.pry
