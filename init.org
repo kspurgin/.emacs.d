@@ -834,6 +834,8 @@ Select help/info/apropos buffer when you open it:
 
 **** Movement
 
+Custom key binding to jump to column 80
+
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-G 8")
 		  (lambda () (interactive) (move-to-column 80)))
