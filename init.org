@@ -23,6 +23,7 @@ Add functions to define computer operating systems and contexts:
     (cond ((equal (system-name) "secunit") 'nix)
 	  ((equal (system-name) "spore") 'nix)
 	  ((equal (system-name) "Kristina-Macbook-Pro.local") 'mac)
+	  ((equal (system-name) "MacBookPro") 'mac)
 	  ((equal (system-name) "Kristina-MBP") 'mac)))
 
   (defun init-computer-context ()
