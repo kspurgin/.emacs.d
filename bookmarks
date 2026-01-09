@@ -2,7 +2,67 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("aspace-dev"
+(("onboarding"
+ (filename . "~/org/work.org")
+ (front-context-string . "b onboarding\n:LOGBOOK:\nCLOCK: ")
+ (rear-context-string . "ts\n\n** Onboarding\n\nonboarding ")
+ (position . 67571)
+ (last-modified 26972 8831 202547 0))
+("cs-support-material-order"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b cs-support-material-order\n:L")
+ (rear-context-string . "der\ncs-support-material-order ")
+ (position . 68206)
+ (last-modified 26936 30455 53311 0))
+("kellogg-aspace-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "b kellogg-aspace-migration\n\n:L")
+ (rear-context-string . "ace:\nkellogg-aspace-migration ")
+ (position . 111843)
+ (last-modified 26907 18046 611824 0))
+("aspace-odd-oneoff-meeting"
+ (filename . "~/org/archivesspace.org")
+ (front-context-string . "b aspace-odd-oneoff-meeting\n**")
+ (rear-context-string . "off\naspace-odd-oneoff-meeting ")
+ (position . 17197)
+ (last-modified 26901 62068 801153 0))
+("umich-university-of-michigan-cspace-migration"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "b umich-university-of-michigan")
+ (rear-context-string . "-of-michigan-cspace-migration ")
+ (position . 97265)
+ (last-modified 26899 41417 668148 0))
+("pastperfect-ppd-ppwe-data-tooling"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "b pastperfect-ppd-ppwe-data-to")
+ (rear-context-string . "perfect-ppd-ppwe-data-tooling ")
+ (position . 12281)
+ (last-modified 26894 26405 147583 0))
+("dspace-metadata-migration-consulting"
+ (filename . "~/org/dspace.org")
+ (front-context-string . "b dspace-metadata-migration-co")
+ (rear-context-string . "metadata-migration-consulting ")
+ (position . 939)
+ (last-modified 26892 62387 164903 0))
+("mariners-museum-as-quote"
+ (filename . "~/org/archivesspace.org")
+ (front-context-string . " b mariners-museum-as-quote\n:L")
+ (rear-context-string . "uote:\nmariners-museum-as-quote")
+ (position . 9915)
+ (last-modified 26892 53542 633632 0))
+("migration-data-retention"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "b migration-data-retention\n:LO")
+ (rear-context-string . "tuff\nmigration-data-retention ")
+ (position . 46750)
+ (last-modified 26879 63678 302561 0))
+("migration-data-reviews"
+ (filename . "~/org/migrations.org")
+ (front-context-string . "b migration-data-reviews\n** MI")
+ (rear-context-string . "eviews\nmigration-data-reviews ")
+ (position . 48760)
+ (last-modified 26873 7547 267711 0))
+("aspace-dev"
  (filename . "~/org/archivesspace.org")
  (front-context-string . "b aspace-dev\n:LOGBOOK:\nCLOCK: ")
  (rear-context-string . "             :dev:\naspace-dev ")
@@ -94,16 +154,16 @@
  (last-modified 26724 1418 954289 0))
 ("olivia-one-on-one"
  (filename . "~/org/meetings.org")
- (front-context-string . "b olivia-one-on-one\n\n** MTG Sa")
+ (front-context-string . "b olivia-one-on-one\n:LOGBOOK:\n")
  (rear-context-string . " MTG Olivia\nolivia-one-on-one ")
- (position . 7157)
- (last-modified 26717 29685 214142 0))
+ (position . 8376)
+ (last-modified 26894 4871 886090 0))
 ("ohc-naamcc-migration-analysis"
  (filename . "~/org/migrations.org")
  (front-context-string . "b ohc-naamcc-migration-analysi")
  (rear-context-string . "ohc-naamcc-migration-analysis ")
- (position . 53198)
- (last-modified 26716 20462 650000 0))
+ (position . 55268)
+ (last-modified 26908 43129 531802 0))
 ("tuskeegee-cspace-migration"
  (filename . "~/org/cspace.org")
  (front-context-string . "b tuskeegee-cspace-migration\n:")
@@ -114,8 +174,8 @@
  (filename . "~/org/work.org")
  (front-context-string . "b email-communication\n:LOGBOOK")
  (rear-context-string . "unication\nemail-communication ")
- (position . 5068)
- (last-modified 26689 48141 332238 0))
+ (position . 5887)
+ (last-modified 26918 3280 289920 0))
 ("university-of-michigan-cspace-migration-quote"
  (filename . "~/org/cspace.org")
  (front-context-string . "b university-of-michigan-cspac")
