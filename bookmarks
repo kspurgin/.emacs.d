@@ -2,7 +2,13 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("onboarding"
+(("college-of-william-and-mary-cspace-support"
+ (filename . "~/org/cspace.org")
+ (front-context-string . "b college-of-william-and-mary-")
+ (rear-context-string . "lliam-and-mary-cspace-support ")
+ (position . 120712)
+ (last-modified 26982 44508 712683 0))
+("onboarding"
  (filename . "~/org/work.org")
  (front-context-string . "b onboarding\n:LOGBOOK:\nCLOCK: ")
  (rear-context-string . "ts\n\n** Onboarding\n\nonboarding ")
