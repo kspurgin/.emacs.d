@@ -222,7 +222,7 @@ Don't show Async Shell Command buffers
 *** Theme, colors, faces
 Make the graphical client dark and pretty:
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package nordic-night-theme
     :config
     ;; (load-theme 'nordic-midnight t) ;; darker
@@ -231,7 +231,7 @@ Make the graphical client dark and pretty:
 
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (cond ((display-graphic-p)
 	 (use-package darktooth-theme
 	   :config
