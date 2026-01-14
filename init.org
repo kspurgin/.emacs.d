@@ -28,7 +28,7 @@ Add functions to define computer operating systems and contexts:
 
   (defun init-computer-context ()
     (cond ((equal (init-computer-os) 'nix) 'personal)
-	  ((equal (init-computer-os) 'mac) 'work)))
+	  ((eq system-type 'darwin) 'work)))
 #+END_SRC
 
 Then, define contact info depending on context:
@@ -47,7 +47,7 @@ Then, if applicable, fix the Mac keyboard:
 - set Mac keyboard's left command key to act as meta (i.e. Alt on windows) key
 - The right command key still acts as super/command in order to control windows, etc.
 #+BEGIN_SRC emacs-lisp
-  (when (equal (init-computer-os) 'mac)
+  (when (eq system-type 'darwin)
     (set-keyboard-coding-system nil)
     (setq mac-command-modifier 'meta)
     (setq mac-right-command-modifier 'super))
@@ -726,7 +726,7 @@ https://projectile.readthedocs.io/en/latest/usage/
 ***** Grep: Search things not open in emacs
 
 #+begin_src emacs-lisp
-  (when (equal (init-computer-os) 'mac)
+  (when (eq system-type 'darwin)
     (setq-default xref-search-program 'ugrep)
     (setq-default grep-template "ugrep --color=always -0Iinr -e <R>")
     (message "using ugrep"))
